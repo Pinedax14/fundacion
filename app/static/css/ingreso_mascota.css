@@ -1,0 +1,40 @@
+/* Card personalizado */
+.custom-card {
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+    background: #fdfdfd;
+}
+
+/* Formulario personalizado */
+.custom-form label {
+    font-weight: 600;
+    color: #333;
+}
+
+.custom-form input,
+.custom-form select,
+.custom-form textarea {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+.custom-form input:focus,
+.custom-form select:focus,
+.custom-form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+/* Botones personalizados */
+.custom-btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 600;
+}
+
+.custom-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: 0.2s;
+}

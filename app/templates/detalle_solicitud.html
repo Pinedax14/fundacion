@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %}Detalle de Solicitud #{{ solicitud.id }}{% endblock %}
+
+{% block content %}
+
+<div class="container my-4">
+    
+    <!-- ======================= INICIO DE CAMBIOS ======================= -->
+
+    <div class="bg-light p-4 p-md-5 rounded-3 shadow-sm">
+
+        <h1 class="text-center fw-bold mb-4" style="color: var(--primary-color);">Detalle de Solicitud de Adopción</h1>
+
+        <!-- Alertas de Bootstrap para mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category=='success' else 'danger' }} alert-dismissible fade show text-center" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Rejilla responsiva de Bootstrap -->
+        <div class="row g-4">
+
+            <!-- Columna izquierda (más ancha) para la info del adoptante -->
+            <div class="col-lg-7">
+                <!-- Tarjeta para los datos del adoptante -->
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white fw-bold">
+                        <i class="bi bi-person-lines-fill me-2"></i>Información del Adoptante
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Nombre:</strong>
+                            <span>{{ solicitud.usuario_nombre }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Email:</strong>
+                            <a href="mailto:{{ solicitud.usuario_email }}">{{ solicitud.usuario_email }}</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Dirección:</strong>
+                            <span>{{ solicitud.direccion }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Teléfono:</strong>
+                            <span>{{ solicitud.telefono }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Ingresos Mensuales:</strong>
+                            <span class="badge bg-success-subtle text-success-emphasis rounded-pill">${{ "{:,.0f}".format(solicitud.ingresos) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Estrato Social:</strong>
+                            <span>{{ solicitud.estrato_social }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Columna derecha para la mascota y el mensaje -->
+            <div class="col-lg-5">
+                <!-- Tarjeta para la mascota -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white fw-bold">
+                        <i class="bi bi-heart-fill me-2"></i>Mascota Solicitada
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold text-secondary">{{ solicitud.mascota_nombre }}</h5>
+                        <img src="{{ url_for('static', filename='images/' + solicitud.mascota_nombre + '.jpg') }}" class="img-fluid rounded shadow-sm" alt="Foto de {{ solicitud.mascota_nombre }}">
+                    </div>
+                </div>
+                <!-- Tarjeta para el mensaje -->
+                <div class="card">
+                     <div class="card-header bg-secondary text-white fw-bold">
+                        <i class="bi bi-chat-quote-fill me-2"></i>Mensaje del Adoptante
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p class="fst-italic">"{{ solicitud.mensaje }}"</p>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Respuesta del Administrador -->
+        {% if solicitud.estado_solicitud.lower() in ['en proceso', 'pendiente'] %}
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-8">
+                    <div class="card text-center">
+                        <div class="card-header fw-bold">
+                            Responder a la Solicitud
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ url_for('respuesta_solicitud', solicitud_id=solicitud.id) }}" method="POST" class="d-inline">
+                                <button type="submit" name="respuesta" value="aprobada" class="btn btn-success btn-lg mx-2">
+                                    <i class="bi bi-check-circle-fill me-2"></i>Aprobar
+                                </button>
+                            </form>
+                            <form action="{{ url_for('respuesta_solicitud', solicitud_id=solicitud.id) }}" method="POST" class="d-inline">
+                                <button type="submit" name="respuesta" value="rechazada" class="btn btn-danger btn-lg mx-2">
+                                    <i class="bi bi-x-circle-fill me-2"></i>Rechazar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center mt-5">
+                Esta solicitud ya ha sido procesada. Estado final: <strong>{{ solicitud.estado_solicitud }}</strong>.
+            </div>
+        {% endif %}
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-custom-back rounded-pill px-4">
+                <i class="bi bi-arrow-left-circle me-2"></i>Volver al Panel
+            </a>
+        </div>
+
+    </div>
+</div>
+<!-- ======================== FIN DE CAMBIOS ========================= -->
+{% endblock %}

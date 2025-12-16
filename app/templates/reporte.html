@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}Reportar Incidente{% endblock %}
+
+{% block content %}
+<style>
+    /* Estilos para centrar el formulario y aplicar el fondo de tu tema */
+    body {
+        background-color: #eaf0f6; /* Fondo azul claro que hemos usado antes */
+    }
+    .report-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh; /* Centra el formulario verticalmente */
+        padding: 2rem 1rem;
+    }
+</style>
+
+<div class="report-container">
+    <div class="card shadow-lg mx-auto" style="width: 100%; max-width: 700px;">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+                <!-- Icono de Bootstrap que representa una alerta o reporte -->
+                <i class="bi bi-exclamation-octagon-fill fs-1" style="color: var(--report-color);"></i>
+                <h2 class="card-title fw-bold mt-2" style="color: var(--primary-color);">Reportar Incidente de Maltrato</h2>
+                <p class="text-muted">Tu reporte es anónimo y crucial para ayudar a un animal en riesgo.</p>
+            </div>
+
+            <!-- Formulario con validación y preparado para subir archivos -->
+            <form action="{{ url_for('procesar_reporte') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                
+                <!-- Campo Ubicación con Etiqueta Flotante -->
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ej: Parque del Sol, cerca de la fuente" required>
+                    <label for="ubicacion">Ubicación del Incidente</label>
+                    <div class="invalid-feedback">
+                        Por favor, proporciona una ubicación lo más exacta posible.
+                    </div>
+                </div>
+                
+                <!-- Campo Descripción con Etiqueta Flotante -->
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="descripcion_incidente" name="descripcion_incidente" placeholder="Describe lo que observaste" style="height: 150px" required></textarea>
+                    <label for="descripcion_incidente">Descripción del Incidente</label>
+                    <div class="invalid-feedback">
+                        Es importante que describas con detalle lo que sucedió.
+                    </div>
+                </div>
+
+                <!-- Campo para Subir Foto -->
+                <div class="mb-4">
+                    <label for="foto_evidencia" class="form-label">Foto como Evidencia (Opcional)</label>
+                    <input class="form-control" type="file" id="foto_evidencia" name="foto_evidencia" accept="image/*">
+                </div>
+
+                <!-- Botón de Envío -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="bi bi-shield-fill-exclamation me-2"></i>Enviar Reporte Urgente
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script estándar de Bootstrap para activar la validación de formularios
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })();
+</script>
+{% endblock %}
+

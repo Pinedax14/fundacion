@@ -1,0 +1,39 @@
+{% extends "layoutin.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+<!-- ======================= START OF CHANGES ======================= -->
+
+<!-- Using Bootstrap classes to center content vertically and horizontally -->
+<div class="hero-section d-flex justify-content-center align-items-center text-center">
+  <div class="hero-content">
+    
+    {% if session.loggedin %}
+      <!-- Content for logged-in users -->
+      <h2>Welcome back, {{ session.nombre }}!</h2>
+      <p>Thank you for continuing to support our mission to find a home for every pet.</p>
+      <div class="hero-buttons">
+        <!-- Improved button with Bootstrap classes -->
+        <a href="{{ url_for('mascotas') }}" class="btn btn-success btn-lg rounded-pill">View Pets</a>
+      </div>
+    {% else %}
+      <!-- Content for visitors -->
+      <h2>Welcome to Almas con Cola!</h2>
+      <p>Thank you for your interest in helping our pets. Here, you can find your next best friend.</p>
+      <div class="hero-buttons">
+        <!-- Enhanced buttons with Bootstrap classes for better contrast and appearance -->
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg rounded-pill">Login</a>
+        <a href="{{ url_for('registro') }}" class="btn btn-info btn-lg rounded-pill">Register</a>
+      </div>
+    {% endif %}
+    
+  </div>
+</div>
+
+<!-- ======================== END OF CHANGES ========================= -->
+
+{% endblock %}

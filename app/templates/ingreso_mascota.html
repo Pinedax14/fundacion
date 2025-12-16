@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Ingresar nueva mascota</h2>
+    <div class="card shadow-sm custom-card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" class="custom-form">
+                
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="especie" class="form-label">Especie <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="especie" name="especie" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="raza" class="form-label">Raza <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="raza" name="raza" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="edad" class="form-label">Edad (años) <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="edad" name="edad" min="0" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sexo" class="form-label">Sexo <span class="text-danger">*</span></label>
+                    <select class="form-select" id="sexo" name="sexo" required>
+                        <option value="" selected disabled>Selecciona...</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto de la mascota</label>
+                    <input class="form-control" type="file" id="foto" name="foto" accept="image/*">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary custom-btn">Agregar Mascota</button>
+                    <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary custom-btn">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ingreso_mascota.css') }}">
+{% endblock %}

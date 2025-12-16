@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}Nuestras Mascotas{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mascotas.css') }}">
+
+<div class="container">
+    <h1 class="text-center mt-5" style="color: var(--primary-color);">Conoce a nuestros peludos</h1>
+    <p class="text-center text-muted mb-5">Cada uno de ellos está esperando una segunda oportunidad. ¡Encuentra a tu próximo mejor amigo!</p>
+
+    <!-- FORMULARIO DE FILTROS DESPLEGABLE -->
+    <div class="mb-4">
+        <button class="btn btn-filtro-mascotas btn-lg px-4 py-2"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#filtrosContenedor"
+        aria-expanded="false"
+        aria-controls="filtrosContenedor">
+    <i class="bi bi-funnel-fill me-2"></i>
+    Filtrar Mascotas
+</button>
+
+        <div class="collapse mt-3" id="filtrosContenedor">
+            <div class="card filtro-mascotas-card">
+                <div class="card-body">
+                    <form action="{{ url_for('filtrar_mascotas') }}" method="GET">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md">
+                                <label for="especie" class="form-label filtro-mascotas-label">Especie:</label>
+                                <select name="especie" id="especie" class="form-select filtro-mascotas-select">
+                                    <option value="">Todas</option>
+                                    <option value="Perro">Perro</option>
+                                    <option value="Gato">Gato</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md">
+                                <label for="raza" class="form-label filtro-mascotas-label">Raza:</label>
+                                <input type="text" name="raza" id="raza" class="form-control filtro-mascotas-select" placeholder="Cualquier raza">
+                            </div>
+
+                            <div class="col-md">
+                                <label for="edad" class="form-label filtro-mascotas-label">Edad:</label>
+                                <select name="edad" id="edad" class="form-select filtro-mascotas-select">
+                                    <option value="">Cualquier edad</option>
+                                    <option value="1-3">1 - 3 años</option>
+                                    <option value="4-7">4 - 7 años</option>
+                                    <option value="7+">Más de 7 años</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md">
+                                <label for="sexo" class="form-label filtro-mascotas-label">Sexo:</label>
+                                <select name="sexo" id="sexo" class="form-select filtro-mascotas-select">
+                                    <option value="">Ambos</option>
+                                    <option value="Macho">Macho</option>
+                                    <option value="Hembra">Hembra</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-auto d-grid">
+                                <button type="submit" class="btn btn-aplicar-filtro">
+                                    Aplicar
+                                </button>
+                            </div>
+                            <div class="col-md-auto d-grid">
+                                <a href="{{ url_for('mascotas') }}" class="btn btn-limpiar-filtro">
+                                    Limpiar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Galería de Mascotas -->
+    <div class="pet-gallery">
+        {% for mascota in mascotas %}
+            <div class="pet-card">
+                <a href="{{ url_for('detalle_mascota', mascota_id=mascota.id) if mascota.estado == 'Disponible' else '#' }}" class="stretched-link">
+                    <img src="{{ url_for('static', filename='images/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto de {{ mascota.nombre }}" class="pet-card-image">
+                </a>
+                <div class="pet-card-body">
+                    <h4>{{ mascota.nombre }}</h4>
+                    <p class="ingreso-date">En la fundación desde: {{ mascota.fecha_ingreso.strftime('%d de %b, %Y') }}</p>
+                </div>
+
+                {% if mascota.estado == 'Adoptado' %}
+                    <div class="adopted-overlay" data-bs-toggle="tooltip" data-bs-placement="top" title="Esta mascota ya encontró un hogar. ¡Felicidades!">
+                        <h3>¡Adoptado!</h3>
+                        <p>Ya encontré un hogar</p>
+                    </div>
+                {% elif mascota.estado == 'En proceso' %}
+                    <div class="adopted-overlay" style="background-color: rgba(255, 193, 7, 0.8);" data-bs-toggle="tooltip" data-bs-placement="top" title="Alguien está en proceso de adoptarme. ¡Pronto podría tener un nuevo hogar!">
+                        <h3 style="color: #333;">En Proceso</h3>
+                        <p style="color: #333;">Alguien me está conociendo</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">
+                    <i class="bi bi-search me-2"></i>No se encontraron mascotas con los filtros seleccionados.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+{% endblock %}

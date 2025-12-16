@@ -1,0 +1,411 @@
+/* ===========================================
+   VARIABLES DE COLOR
+=========================================== */
+:root {
+    --primary-color: #76259f;        /* Morado principal */
+    --secondary-color: #ff9800;      /* Naranja acento */
+    --accent-color: #f5f7fb;         /* Fondo suave */
+    --text-color: #212529;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --error-color: #d9534f;
+    --hover-color: #5c1e7c;          /* Morado más oscuro para hover */
+    --report-color: #fc0505;         /* Rojo Bootstrap */
+    --report-hover-color: #bb2d3b;
+}
+
+/* ===========================================
+   BASE
+=========================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    padding-top: 70px; /* Espacio para navbar fija */
+}
+
+/* Para usar en la navbar desde layout.html */
+.bg-petroleo {
+    background-color: var(--primary-color) !important;
+}
+
+/* ===========================================
+   NAVBAR
+=========================================== */
+.navbar {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.navbar-brand.logo {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand.logo img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.nav-link.active {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.dropdown-menu {
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.12);
+    border-radius: 0.75rem;
+    padding: 0.25rem 0;
+}
+
+.dropdown-item {
+    font-size: 0.95rem;
+}
+
+.dropdown-item:active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.user-icon {
+    font-size: 1.6rem;
+}
+
+/* ===========================================
+   MAIN CONTENT
+=========================================== */
+main.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Contenedores tipo tarjeta global (puedes usarlos en vistas) */
+.page-section {
+    background-color: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(15, 15, 30, 0.06);
+    padding: 2rem;
+}
+
+/* ===========================================
+   FORMULARIOS
+=========================================== */
+.form-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.form-container h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Inputs más modernos */
+.form-control,
+.form-select {
+    border-radius: 0.75rem;
+    border-color: #dee2e6;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.15rem rgba(118,37,159,0.15);
+}
+
+/* ===========================================
+   FOOTER
+=========================================== */
+footer {
+    background-color: var(--white);
+    color: #6c757d;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ===========================================
+   BOTONES PERSONALIZADOS
+=========================================== */
+/* Botón de acción principal (ej. Ver mascotas, Guardar) */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    border-radius: 999px;
+    padding-inline: 1.6rem;
+    font-weight: 600;
+    box-shadow: 0 0.3rem 0.8rem rgba(118,37,159,0.25);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--hover-color);
+    border-color: var(--hover-color);
+    box-shadow: 0 0.45rem 1.2rem rgba(92,30,124,0.35);
+    transform: translateY(-1px);
+}
+
+/* Botón acento (puedes usarlo si quieres naranja) */
+.btn-accent {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #212529;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-accent:hover {
+    filter: brightness(0.95);
+}
+
+/* Botón Reportar (ya lo usas como peligro) */
+.btn-danger {
+    background-color: var(--report-color);
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background-color: var(--report-hover-color);
+}
+
+/* Botón outline claro (login en navbar) */
+.btn-outline-light {
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+.btn-outline-light:hover {
+    background-color: #fff;
+    color: var(--primary-color);
+}
+
+/* ===========================================
+   MENÚ ADMIN
+=========================================== */
+.dropdown-menu a.dropdown-item {
+    color: var(--text-color);
+}
+
+.dropdown-menu a.dropdown-item:hover {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+}
+
+/* ===========================================
+   ESTILOS DEL PANEL ADMIN
+=========================================== */
+/* Pestañas nav-pills */
+.nav-pills .nav-link {
+    color: var(--primary-color);
+    background-color: var(--light-gray);
+    border: 1px solid var(--primary-color);
+    margin-right: 6px;
+    border-radius: 999px;
+    padding-inline: 1.1rem;
+    padding-block: 0.45rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease,
+                transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.25);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.35);
+}
+
+/* Navbar moderna con degradado */
+.navbar-gradient {
+    background: linear-gradient(90deg, #76259f 0%, #9b3bd6 50%, #ff9800 100%);
+}
+
+/* Chip del nombre de la fundación */
+.brand-chip {
+    background-color: rgba(255,255,255,0.12);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+}
+
+/* Barra más alta y con más aire */
+.navbar {
+    min-height: 64px;
+}
+
+/* Menú principal con pill */
+.navbar-nav .nav-link {
+    padding-inline: 0.9rem;
+}
+
+.navbar-nav .nav-link.active {
+    background-color: rgba(255,255,255,0.16);
+    border-radius: 999px;
+}
+
+/* Forzar tamaño del logo SOLO dentro de la navbar */
+.navbar .navbar-brand img {
+    max-height: 32px !important;
+    max-width: 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.text-donaciones-morado {
+  color: #6f2dbd;
+}
+
+.btn-donaciones {
+  background: linear-gradient(90deg, #6f2dbd, #ff6a00);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 2rem;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  text-decoration: none;
+}
+
+.btn-donaciones:hover {
+  filter: brightness(1.05);
+  color: #ffffff;
+}
+.logo-nequi {
+  height: 50px;   /* más pequeño que antes */
+  width: auto;
+}
+.text-donaciones-morado {
+  color: #6f2dbd;
+}
+
+.logo-pago {
+  height: 22px;
+  width: auto;
+}
+
+.pago-box {
+  border: 1px solid #f0f0f5;
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
+  background-color: #ffffff;
+}
+
+.pago-label {
+  font-size: 0.9rem;
+  color: #7a7a85;
+}
+
+.pago-numero {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #2d2d35;
+}
+.text-donaciones-morado {
+  color: #6f2dbd;
+}
+
+.pago-box {
+  border-radius: 16px;
+  padding: 1.1rem 1.3rem;
+  background-color: #ffffff;
+}
+
+.pago-icono {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-pago-cuadro {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pago-label {
+  font-size: 0.85rem;
+  color: #7a7a85;
+}
+
+.pago-numero {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #2d2d35;
+}
+.text-donaciones-morado {
+  color: #6f2dbd;
+}
+
+.pago-box {
+  border-radius: 16px;
+  padding: 1rem;
+  background-color: #ffffff;
+}
+
+.btn-donaciones {
+  background: linear-gradient(90deg, #6f2dbd, #ff6a00);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.6rem;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.btn-donaciones:hover {
+  filter: brightness(1.05);
+  color: #ffffff;
+}
+

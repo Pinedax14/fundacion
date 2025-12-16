@@ -1,0 +1,291 @@
+{% extends "layout.html" %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h1 class="mb-0" style="color: var(--primary-color);">
+            Panel de Administración
+        </h1>
+        <a href="{{ url_for('ingresar_mascota') }}" class="btn btn-primary-custom btn-lg">
+            <i class="bi bi-plus-circle me-1"></i> Ingresar Mascota
+        </a>
+    </div>
+
+    <!-- Tabs principales -->
+    <ul class="nav nav-pills mb-3 flex-wrap" id="adminTab" role="tablist">
+        <li class="nav-item mb-2" role="presentation">
+            <button class="nav-link active"
+                    id="solicitudes-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#solicitudes"
+                    type="button"
+                    role="tab">
+                Gestión de Solicitudes
+            </button>
+        </li>
+        <li class="nav-item mb-2" role="presentation">
+            <button class="nav-link"
+                    id="reportes-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#reportes"
+                    type="button"
+                    role="tab">
+                Gestión de Reportes
+            </button>
+        </li>
+        <li class="nav-item mb-2" role="presentation">
+            <button class="nav-link"
+                    id="donaciones-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#donaciones"
+                    type="button"
+                    role="tab">
+                Voluntariado
+            </button>
+        </li>
+        <li class="nav-item mb-2" role="presentation">
+            <button class="nav-link"
+                    id="reportespdf-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#reportespdf"
+                    type="button"
+                    role="tab">
+                Reportes PDF
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabContent">
+        <!-- TAB SOLICITUDES -->
+        <div class="tab-pane fade show active" id="solicitudes" role="tabpanel" aria-labelledby="solicitudes-tab">
+            <div class="card card-body">
+                <h2 class="mt-3">Solicitudes de Adopción</h2>
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID Solicitud</th>
+                                <th>Adoptante</th>
+                                <th>Mascota</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for solicitud in solicitudes %}
+                            <tr>
+                                <td>{{ solicitud.id }}</td>
+                                <td>{{ solicitud.usuario_nombre }}</td>
+                                <td>{{ solicitud.mascota_nombre }}</td>
+                                <td>{{ solicitud.fecha_solicitud.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <span class="badge bg-info text-dark">
+                                        {{ solicitud.estado_solicitud|capitalize }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('detalle_solicitud', solicitud_id=solicitud.id) }}"
+                                       class="btn btn-primary-custom btn-sm">
+                                        Ver Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center p-4">
+                                    No hay solicitudes de adopción pendientes.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB REPORTES -->
+        <div class="tab-pane fade" id="reportes" role="tabpanel" aria-labelledby="reportes-tab">
+            <div class="card card-body">
+                <h2 class="mt-3 mb-3">Reportes de Incidentes</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ubicación</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reporte in reportes %}
+                            <tr>
+                                <td>#{{ reporte.id }}</td>
+                                <td>{{ reporte.ubicacion|truncate(40) }}</td>
+                                <td>
+                                    <span class="badge {{ 'bg-success' if reporte.estado_reporte|lower == 'resuelto' else 'bg-warning text-dark' }}">
+                                        {{ reporte.estado_reporte|capitalize }}
+                                    </span>
+                                </td>
+                                <td>{{ reporte.fecha_reporte.strftime('%Y-%m-%d') }}</td>
+                                <td class="text-center">
+                                    <a href="{{ url_for('detalle_reporte', reporte_id=reporte.id) }}"
+                                       class="btn btn-primary-custom btn-sm">
+                                        Ver Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center p-4">
+                                    No hay reportes para mostrar.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB DONACIONES -->
+        <div class="tab-pane fade" id="donaciones" role="tabpanel" aria-labelledby="donaciones-tab">
+            <div class="card card-body">
+                <h2 class="mt-3 mb-3">Solicitudes de Voluntariado</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th>Dias</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for voluntariado in solicitudes_voluntariado %}
+                            <tr>
+                                <td>{{ voluntariado.id }}</td>
+                                <td>{{ donacion.nombre_donante }}</td>
+                                <td>{{ donacion.contacto_email }}</td>
+                                <td>{{ donacion.tipo_donacion }}</td>
+                                <td>{{ donacion.descripcion_donacion }}</td>
+                                <td>{{ donacion.fecha_donacion }}</td>
+                                <td>
+                                    <span class="badge {{ 'bg-success' if donacion.estado_entrega|lower == 'recibido' else 'bg-warning text-dark' }}">
+                                        {{ donacion.estado_entrega|capitalize }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if donacion.estado_entrega|lower == 'pendiente' %}
+                                        <form method="POST" action="{{ url_for('recibir_donacion') }}" class="d-inline">
+                                            <input type="hidden" name="donacion_id" value="{{ donacion.id }}">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                Recibir
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <span class="text-success">Recibida</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center p-4">
+                                    No hay donaciones registradas.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB REPORTES PDF -->
+        <div class="tab-pane fade" id="reportespdf" role="tabpanel" aria-labelledby="reportespdf-tab">
+            <div class="card card-body">
+                <h2 class="mt-3 mb-1">📊 Generar Reportes en PDF</h2>
+                <p class="text-muted mb-4">
+                    Descarga reportes detallados del sistema en formato PDF.
+                </p>
+
+                <div class="row g-3">
+                    <!-- Usuarios -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 3rem;" class="mb-3">👥</div>
+                                <h5 class="card-title">Usuarios</h5>
+                                <p class="card-text text-muted small">
+                                    Lista completa de usuarios.
+                                </p>
+                                <a href="{{ url_for('reporte_usuarios') }}" class="btn btn-primary-custom btn-sm">
+                                    <i class="bi bi-download me-1"></i>Descargar PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mascotas -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 3rem;" class="mb-3">🐾</div>
+                                <h5 class="card-title">Mascotas</h5>
+                                <p class="card-text text-muted small">
+                                    Todas las mascotas en el sistema.
+                                </p>
+                                <a href="{{ url_for('reporte_mascotas') }}" class="btn btn-primary-custom btn-sm">
+                                    <i class="bi bi-download me-1"></i>Descargar PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donaciones -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 3rem;" class="mb-3">🎁</div>
+                                <h5 class="card-title">Donaciones</h5>
+                                <p class="card-text text-muted small">
+                                    Historial completo de donaciones.
+                                </p>
+                                <a href="{{ url_for('reporte_donaciones') }}" class="btn btn-primary-custom btn-sm">
+                                    <i class="bi bi-download me-1"></i>Descargar PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maltrato -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 3rem;" class="mb-3">⚠️</div>
+                                <h5 class="card-title">Reportes Maltrato</h5>
+                                <p class="card-text text-muted small">
+                                    Casos de maltrato animal.
+                                </p>
+                                <a href="{{ url_for('reporte_maltrato') }}" class="btn btn-primary-custom btn-sm">
+                                    <i class="bi bi-download me-1"></i>Descargar PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

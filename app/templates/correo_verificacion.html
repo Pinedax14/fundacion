@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificación de Cuenta - Almas con Cola</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-color: #ffffff;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #2E8B57; /* Verde principal */
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .codigo {
+      display: inline-block;
+      background-color: #4682B4; /* Azul secundario */
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: bold;
+      padding: 15px 25px;
+      border-radius: 8px;
+      margin: 20px 0;
+      letter-spacing: 3px;
+    }
+
+    .footer {
+      font-size: 12px;
+      color: #777;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+
+    <h2>Hola {{ nombre }}!</h2>
+    <p>Gracias por registrarte en <strong>Almas con Cola</strong>.</p>
+    <p>Tu código de verificación es:</p>
+    <div class="codigo">{{ codigo }}</div>
+    <p>Ingresa este código en la página de verificación para activar tu cuenta.</p>
+    <div class="footer">
+      © 2025 Almas con Cola. Todos los derechos reservados.
+    </div>
+  </div>
+</body>
+</html>

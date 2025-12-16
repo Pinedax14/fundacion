@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Solicitud de Adopción para {{ mascota.nombre }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/solicitud_adopcion.css') }}">
+<div class="form-wrapper">
+    <form class="form-adopt" method="POST">
+        <h2>Solicitud para adoptar a {{ mascota.nombre }}</h2>
+        <p class="subtitle">Por favor, completa la siguiente información para continuar con el proceso.</p>
+
+        <label for="direccion">Dirección de Residencia</label>
+        <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle 5 # 10-15, Apto 201" required>
+
+        <label for="telefono">Teléfono de Contacto</label>
+        <input type="text" id="telefono" name="telefono" placeholder="Ej: 3001234567" required>
+
+        <label for="ingresos">Ingresos Mensuales (en Pesos)</label>
+        <input type="number" id="ingresos" name="ingresos" placeholder="Ej: 2000000" min="0" required>
+
+        <label for="estrato">Estrato Social</label>
+        <select id="estrato" name="estrato" required>
+            <option value="" disabled selected>Selecciona tu estrato</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+
+        <label for="mensaje">¿Por qué quieres adoptar a {{ mascota.nombre }}?</label>
+        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre el hogar que le darías..." required></textarea>
+
+        <button type="submit" class="submit-btn">Enviar Solicitud</button>
+    </form>
+</div>
+{% endblock %}

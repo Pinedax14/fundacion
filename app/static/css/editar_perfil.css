@@ -1,0 +1,44 @@
+.profile-page-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .profile-sidebar .card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        border: none;
+    }
+    .user-info-card h3 {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+    .profile-content h2 {
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    /* Input de archivo con estilo morado */
+input[type="file"].form-control {
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+}
+
+/* Color del texto del botón de archivo (Chrome, Edge, etc.) */
+input[type="file"].form-control::file-selector-button {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    color: #ffffff;
+    padding: 0.35rem 0.9rem;
+    margin-right: 0.75rem;
+    border-radius: 999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="file"].form-control::file-selector-button:hover {
+    background-color: var(--hover-color);
+    border-color: var(--hover-color);
+    box-shadow: 0 0.3rem 0.8rem rgba(118, 37, 159, 0.25);
+}

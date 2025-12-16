@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Página de Inicio{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+<div class="hero-section d-flex justify-content-center align-items-center text-center">
+  <div class="hero-content">
+
+    {% if session.loggedin %}
+      <!-- Contenido para usuarios con sesión iniciada -->
+      <h2>¡Bienvenido de vuelta, {{ session.nombre }}!</h2>
+      <p>Gracias por seguir apoyando nuestra misión de encontrar un hogar para cada mascota.</p>
+      <div class="hero-buttons">
+        <a href="{{ url_for('mascotas') }}" 
+        class="btn btn-accent btn-lg rounded-pill">
+          Ver Mascotas
+        </a>
+      </div>
+    {% else %}
+      <!-- Contenido para visitantes -->
+      <h2>¡Bienvenido a Almas con Cola!</h2>
+      <p>
+        Gracias por tu interés en ayudar a nuestras mascotas.
+        Aquí podrás encontrar a tu próximo mejor amigo y apoyar con tus donaciones.
+      </p>
+      <div class="hero-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg rounded-pill">
+          Iniciar Sesión
+        </a>
+        <a href="{{ url_for('registro') }}" class="btn btn-accent btn-lg rounded-pill">
+          Registrarse
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

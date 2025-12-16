@@ -1,0 +1,226 @@
+{% extends "layout.html" %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+
+<div class="profile-page-container">
+    <div class="row g-4">
+        <!-- Columna Izquierda (Barra Lateral) -->
+        <div class="col-lg-4">
+            <aside class="profile-sidebar">
+                <div class="card user-info-card p-4 mb-4">
+                    <h3 class="mb-2">Hola, {{ session.nombre.split()[0] }}</h3>
+
+                    {% if usuario.foto_perfil %}
+                        <div class="mb-3">
+                            <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
+                                 alt="Foto de perfil"
+                                 style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+                        </div>
+                    {% else %}
+                        <div class="mb-3">
+                            <img src="{{ url_for('static', filename='uploads/perfiles/' ~ g.usuario.foto_perfil) }}"
+                                 alt="Foto por defecto"
+                                 style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+                        </div>
+                    {% endif %}
+
+                    <p><strong>Nombre:</strong> {{ session.nombre }}</p>
+                    <p class="text-muted">{{ session.email }}</p>
+                    <p><strong>Miembro desde:</strong> {{ usuario.fecha_registro.strftime('%d de %b, %Y') }}</p>
+                    <a href="{{ url_for('editar_perfil') }}" class="btn btn-primary-custom mt-3">
+                        Editar Perfil
+                    </a>
+                </div>
+
+                <!-- Zona de Peligro -->
+                <div class="card mt-4">
+                    <div class="card-header bg-danger text-white">
+                        Zona de Peligro
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3">
+                            Esta acción eliminará tu cuenta y todos tus datos de forma permanente.
+                        </p>
+                        <button type="button" class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteAccountModal">
+                            Eliminar mi cuenta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal eliminar cuenta -->
+                <div class="modal fade" id="deleteAccountModal" tabindex="-1"
+                     aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-danger">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="deleteAccountLabel">
+                                    Confirmar eliminación de cuenta
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    ¿Estás seguro de que quieres eliminar tu cuenta?<br>
+                                    <strong class="text-danger">
+                                        ¡Esta acción no se puede deshacer y perderás todos tus datos y adopciones!
+                                    </strong>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+                                <a href="{{ url_for('eliminar_cuenta') }}" class="btn btn-danger">
+                                    Eliminar permanentemente
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Columna Derecha (Solicitudes) -->
+        <div class="col-lg-8">
+            <main class="profile-content">
+                <h2 class="mb-3" style="color: var(--primary-color);">
+                    Mis Solicitudes de Adopción
+                </h2>
+
+                <div class="d-flex flex-column gap-3 mt-3">
+                    {% for solicitud in solicitudes %}
+                        <div class="solicitud-card">
+                            <img src="{{ url_for('static', filename='images/' ~ solicitud.mascota_nombre ~ '.jpg') }}"
+                                 alt="{{ solicitud.mascota_nombre }}">
+                            <div class="solicitud-info">
+                                <strong class="fs-5">{{ solicitud.mascota_nombre }}</strong>
+                                <small class="text-muted">
+                                    Solicitado el: {{ solicitud.fecha_solicitud.strftime('%d de %b, %Y') }}
+                                </small>
+                            </div>
+                            <div class="text-center">
+                                {% set status_class = 'bg-warning text-dark' %}
+                                {% if solicitud.estado_solicitud.lower() == 'aprobada' %}
+                                    {% set status_class = 'bg-success' %}
+                                {% endif %}
+                                {% if solicitud.estado_solicitud.lower() == 'rechazada' %}
+                                    {% set status_class = 'bg-danger' %}
+                                {% endif %}
+                                <span class="badge rounded-pill {{ status_class }}">
+                                    {{ solicitud.estado_solicitud | capitalize }}
+                                </span>
+
+                                {% if solicitud.estado_solicitud.lower() == 'rechazada' %}
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm mt-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalBorrarSolicitud"
+                                            data-solicitud-id="{{ solicitud.id }}">
+                                        Eliminar
+                                    </button>
+                                {% endif %}
+
+                                {% if solicitud.estado_solicitud.lower() in ['pendiente', 'en proceso'] %}
+                                    <button type="button"
+                                            class="btn btn-outline-warning btn-sm mt-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalCancelarSolicitud"
+                                            data-solicitud-id="{{ solicitud.id }}">
+                                        Cancelar
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card text-center p-5">
+                            <h5>Aún no has realizado ninguna solicitud de adopción.</h5>
+                            <p class="text-muted">¡Anímate a conocer a nuestras mascotas!</p>
+                            <div class="mt-3">
+                                <a href="{{ url_for('mascotas') }}" class="btn btn-primary-custom">
+                                    Ver Mascotas
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para eliminar solicitud rechazada -->
+<div class="modal fade" id="modalBorrarSolicitud" tabindex="-1"
+     aria-labelledby="modalBorrarSolicitudLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalBorrarSolicitudLabel">¿Eliminar solicitud?</h5>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar esta solicitud de adopción rechazada?</p>
+        <strong class="text-danger">Esta acción no se puede deshacer.</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Cancelar</button>
+        <a href="#" id="confirmarEliminarSolicitud" class="btn btn-danger">
+            Eliminar permanentemente
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para cancelar solicitud pendiente/en proceso -->
+<div class="modal fade" id="modalCancelarSolicitud" tabindex="-1"
+     aria-labelledby="modalCancelarSolicitudLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-warning">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="modalCancelarSolicitudLabel">¿Cancelar solicitud?</h5>
+        <button type="button" class="btn-close"
+                data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas cancelar esta solicitud de adopción?</p>
+        <strong class="text-danger">Esta acción no se puede deshacer.</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">No cancelar</button>
+        <a href="#" id="confirmarCancelarSolicitud"
+           class="btn btn-warning text-dark">
+            Cancelar solicitud
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var modalBorrar = document.getElementById('modalBorrarSolicitud');
+  modalBorrar.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var solicitudId = button.getAttribute('data-solicitud-id');
+    var confirmarBtn = document.getElementById('confirmarEliminarSolicitud');
+    confirmarBtn.href = "/eliminar_solicitud/" + solicitudId;
+  });
+
+  var modalCancelar = document.getElementById('modalCancelarSolicitud');
+  modalCancelar.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var solicitudId = button.getAttribute('data-solicitud-id');
+    var confirmarBtn = document.getElementById('confirmarCancelarSolicitud');
+    confirmarBtn.href = "/cancelar_solicitud/" + solicitudId;
+  });
+</script>
+{% endblock %}

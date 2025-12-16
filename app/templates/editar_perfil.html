@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editar_perfil.css') }}">
+
+<div class="profile-page-container">
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <aside class="profile-sidebar">
+                <div class="card user-info-card p-4 mb-4">
+                    <h3 class="mb-3">Hola, {{ usuario.nombre.split(' ')[0] }}</h3>
+                    <p><strong>Nombre</strong>: {{ usuario.nombre }}</p>
+                    <p class="text-muted">{{ usuario.email }}</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Formulario de Edición -->
+        <div class="col-lg-8">
+            <main class="profile-content">
+                <h2 class="mb-3" style="color: var(--primary-color);">Editar Perfil</h2>
+
+                <form method="POST"
+                      action="{{ url_for('editar_perfil') }}"
+                      enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" id="nombre" name="nombre"
+                               value="{{ usuario.nombre }}" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" id="email" name="email"
+                               value="{{ usuario.email }}" class="form-control" required>
+                    </div>
+
+                    <!-- NUEVO: Foto de perfil -->
+                    <div class="mb-3">
+                        <label for="foto_perfil" class="form-label">Foto de perfil</label>
+                        <input type="file" id="foto_perfil" name="foto_perfil"
+                               class="form-control" accept="image/*">
+                        {% if usuario.foto_perfil %}
+                            <small class="form-text text-muted">
+                                Imagen actual:
+                                <img src="{{ url_for('static',
+                                         filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
+                                     alt="Foto de perfil"
+                                     style="height: 60px; border-radius: 50%; margin-left: 8px;">
+                            </small>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+
+                    <h4 class="mt-4" style="color: var(--primary-color);">Cambiar Contraseña</h4>
+
+                    <div class="mb-3">
+                        <label for="password_actual" class="form-label">Contraseña Actual</label>
+                        <input type="password" id="password_actual" name="password_actual"
+                               class="form-control" placeholder="Escribe tu contraseña actual">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_nueva" class="form-label">Nueva Contraseña</label>
+                        <input type="password" id="password_nueva" name="password_nueva"
+                               class="form-control" placeholder="Nueva contraseña (mínimo 8 caracteres)">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirm" class="form-label">Confirmar Nueva Contraseña</label>
+                        <input type="password" id="password_confirm" name="password_confirm"
+                               class="form-control" placeholder="Repite la nueva contraseña">
+                    </div>
+
+                    <small class="form-text text-muted mb-3">
+                        Solo rellena los campos de contraseña si deseas cambiarla.
+                    </small>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary-custom">
+                            Guardar Cambios
+                        </button>
+                        <a href="{{ url_for('perfil') }}" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

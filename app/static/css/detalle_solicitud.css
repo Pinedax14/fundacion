@@ -1,0 +1,8 @@
+   .btn-custom-back {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+    .btn-custom-back:hover {
+        background-color: #3a75a3;
+        color: white;
+    }

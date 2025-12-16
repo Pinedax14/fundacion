@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Verificar Cuenta{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Verifica tu cuenta</h1>
+
+    <!-- Mensaje interno del template -->
+    {% if msg %}
+        <div class="alert alert-danger">{{ msg }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="codigo" class="form-label">Código de verificación</label>
+            <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código recibido por email" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Verificar Cuenta</button>
+    </form>
+
+    <p class="text-center mt-3">
+        ¿No recibiste el correo? Revisa tu carpeta de spam o <a href="{{ url_for('registro') }}">regístrate nuevamente</a>.
+    </p>
+</div>
+{% endblock %}

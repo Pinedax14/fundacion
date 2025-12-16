@@ -1,0 +1,6 @@
+projectKey=almas-con-cola
+serverUrl=http://localhost:9000
+serverVersion=25.10.0.114319
+dashboardUrl=http://localhost:9000/dashboard?id=almas-con-cola
+ceTaskId=7266a347-8555-4822-97c6-3d967b43aaf9
+ceTaskUrl=http://localhost:9000/api/ce/task?id=7266a347-8555-4822-97c6-3d967b43aaf9

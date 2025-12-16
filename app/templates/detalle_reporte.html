@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}Detalle de Reporte #{{ reporte.id }}{% endblock %}
+
+{% block content %}
+<style> body { background-color: #f8f9fa; } </style>
+
+<div class="container my-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Detalle del Reporte #{{ reporte.id }}</h4>
+            <span class="badge {{ 'bg-success' if reporte.estado_reporte == 'resuelto' else 'bg-warning text-dark' }} fs-6">{{ reporte.estado_reporte|capitalize }}</span>
+        </div>
+        <div class="card-body p-4">
+            <p><strong>Fecha del Reporte:</strong> {{ reporte.fecha_reporte.strftime('%d de %b, %Y a las %H:%M') }}</p>
+            <p><strong>Ubicación:</strong> {{ reporte.ubicacion }}</p>
+            <hr>
+            <h6>Descripción del Incidente:</h6>
+            <blockquote class="blockquote bg-light p-3 rounded"><p>{{ reporte.descripcion_incidente }}</p></blockquote>
+
+            {% if reporte.foto_evidencia_url %}
+            <hr>
+            <h6>Foto de Evidencia:</h6>
+            <a href="{{ url_for('static', filename='images/reportes/' + reporte.foto_evidencia_url) }}" target="_blank">
+            <img src="{{ url_for('static', filename='images/reportes/' + reporte.foto_evidencia_url) }}" alt="Evidencia del reporte" class="img-fluid rounded border">
+            </a>
+
+            {% else %}
+            <p class="text-muted mt-3"><em>No se adjuntó una foto como evidencia.</em></p>
+            {% endif %}
+
+            <hr>
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary"><i class="bi bi-arrow-left me-2"></i>Volver al Panel</a>
+                <div>
+                    {% if reporte.estado_reporte != 'resuelto' %}
+                    <form action="{{ url_for('marcar_reporte_resuelto', reporte_id=reporte.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-2"></i>Marcar como Resuelto</button>
+                    </form>
+                    {% endif %}
+                    <form action="{{ url_for('eliminar_reporte', reporte_id=reporte.id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este reporte? Es una acción permanente.');">
+                        <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash me-2"></i>Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

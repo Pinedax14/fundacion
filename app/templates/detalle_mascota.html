@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}Detalles de {{ mascota.nombre }}{% endblock %}
+
+{% block content %}
+<style>
+   
+    .pet-name-title {
+        color: var(--primary-color);
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- ======================= INICIO DE CAMBIOS ======================= -->
+
+    <!-- 1. Alertas de Bootstrap para los mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show text-center" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- 2. Rejilla de Bootstrap para un diseño responsivo -->
+    <!-- En pantallas pequeñas (<768px), la información se apilará debajo de la imagen. -->
+    <div class="row g-4 bg-white p-4 rounded-3 shadow-sm">
+        
+        <!-- Columna de la Imagen -->
+        <div class="col-md-6">
+            <!-- 3. Clases para imagen responsiva y redondeada -->
+            <img src="{{ url_for('static', filename='images/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto ampliada de {{ mascota.nombre }}" class="img-fluid rounded-3">
+        </div>
+
+        <!-- Columna de la Información -->
+        <div class="col-md-6 d-flex flex-column">
+            <h2 class="pet-name-title display-4">{{ mascota.nombre }}</h2>
+            <p class="lead">{{ mascota.descripcion }}</p>
+            
+            <!-- 4. Lista de Bootstrap para las especificaciones -->
+            <ul class="list-group list-group-flush my-4">
+                <li class="list-group-item"><strong>Especie:</strong> {{ mascota.especie }}</li>
+                <li class="list-group-item"><strong>Raza:</strong> {{ mascota.raza }}</li>
+                <li class="list-group-item"><strong>Edad:</strong> {{ mascota.edad }} años</li>
+                <li class="list-group-item"><strong>Sexo:</strong> {{ mascota.sexo }}</li>
+                <li class="list-group-item">
+                    <strong>Estado:</strong> 
+                    <!-- 5. Utilidad de texto de Bootstrap para el color y grosor -->
+                    <span class="text-success fw-bold">{{ mascota.estado }}</span>
+                </li>
+            </ul>
+            
+            <!-- 6. Botón de Bootstrap grande -->
+            <div class="mt-auto">
+                <a href="{{ url_for('solicitar_adopcion', mascota_id=mascota.id) }}"
+                class="btn btn-primary-custom btn-lg w-100">
+                ¡Quiero adoptar a {{ mascota.nombre }}!
+</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ======================== FIN DE CAMBIOS ========================= -->
+{% endblock %}

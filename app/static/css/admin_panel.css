@@ -1,0 +1,48 @@
+/* --- ESTILOS VISUALES PARA LAS PESTAÑAS --- */
+.nav-pills .nav-link {
+    color: var(--primary-color);
+    background-color: var(--light-gray);
+    border: 1px solid var(--primary-color);
+    margin-right: 6px;
+    border-radius: 999px;
+    padding-inline: 1.1rem;
+    padding-block: 0.45rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.25);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.35);
+}
+
+/* Títulos dentro de tarjetas */
+.card h2 {
+    color: var(--primary-color);
+}
+
+/* Encabezados de tablas */
+table th {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+/* Alineación vertical de celdas */
+table td,
+table th {
+    vertical-align: middle;
+}
+
+/* Filas impares en tablas striped, usando el morado muy transparente */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(118, 37, 159, 0.03);
+}

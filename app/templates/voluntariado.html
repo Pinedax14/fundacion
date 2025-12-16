@@ -1,0 +1,198 @@
+{% extends "layout.html" %}
+{% block title %}Voluntariado | Almas con Cola{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <!-- Hero voluntariado -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg-8 text-center">
+      <h1 class="fw-bold text-vol morado">Voluntariado</h1>
+      <p class="lead text-muted">
+        Únete como voluntario y ayúdanos a rescatar, cuidar y encontrar hogar a más peluditos.
+      </p>
+    </div>
+  </div>
+
+  <!-- Card principal -->
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+
+          <h2 class="h4 fw-bold text-vol morado mb-3">
+            Solicitud para ser voluntario
+          </h2>
+          <p class="text-muted mb-4">
+            Por favor, completa la siguiente información para conocer tu disponibilidad
+            y poder contactarte cuando haya jornadas o actividades de apoyo.
+          </p>
+
+          <!-- Mensajes flash -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <!-- Formulario -->
+          <form method="POST" action="{{ url_for('voluntariado') }}">
+
+            <!-- Datos personales -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Nombre completo *</label>
+                <input type="text" name="nombre_completo" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Correo electrónico *</label>
+                <input type="email" name="correo" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Teléfono de contacto *</label>
+                <input type="text" name="telefono" class="form-control" required>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Disponibilidad de días -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">¿Cuándo puedes ayudar? *</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="franja_dias" id="fd_fines" value="fines_de_semana" required>
+                <label class="form-check-label" for="fd_fines">
+                  Fines de semana
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="franja_dias" id="fd_semana" value="entre_semana" required>
+                <label class="form-check-label" for="fd_semana">
+                  Entre semana
+                </label>
+              </div>
+            </div>
+
+            <!-- Días específicos (solo entre semana) -->
+            <div class="mb-3" id="diasSemanaGroup">
+              <label class="form-label">¿Qué días entre semana puedes ayudar?</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="dias_semana" id="dia_lunes" value="Lunes">
+                  <label class="form-check-label" for="dia_lunes">Lunes</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="dias_semana" id="dia_martes" value="Martes">
+                  <label class="form-check-label" for="dia_martes">Martes</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="dias_semana" id="dia_miercoles" value="Miércoles">
+                  <label class="form-check-label" for="dia_miercoles">Miércoles</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="dias_semana" id="dia_jueves" value="Jueves">
+                  <label class="form-check-label" for="dia_jueves">Jueves</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="dias_semana" id="dia_viernes" value="Viernes">
+                  <label class="form-check-label" for="dia_viernes">Viernes</label>
+                </div>
+              </div>
+              <small class="text-muted d-block mt-1">
+                Solo aplica si seleccionaste "Entre semana".
+              </small>
+            </div>
+
+            <!-- Franja horaria -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">¿En qué horario puedes apoyar? *</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="franja_horaria" id="fh_manana" value="manana_8_14" required>
+                <label class="form-check-label" for="fh_manana">
+                  Mañanas (8:00 am - 2:00 pm)
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="franja_horaria" id="fh_tarde" value="tarde_15_19" required>
+                <label class="form-check-label" for="fh_tarde">
+                  Tardes (3:00 pm - 7:00 pm)
+                </label>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Motivo -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Cuéntanos por qué quieres ser voluntario *</label>
+              <textarea name="motivo_voluntariado" class="form-control" rows="4"
+                        placeholder="Comparte brevemente por qué quieres apoyar a Almas con Cola."
+                        required></textarea>
+            </div>
+
+            <!-- Botón -->
+            <div class="d-flex justify-content-end mt-4">
+              <button type="submit" class="btn btn-vol">
+                Enviar solicitud
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Estilos específicos -->
+<style>
+  .text-vol.morado {
+    color: #6f2dbd; /* morado principal */
+  }
+  .btn-vol {
+    background: linear-gradient(90deg, #6f2dbd, #ff6a00); /* morado → naranja */
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  }
+  .btn-vol:hover {
+    filter: brightness(1.05);
+    color: #ffffff;
+  }
+</style>
+
+<!-- JS simple para mostrar/ocultar días entre semana -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const diasSemanaGroup = document.getElementById('diasSemanaGroup');
+    const radioFines = document.getElementById('fd_fines');
+    const radioSemana = document.getElementById('fd_semana');
+
+    function actualizarVisibilidadDias() {
+      if (radioSemana.checked) {
+        diasSemanaGroup.style.display = 'block';
+      } else {
+        diasSemanaGroup.style.display = 'none';
+      }
+    }
+
+    if (radioFines && radioSemana) {
+      radioFines.addEventListener('change', actualizarVisibilidadDias);
+      radioSemana.addEventListener('change', actualizarVisibilidadDias);
+      actualizarVisibilidadDias();
+    }
+  });
+</script>
+{% endblock %}

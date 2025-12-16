@@ -1,0 +1,144 @@
+  /* Estilos personalizados para la galería y las tarjetas */
+    .pet-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+    .pet-card {
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        text-align: center;
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+        /* --- MEJORA: Animación de entrada --- */
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .pet-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .pet-card-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    .pet-card-body {
+        padding: 1.5rem;
+    }
+    .pet-card-body h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+    .pet-card-body .ingreso-date {
+        font-size: 0.9rem;
+        color: #888;
+    }
+    .adopted-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(255, 255, 255, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        backdrop-filter: blur(3px);
+    }
+    .adopted-overlay h3 {
+        color: #ed7505;
+        font-weight: bold;
+        font-size: 2rem;
+        margin: 0;
+    }
+    .adopted-overlay p {
+        color: #555;
+        font-size: 1.1rem;
+    }
+
+    /* Botón principal "Filtrar Mascotas" */
+.btn-filtro-mascotas {
+    background: #f7f3ff;                 /* fondo claro para que se vea la “pastilla” */
+    color: #6c3dd9;
+    border: 2px solid #6c3dd9;           /* recuadro morado */
+    border-radius: 999px;                /* píldora */
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-inline: 1.5rem;
+    box-shadow: 0 4px 10px rgba(108, 61, 217, 0.18);
+    transition: background-color 0.15s ease, color 0.15s ease,
+                box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.btn-filtro-mascotas i {
+    color: #ff8c42;                      /* icono naranja */
+}
+
+.btn-filtro-mascotas:hover {
+    background: #6c3dd9;                 /* se llena de morado al pasar */
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(108, 61, 217, 0.28);
+}
+
+.btn-filtro-mascotas:hover i {
+    color: #ffffff;
+}
+
+/* Tarjeta del formulario de filtros */
+.filtro-mascotas-card {
+    background: #f7f3ff;
+    border: 1px solid #e0d4ff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(65, 50, 135, 0.08);
+}
+
+/* Labels y selects del filtro */
+.filtro-mascotas-label {
+    color: #413287;
+    font-weight: 600;
+}
+
+.filtro-mascotas-select {
+    border-radius: 0.75rem;
+    border-color: #d1c5ff;
+}
+
+.filtro-mascotas-select:focus {
+    border-color: #6c3dd9;
+    box-shadow: 0 0 0 0.2rem rgba(108, 61, 217, 0.25);
+}
+
+/* Botones aplicar / limpiar */
+.btn-aplicar-filtro {
+    background: #6c3dd9;
+    border-color: #6c3dd9;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-aplicar-filtro:hover {
+    background: #552bb5;
+    border-color: #552bb5;
+}
+
+.btn-limpiar-filtro {
+    background: #ff8c42;
+    border-color: #ff8c42;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-limpiar-filtro:hover {
+    background: #e8752b;
+    border-color: #e8752b;
+}

@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div class="login-page-wrapper d-flex justify-content-center align-items-start">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-4">
+                        <h1 class="card-title text-center mb-4" style="color: var(--primary-color); font-weight: 700;">
+                            Iniciar Sesión
+                        </h1>
+
+                        {% if msg %}
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ msg }}
+                            </div>
+                        {% endif %}
+
+                        <form method="POST" action="{{ url_for('login') }}" novalidate>
+                            <!-- Campo de Correo Electrónico -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo electrónico</label>
+                                <input type="email" name="email" id="email"
+                                       class="form-control form-control-lg" required autofocus>
+                            </div>
+
+                            <!-- Campo de Contraseña -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <div class="input-group">
+                                    <input type="password" name="password" id="password"
+                                           class="form-control form-control-lg" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePasswordButton">
+                                        <i class="fas fa-eye" id="toggleIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-lg text-white"
+                                        style="background-color: var(--primary-color);">
+                                    Acceder
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">
+                                ¿No tienes una cuenta?
+                                <a href="{{ url_for('registro') }}"
+                                   style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                                    Regístrate aquí
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const toggleButton = document.getElementById('togglePasswordButton');
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    toggleButton.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        toggleIcon.classList.toggle('fa-eye');
+        toggleIcon.classList.toggle('fa-eye-slash');
+    });
+</script>
+{% endblock %}
