@@ -157,6 +157,8 @@ class RutasAuth:
 
 
     def registrar_rutas(self):
+        REMITENTE="almasconcola@gmail.com"
+        CONTRASENA_APP="bdtz hpjl ugpf spzs"
         @self.app.route('/registro', methods=['GET', 'POST'])
         def registro():
             msg = ''
