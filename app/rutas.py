@@ -131,7 +131,7 @@ class RutasHome:
         
 
 
-        @self.app.route('/prueba', methods=['GET']) #RUTA PARA PRUEBAS
+        @self.app.route('/pruebas', methods=['GET']) #RUTA PARA PRUEBAS
         def pruebas():                       
            return render_template('pruebas.html')
 
