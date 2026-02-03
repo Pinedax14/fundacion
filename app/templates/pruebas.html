@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+
+<div class="registro-page-wrapper d-flex justify-content-center align-items-start">
+  <div class="content-wrapper">
+    <div class="form-container">
+      <h1>Crear una Cuenta</h1>
+
+      {% if msg %}
+        <div class="msg">{{ msg }}</div>
+      {% endif %}
+
+      <form action="{{ url_for('registro') }}" method="post" autocomplete="off">
+        <input type="text" name="nombre" placeholder="Nombre completo" id="nombre" required>
+        <input type="email" name="email" placeholder="Correo electrónico" id="email" required>
+
+        <div class="password-field">
+          <input type="password" name="password" placeholder="Contraseña" id="password" required>
+          <i class="fas fa-eye-slash toggle-password" data-target="password"></i>
+        </div>
+
+        <div class="password-field">
+          <input type="password" name="confirmar_password" placeholder="Confirmar Contraseña" id="confirmarpassword" required>
+          <i class="fas fa-eye-slash toggle-password" data-target="confirmarpassword"></i>
+        </div>
+
+        <!-- Requisitos de contraseña -->
+        <ul id="password-requirements">
+          <li id="length"><i class="bi bi-x-circle me-1"></i>Mínimo 8 caracteres</li>
+          <li id="lowercase"><i class="bi bi-x-circle me-1"></i>Debe contener una minúscula</li>
+          <li id="uppercase"><i class="bi bi-x-circle me-1"></i>Debe contener una mayúscula</li>
+          <li id="number"><i class="bi bi-x-circle me-1"></i>Debe contener un número</li>
+          <li id="symbol"><i class="bi bi-x-circle me-1"></i>Debe contener un símbolo especial</li>
+        </ul>
+
+        <input type="submit" value="Registrarse">
+      </form>
+
+      <a href="{{ url_for('login') }}" class="form-link">
+        ¿Ya tienes una cuenta? Inicia sesión aquí
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Script mostrar/ocultar contraseña -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.toggle-password').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      const passwordField = document.getElementById(targetId);
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+      } else {
+        passwordField.type = 'password';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+      }
+    });
+  });
+});
+</script>
+
+<!-- Validación de contraseña en tiempo real -->
+<script>
+const passwordInput = document.getElementById('password');
+const requirements = {
+  length: document.getElementById('length'),
+  lowercase: document.getElementById('lowercase'),
+  uppercase: document.getElementById('uppercase'),
+  number: document.getElementById('number'),
+  symbol: document.getElementById('symbol')
+};
+
+passwordInput.addEventListener('input', function() {
+  const value = this.value;
+
+  function validate(req, regex) {
+    const icon = req.querySelector('i');
+    if (regex.test(value)) {
+      req.classList.add('valid');
+      icon.classList.remove('bi-x-circle');
+      icon.classList.add('bi-check-circle-fill');
+      icon.style.color = 'var(--primary-color)';         // morado al cumplir
+    } else {
+      req.classList.remove('valid');
+      icon.classList.remove('bi-check-circle-fill');
+      icon.classList.add('bi-x-circle');
+      icon.style.color = '#dc3545';                      // rojo al fallar
+    }
+  }
+
+  validate(requirements.length, /.{8,}/);
+  validate(requirements.lowercase, /[a-z]/);
+  validate(requirements.uppercase, /[A-Z]/);
+  validate(requirements.number, /[0-9]/);
+  validate(requirements.symbol, /[^A-Za-z0-9]/);
+});
+</script>
+{% endblock %}

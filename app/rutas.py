@@ -21,8 +21,8 @@ import string
 from email.mime.image import MIMEImage
 
  
-REMITENTE = "almasconcola@gmail.com"  # tu nueva cuenta
-CONTRASENA_APP = "xwyi ahgu cqas qvvp"  # 16 caracteres generados
+# Mail credentials will be loaded into app.config from environment variables.
+# Expected keys: MAIL_USER, MAIL_PASS, MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS
 
  
 
@@ -128,16 +128,19 @@ class RutasHome:
         @self.app.route('/donaciones', methods=['GET']) # ruta para donaciones
         def donaciones():                       
            return render_template('donaciones.html')
+        
 
+
+        @self.app.route('/prueba', methods=['GET']) #RUTA PARA PRUEBAS
+        def pruebas():                       
+           return render_template('pruebas.html')
 
 
 #CLASE PARA LAS RUTAS DE SESION, REGISTRO Y PERFIL
 
 
 
-# Configuración del correo
-REMITENTE = "almasconcola@gmail.com"  # tu correo de envío
-CONTRASENA_APP = "xwyi ahgu cqas qvvp"  # token de app generado en Gmail
+# Configuración del correo: los valores se obtienen de `app.config`.
 
 class RutasAuth:
     def __init__(self, app, conexion):
@@ -659,6 +662,7 @@ class RutasReportes:
                 return redirect(url_for('home'))
 
             return redirect(url_for('reporte'))
+   
 
 
 # --------------------------
