@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 class Conexion:
     def __init__(self, app):
         # Clave secreta
-        app.secret_key = os.getenv('SECRET_KEY', 'clave_temporal_123')
+        app.secret_key = os.urandom(32)
         
         print("=" * 50)
         print(f"DB_HOST: {os.getenv('DB_HOST')}")
