@@ -1,0 +1,115 @@
+{% extends "base/layout.html" %}
+
+{% block title %}Detección de Anomalías{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>⚠️ Detección de Anomalías</h1>
+        <a href="/admin/auditoria/logs" class="btn btn-secondary">← Volver a Logs</a>
+    </div>
+    <hr>
+    
+    <!-- Configuración de ventana -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>⏱️ Configuración</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Ventana de tiempo (minutos):</label>
+                    <input type="number" name="ventana" class="form-control" 
+                           value="{{ ventana }}" min="1" max="1440">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">🔍 Analizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Resultados -->
+    {% if anomalias %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">🚨 {{ anomalias|length }} ANOMALÍA(S) DETECTADA(S)</h4>
+        <p>Se encontraron actividades sospechosas en los últimos {{ ventana }} minutos.</p>
+    </div>
+    {% else %}
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">✅ Sin anomalías detectadas</h4>
+        <p>No se encontraron actividades sospechosas en los últimos {{ ventana }} minutos.</p>
+    </div>
+    {% endif %}
+    
+    <!-- Anomalías Detectadas -->
+    {% for anomalia in anomalias %}
+    <div class="card mb-4 border-danger">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">
+                {% if anomalia.tipo == 'MULTIPLE_DELETES' %}
+                    🗑️ Múltiples eliminaciones ({{ anomalia.cantidad }})
+                {% elif anomalia.tipo == 'ACTIVIDAD_SOSPECHOSA' %}
+                    🔥 Actividad sospechosa desde {{ anomalia.ip }}
+                {% else %}
+                    ⚠️ {{ anomalia.tipo }}
+                {% endif %}
+            </h5>
+        </div>
+        <div class="card-body">
+            {% if anomalia.tipo == 'MULTIPLE_DELETES' %}
+            <p><strong>Problema:</strong> Se detectaron {{ anomalia.cantidad }} operaciones DELETE en {{ anomalia.ventana_minutos }} minutos.</p>
+            <p><strong>Impacto potencial:</strong> Posible eliminación masiva accidental o ataque.</p>
+            
+            {% elif anomalia.tipo == 'ACTIVIDAD_SOSPECHOSA' %}
+            <p><strong>IP:</strong> <code>{{ anomalia.ip }}</code></p>
+            <p><strong>Cantidad de operaciones:</strong> {{ anomalia.cantidad_operaciones }} en {{ ventana }} minutos</p>
+            <p><strong>Problema potencial:</strong> Actividad inusual o automatizada desde esta IP.</p>
+            {% endif %}
+            
+            <hr>
+            <strong>IDs de logs relacionados:</strong>
+            <div class="mt-2">
+                {% for log_id in anomalia.logs[:10] %}
+                <a href="/admin/auditoria/detalles/{{ log_id }}" class="btn btn-sm btn-outline-info">
+                    Log #{{ log_id }}
+                </a>
+                {% endfor %}
+                {% if anomalia.logs|length > 10 %}
+                <small class="ms-2">+{{ anomalia.logs|length - 10 }} más...</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <!-- Recomendaciones de Seguridad -->
+    <div class="card bg-light">
+        <div class="card-header">
+            <h5>🛡️ Recomendaciones de Seguridad</h5>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Revisa regularmente los logs de auditoría, especialmente cambios masivos.</li>
+                <li>Configura alertas para actividades sospechosas.</li>
+                <li>Limita operaciones DELETE solo a administradores.</li>
+                <li>Implementa confirmaciones de dos pasos para acciones críticas.</li>
+                <li>Revisa IPs desconocidas que realicen muchas operaciones.</li>
+                <li>Mantén backups regulares para recuperación ante ataques.</li>
+                <li>Monitorea cambios en tablas críticas (usuarios, configuración).</li>
+            </ul>
+        </div>
+    </div>
+    
+    <a href="/admin/auditoria/logs" class="btn btn-secondary mt-4">← Volver a Logs</a>
+</div>
+
+<style>
+    code {
+        background: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+    }
+</style>
+{% endblock %}

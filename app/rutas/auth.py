@@ -13,6 +13,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from flask import render_template, request, redirect, url_for, session, flash, g
 from app.rutas.decoradores import admin_required_factory
+from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota
+from datetime import datetime, timedelta
 
 
 class RutasAuth:
@@ -58,14 +60,12 @@ class RutasAuth:
             msg = ''
             if request.method == 'POST':
                 nombre = request.form.get('nombre')
-                email = request.form.get('email')
+                email = request.form.get('email', '').strip().lower()
                 password = request.form.get('password')
                 confirmar_password = request.form.get('confirmar_password')
 
-                # Obtener usuario existente con este email
-                cur = self.conexion.get_cursor()
-                cur.execute('SELECT * FROM usuarios WHERE email = %s', (email,))
-                cuenta = cur.fetchone()
+                # Obtener usuario existente con este email (usando ORM)
+                cuenta = Usuario.query.filter_by(email=email).first()
 
                 # Validaciones del registro
                 if cuenta:
@@ -78,30 +78,39 @@ class RutasAuth:
                 elif len(password) < 8 or not re.search(r"[0-9]", password) or not re.search(r"[!@#$%^&*()-_=+{};:,<.>]", password):
                     msg = 'La contraseña debe tener al menos 8 caracteres, un número y un símbolo especial.'
                 else:
-                    # Crear nuevo usuario
-                    hash_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
-                    cur.execute('INSERT INTO usuarios (nombre, email, password, rol) VALUES (%s, %s, %s, %s)',
-                                (nombre, email, hash_password, 'user'))
-                    self.conexion.commit()
+                    try:
+                        # Crear nuevo usuario
+                        hash_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
+                        nuevo_usuario = Usuario(
+                            nombre=nombre,
+                            email=email,
+                            password=hash_password,
+                            rol='user'
+                        )
+                        db.session.add(nuevo_usuario)
+                        db.session.commit()
 
-                    # Obtener ID del nuevo usuario
-                    cur.execute('SELECT id FROM usuarios WHERE email = %s', (email,))
-                    nuevo_usuario = cur.fetchone()
-                    id_usuario = nuevo_usuario['id']
+                        # Generar código de verificación
+                        codigo = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+                        fecha_expiracion = datetime.utcnow() + timedelta(hours=24)
+                        
+                        verificacion = VerificacionEmail(
+                            usuario_id=nuevo_usuario.id,
+                            codigo=codigo,
+                            fecha_expiracion=fecha_expiracion
+                        )
+                        db.session.add(verificacion)
+                        db.session.commit()
 
-                    # Generar código de verificación de 6 caracteres
-                    codigo = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-                    cur.execute('INSERT INTO verificaciones (id_usuario, codigo, fecha_creacion, usado) VALUES (%s, %s, NOW(), %s)',
-                                (id_usuario, codigo, False))
-                    self.conexion.commit()
-
-                    # Enviar correo de verificación
-                    self._enviar_correo_verificacion(email, nombre, codigo)
-                    flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
-                    cur.close()
-                    return redirect(url_for('verificar_email'))
-
-                cur.close()
+                        # Enviar correo de verificación
+                        self._enviar_correo_verificacion(email, nombre, codigo)
+                        flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
+                        return redirect(url_for('verificar_email'))
+                    except Exception as e:
+                        db.session.rollback()
+                        self.app.logger.error(f"Error en registro: {e}")
+                        msg = 'Error durante el registro. Intenta de nuevo.'
+            
             return render_template('auth/registro.html', msg=msg)
 
         @self.app.route('/verificar_email', methods=['GET', 'POST'])
@@ -112,31 +121,35 @@ class RutasAuth:
             """
             msg = ''
             if request.method == 'POST':
-                email = request.form.get('email')
-                codigo = request.form.get('codigo')
+                email = request.form.get('email', '').strip().lower()
+                codigo = request.form.get('codigo', '').strip().upper()
 
-                cur = self.conexion.get_cursor()
-                cur.execute('SELECT id FROM usuarios WHERE email = %s', (email,))
-                usuario = cur.fetchone()
-
+                usuario = Usuario.query.filter_by(email=email).first()
+                
                 if not usuario:
                     msg = 'Correo no registrado.'
                 else:
-                    # Buscar verificación pendiente con ese código
-                    cur.execute('SELECT * FROM verificaciones WHERE id_usuario = %s AND codigo = %s AND usado = FALSE',
-                                (usuario['id'], codigo))
-                    verificacion = cur.fetchone()
+                    # Buscar verificación pendiente (usando ORM)
+                    verificacion = VerificacionEmail.query.filter_by(
+                        usuario_id=usuario.id,
+                        codigo=codigo,
+                        usado=False
+                    ).first()
 
                     if verificacion:
-                        # Marcar verificación como usada
-                        cur.execute('UPDATE verificaciones SET usado = TRUE WHERE id = %s', (verificacion['id'],))
-                        self.conexion.commit()
-                        flash('¡Cuenta verificada exitosamente! Ahora puedes iniciar sesión.', 'success')
-                        cur.close()
-                        return redirect(url_for('login'))
+                        # Verificar que no haya expirado
+                        if datetime.utcnow() > verificacion.fecha_expiracion:
+                            msg = 'El código ha expirado. Solicita uno nuevo.'
+                        else:
+                            # Marcar como verificado
+                            verificacion.usado = True
+                            usuario.verified = True
+                            db.session.commit()
+                            flash('¡Cuenta verificada exitosamente! Ahora puedes iniciar sesión.', 'success')
+                            return redirect(url_for('login'))
                     else:
                         msg = 'Código incorrecto o ya usado.'
-                cur.close()
+            
             return render_template('auth/verificar_email.html', msg=msg)
 
         @self.app.route('/login', methods=['GET', 'POST'])
@@ -151,31 +164,31 @@ class RutasAuth:
                 return redirect(url_for('home'))
 
             if request.method == 'POST':
-                email = request.form.get('email')
+                email = request.form.get('email', '').strip().lower()
                 password = request.form.get('password')
 
-                cur = self.conexion.get_cursor()
-                cur.execute('SELECT * FROM usuarios WHERE email = %s', (email,))
-                cuenta = cur.fetchone()
+                # Buscar usuario por email (usando ORM)
+                cuenta = Usuario.query.filter_by(email=email).first()
 
-                # Verificar credenciales y que email esté verificado
-                if cuenta and self.bcrypt.check_password_hash(cuenta['password'], password):
-                    cur.execute('SELECT * FROM verificaciones WHERE id_usuario = %s AND usado = FALSE', (cuenta['id'],))
-                    pendiente = cur.fetchone()
-                    if pendiente:
+                # Verificar credenciales
+                if cuenta and self.bcrypt.check_password_hash(cuenta.password, password):
+                    # Verificar que email esté verificado
+                    if not cuenta.verified:
                         msg = 'Debes verificar tu cuenta antes de iniciar sesión.'
                     else:
                         # Crear sesión del usuario
                         session['loggedin'] = True
-                        session['id'] = cuenta['id']
-                        session['nombre'] = cuenta['nombre']
-                        session['rol'] = cuenta['rol']
+                        session['id'] = cuenta.id
+                        session['nombre'] = cuenta.nombre
+                        session['usuario_id'] = cuenta.id
+                        session['usuario_nombre'] = cuenta.nombre
+                        session['usuario_rol'] = cuenta.rol
+                        session['rol'] = cuenta.rol
                         flash(f"¡Bienvenido de vuelta, {session['nombre']}!", 'success')
-                        cur.close()
                         return redirect(url_for('home'))
                 else:
                     msg = '¡Correo electrónico o contraseña incorrectos!'
-                cur.close()
+            
             return render_template('auth/login.html', msg=msg)
 
         @self.app.route('/logout')
@@ -195,25 +208,47 @@ class RutasAuth:
                 flash('Debes iniciar sesión para ver tu perfil.', 'warning')
                 return redirect(url_for('login'))
 
-            user_id = session['id']
-            cursor = self.conexion.get_cursor()
+            user_id = session.get('usuario_id') or session.get('id')
 
-            # Obtener datos básicos del usuario
-            cursor.execute('SELECT nombre, email, fecha_registro FROM usuarios WHERE id = %s', [user_id])
-            usuario = cursor.fetchone()
+            # Obtener datos básicos del usuario (usando ORM)
+            usuario = Usuario.query.get(user_id)
+            
+            if not usuario:
+                flash('Usuario no encontrado.', 'warning')
+                return redirect(url_for('login'))
 
-            # Obtener solicitudes de adopción del usuario
-            cursor.execute('''
-                SELECT s.id, s.fecha_solicitud, s.estado_solicitud, m.nombre as mascota_nombre, m.foto_url as mascota_foto
-                FROM solicitudes_adopcion s
-                JOIN mascotas m ON s.id_mascota = m.id
-                WHERE s.id_usuario = %s
-                ORDER BY s.fecha_solicitud DESC
-            ''', [user_id])
-            solicitudes = cursor.fetchall()
-            cursor.close()
+            # Obtener solicitudes de adopción del usuario (usando ORM con joins)
+            solicitudes = db.session.query(
+                SolicitudAdopcion.id,
+                SolicitudAdopcion.fecha_solicitud,
+                SolicitudAdopcion.estado,
+                Mascota.nombre.label('mascota_nombre'),
+                Mascota.foto_url.label('mascota_foto')
+            ).join(Mascota).filter(
+                SolicitudAdopcion.usuario_id == user_id
+            ).order_by(
+                db.desc(SolicitudAdopcion.fecha_solicitud)
+            ).all()
 
-            return render_template('usuario/perfil.html', usuario=usuario, solicitudes=solicitudes)
+            # Convert to dict-like format for template compatibility
+            solicitudes_formatted = []
+            for solicitud in solicitudes:
+                solicitudes_formatted.append({
+                    'id': solicitud[0],
+                    'fecha_solicitud': solicitud[1],
+                    'estado_solicitud': solicitud[2],
+                    'mascota_nombre': solicitud[3],
+                    'mascota_foto': solicitud[4]
+                })
+
+            # Convert usuario to dict for template
+            usuario_dict = {
+                'nombre': usuario.nombre,
+                'email': usuario.email,
+                'fecha_registro': usuario.fecha_registro
+            }
+
+            return render_template('usuario/perfil.html', usuario=usuario_dict, solicitudes=solicitudes_formatted)
 
         @self.app.route('/editar_perfil', methods=['GET', 'POST'])
         def editar_perfil():
@@ -225,10 +260,21 @@ class RutasAuth:
                 flash('Debes iniciar sesión para editar tu perfil.', 'warning')
                 return redirect(url_for('login'))
 
-            user_id = session['id']
-            cursor = self.conexion.get_cursor()
-            cursor.execute('SELECT * FROM usuarios WHERE id = %s', (user_id,))
-            usuario = cursor.fetchone()
+            user_id = session.get('usuario_id') or session.get('id')
+            usuario_orm = Usuario.query.get(user_id)
+            
+            if not usuario_orm:
+                flash('Usuario no encontrado.', 'warning')
+                return redirect(url_for('login'))
+
+            # Convert ORM object to dict for template
+            usuario = {
+                'id': usuario_orm.id,
+                'nombre': usuario_orm.nombre,
+                'email': usuario_orm.email,
+                'password': usuario_orm.password,
+                'foto_perfil': getattr(usuario_orm, 'foto_perfil', None)
+            }
 
             if request.method == 'POST':
                 nombre = request.form.get('nombre')
@@ -241,26 +287,25 @@ class RutasAuth:
                 # Procesar foto de perfil si se subió
                 if foto_file and foto_file.filename != '':
                     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
-                    extension = foto_file.filename.rsplit('.', 1)[1].lower()
-                    if extension not in allowed_extensions:
-                        flash('Solo se permiten imágenes (png, jpg, jpeg, gif)', 'danger')
-                        return redirect(url_for('editar_perfil'))
+                    filename_parts = foto_file.filename.rsplit('.', 1)
+                    if len(filename_parts) > 1:
+                        extension = filename_parts[1].lower()
+                        if extension not in allowed_extensions:
+                            flash('Solo se permiten imágenes (png, jpg, jpeg, gif)', 'danger')
+                            return redirect(url_for('editar_perfil'))
 
-                    # Generar nombre único para la foto
-                    import uuid
-                    filename = f"{uuid.uuid4().hex}.{extension}"
-                    upload_folder = os.path.join(os.getcwd(), 'app', 'static', 'uploads', 'perfiles')
+                        # Generar nombre único para la foto
+                        import uuid
+                        filename = f"{uuid.uuid4().hex}.{extension}"
+                        upload_folder = os.path.join(os.getcwd(), 'app', 'static', 'uploads', 'perfiles')
 
-                    if not os.path.exists(upload_folder):
-                        os.makedirs(upload_folder)
+                        if not os.path.exists(upload_folder):
+                            os.makedirs(upload_folder)
 
-                    filepath = os.path.join('app/static/uploads/perfiles/', filename)
-                    foto_file.save(filepath)
-                    usuario['foto_perfil'] = filename
-
-                    # Actualizar foto en BD
-                    cursor.execute('UPDATE usuarios SET foto_perfil=%s WHERE id=%s', (filename, user_id))
-                    self.conexion.commit()
+                        filepath = os.path.join(upload_folder, filename)
+                        foto_file.save(filepath)
+                        usuario['foto_perfil'] = filename
+                        usuario_orm.foto_perfil = filename
 
                 # Validaciones de actualización
                 errores = []
@@ -272,7 +317,7 @@ class RutasAuth:
                 cambiar_password = password_nueva and password_actual
 
                 if cambiar_password:
-                    if not self.bcrypt.check_password_hash(usuario['password'], password_actual):
+                    if not self.bcrypt.check_password_hash(usuario_orm.password, password_actual):
                         errores.append("La contraseña actual no es correcta.")
                     elif password_nueva != password_confirm:
                         errores.append("La nueva contraseña no coincide con la confirmación.")
@@ -284,20 +329,24 @@ class RutasAuth:
                     for e in errores:
                         flash(e, "danger")
                 else:
-                    # Actualizar nombre y email
-                    cursor.execute('UPDATE usuarios SET nombre=%s, email=%s WHERE id=%s', (nombre, email, user_id))
-                    self.conexion.commit()
-                    session['nombre'] = nombre
+                    try:
+                        # Actualizar nombre y email
+                        usuario_orm.nombre = nombre
+                        usuario_orm.email = email
+                        
+                        # Actualizar contraseña si se cambió
+                        if cambiar_password:
+                            usuario_orm.password = self.bcrypt.generate_password_hash(password_nueva).decode('utf-8')
 
-                    # Actualizar contraseña si se cambió
-                    if cambiar_password:
-                        hashed_password = self.bcrypt.generate_password_hash(password_nueva).decode('utf-8')
-                        cursor.execute('UPDATE usuarios SET password=%s WHERE id=%s', (hashed_password, user_id))
-                        self.conexion.commit()
-
-                    flash("¡Perfil actualizado correctamente!", "success")
-                    cursor.close()
-                    return redirect(url_for('editar_perfil'))
+                        db.session.commit()
+                        session['nombre'] = nombre
+                        session['usuario_nombre'] = nombre
+                        flash("¡Perfil actualizado correctamente!", "success")
+                        return redirect(url_for('editar_perfil'))
+                    except Exception as e:
+                        db.session.rollback()
+                        self.app.logger.error(f"Error actualizando perfil: {e}")
+                        flash("Error al actualizar el perfil.", "danger")
 
             return render_template('usuario/editar_perfil.html', usuario=usuario)
 
@@ -319,20 +368,28 @@ class RutasAuth:
                 flash('Las nuevas contraseñas no coinciden.', 'danger')
                 return redirect(url_for('perfil'))
 
-            # Verificar contraseña actual
-            cursor = self.conexion.get_cursor()
-            cursor.execute('SELECT password FROM usuarios WHERE id = %s', [session['id']])
-            user = cursor.fetchone()
+            # Obtener usuario (usando ORM)
+            user_id = session.get('usuario_id') or session.get('id')
+            usuario = Usuario.query.get(user_id)
 
-            if user and self.bcrypt.check_password_hash(user['password'], current_password):
-                # Cambiar contraseña
-                new_hash_password = self.bcrypt.generate_password_hash(new_password).decode('utf-8')
-                cursor.execute('UPDATE usuarios SET password = %s WHERE id = %s', (new_hash_password, session['id']))
-                self.conexion.commit()
-                flash('¡Contraseña actualizada exitosamente!', 'success')
+            if not usuario:
+                flash('Usuario no encontrado.', 'danger')
+                return redirect(url_for('login'))
+
+            # Verificar contraseña actual
+            if usuario and self.bcrypt.check_password_hash(usuario.password, current_password):
+                try:
+                    # Cambiar contraseña
+                    usuario.password = self.bcrypt.generate_password_hash(new_password).decode('utf-8')
+                    db.session.commit()
+                    flash('¡Contraseña actualizada exitosamente!', 'success')
+                except Exception as e:
+                    db.session.rollback()
+                    self.app.logger.error(f"Error actualizando contraseña: {e}")
+                    flash('Error al actualizar la contraseña.', 'danger')
             else:
                 flash('La contraseña actual es incorrecta.', 'danger')
-            cursor.close()
+            
             return redirect(url_for('perfil'))
 
         @self.app.route('/eliminar_cuenta')

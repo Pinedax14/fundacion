@@ -1,0 +1,202 @@
+{% extends "base/layout.html" %}
+
+{% block title %}Detalles del Log {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📊 Detalles del Log #{{ log.id }}</h1>
+        <a href="/admin/auditoria/logs" class="btn btn-secondary">← Volver</a>
+    </div>
+    <hr>
+    
+    <!-- Información General -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-info">
+                    <h5 class="mb-0">ℹ️ Información General</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">ID Log:</dt>
+                        <dd class="col-sm-8"><strong>{{ log.id }}</strong></dd>
+                        
+                        <dt class="col-sm-4">Timestamp:</dt>
+                        <dd class="col-sm-8">{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</dd>
+                        
+                        <dt class="col-sm-4">Acción:</dt>
+                        <dd class="col-sm-8">
+                            {% if log.accion == 'INSERT' %}
+                                <span class="badge bg-success">{{ log.accion }}</span>
+                            {% elif log.accion == 'UPDATE' %}
+                                <span class="badge bg-warning">{{ log.accion }}</span>
+                            {% elif log.accion == 'DELETE' %}
+                                <span class="badge bg-danger">{{ log.accion }}</span>
+                            {% endif %}
+                        </dd>
+                        
+                        <dt class="col-sm-4">Tabla:</dt>
+                        <dd class="col-sm-8"><code>{{ log.tabla_afectada }}</code></dd>
+                        
+                        <dt class="col-sm-4">Registro ID:</dt>
+                        <dd class="col-sm-8"><span class="badge bg-info">{{ log.registro_id }}</span></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-secondary">
+                    <h5 class="mb-0">👤 Usuario y Red</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Usuario:</dt>
+                        <dd class="col-sm-8">
+                            {% if log.usuario_nombre %}
+                                <strong>{{ log.usuario_nombre }}</strong>
+                                (ID: {{ log.usuario_id }})
+                            {% else %}
+                                <span class="text-muted">Anónimo</span>
+                            {% endif %}
+                        </dd>
+                        
+                        <dt class="col-sm-4">IP Address:</dt>
+                        <dd class="col-sm-8"><code>{{ log.ip_address or 'N/A' }}</code></dd>
+                        
+                        <dt class="col-sm-4">Método HTTP:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">{{ log.metodo_http }}</span>
+                        </dd>
+                        
+                        <dt class="col-sm-4">Ruta:</dt>
+                        <dd class="col-sm-8"><code>{{ log.ruta }}</code></dd>
+                        
+                        <dt class="col-sm-4">Status:</dt>
+                        <dd class="col-sm-8">
+                            {% if log.estado_respuesta %}
+                                <span class="badge {% if log.estado_respuesta >= 200 and log.estado_respuesta < 300 %}bg-success{% elif log.estado_respuesta >= 400 %}bg-danger{% else %}bg-warning{% endif %}">
+                                    {{ log.estado_respuesta }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Datos Antes (UPDATE/DELETE) -->
+    {% if log.datos_antes %}
+    <div class="card mb-3">
+        <div class="card-header bg-warning">
+            <h5 class="mb-0">📝 Datos ANTES del cambio</h5>
+        </div>
+        <div class="card-body">
+            <div class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+                <pre><code>{{ log.datos_antes | tojson(indent=2) }}</code></pre>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Datos Después (INSERT/UPDATE) -->
+    {% if log.datos_despues %}
+    <div class="card mb-3">
+        <div class="card-header bg-success">
+            <h5 class="mb-0">✅ Datos DESPUÉS del cambio</h5>
+        </div>
+        <div class="card-body">
+            <div class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+                <pre><code>{{ log.datos_despues | tojson(indent=2) }}</code></pre>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Cambios (diferencia) -->
+    {% if log.datos_antes and log.datos_despues %}
+    <div class="card mb-3">
+        <div class="card-header bg-info">
+            <h5 class="mb-0">🔄 Cambios Realizados</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Antes</th>
+                        <th>Después</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key in log.datos_despues.keys() if key in log.datos_antes and log.datos_antes[key] != log.datos_despues[key] %}
+                    <tr class="table-warning">
+                        <td><strong>{{ key }}</strong></td>
+                        <td>
+                            <code>{{ log.datos_antes[key] }}</code>
+                        </td>
+                        <td>
+                            <code>{{ log.datos_despues[key] }}</code>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {% if log.accion == 'INSERT' %}
+                    {% for key, valor in log.datos_despues.items() %}
+                    <tr class="table-success">
+                        <td><strong>{{ key }}</strong></td>
+                        <td><span class="text-muted">N/A</span></td>
+                        <td><code>{{ valor }}</code></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- User Agent -->
+    {% if log.user_agent %}
+    <div class="card mb-3 bg-light">
+        <div class="card-header">
+            <h5 class="mb-0">🌐 User Agent</h5>
+        </div>
+        <div class="card-body">
+            <small>{{ log.user_agent }}</small>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Notas -->
+    {% if log.notas %}
+    <div class="card mb-3 bg-danger bg-opacity-10">
+        <div class="card-header border-danger">
+            <h5 class="mb-0">⚠️ Notas</h5>
+        </div>
+        <div class="card-body">
+            <p>{{ log.notas }}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    <a href="/admin/auditoria/logs" class="btn btn-secondary mt-3">← Volver a Logs</a>
+</div>
+
+<style>
+    code {
+        background: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+    }
+    pre {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}

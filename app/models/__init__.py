@@ -144,3 +144,51 @@ class Donacion(db.Model):
     
     def __repr__(self):
         return f'<Donacion ${self.cantidad} {self.moneda}>'
+
+
+class AuditLog(db.Model):
+    """Modelo de Registro de Auditoría
+    
+    Rastrea todos los cambios en la BD para seguridad y debugging.
+    """
+    __tablename__ = 'audit_logs'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
+    usuario_nombre = db.Column(db.String(120))  # Desnormalizado por si se elimina usuario
+    accion = db.Column(db.String(20), nullable=False)  # INSERT, UPDATE, DELETE
+    tabla_afectada = db.Column(db.String(50), nullable=False, index=True)
+    registro_id = db.Column(db.Integer, nullable=False, index=True)  # PK del registro modificado
+    datos_antes = db.Column(db.JSON)  # Dict con valores anteriores (para UPDATE/DELETE)
+    datos_despues = db.Column(db.JSON)  # Dict con valores nuevos (para INSERT/UPDATE)
+    ip_address = db.Column(db.String(45))  # IPv4 o IPv6
+    user_agent = db.Column(db.String(500))
+    metodo_http = db.Column(db.String(10))  # GET, POST, PUT, DELETE
+    ruta = db.Column(db.String(255))  # Ej: /admin/editar_mascota
+    estado_respuesta = db.Column(db.Integer)  # HTTP status code (200, 500, etc)
+    notas = db.Column(db.Text)  # Notas adicionales o errores
+    
+    usuario = db.relationship('Usuario', foreign_keys=[usuario_id])
+    
+    def __repr__(self):
+        return f'<AuditLog {self.accion} {self.tabla_afectada}[{self.registro_id}] por {self.usuario_nombre}>'
+    
+    def to_dict(self):
+        """Convierte el log a diccionario para visualización"""
+        return {
+            'id': self.id,
+            'timestamp': self.timestamp.isoformat() if self.timestamp else None,
+            'usuario_id': self.usuario_id,
+            'usuario_nombre': self.usuario_nombre,
+            'accion': self.accion,
+            'tabla_afectada': self.tabla_afectada,
+            'registro_id': self.registro_id,
+            'datos_antes': self.datos_antes,
+            'datos_despues': self.datos_despues,
+            'ip_address': self.ip_address,
+            'metodo_http': self.metodo_http,
+            'ruta': self.ruta,
+            'estado_respuesta': self.estado_respuesta,
+            'notas': self.notas
+        }

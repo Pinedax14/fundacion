@@ -52,8 +52,8 @@ def create_app(config_name=None):
     app.logger.info(f"Debug: {app.debug}")
     app.logger.info(f"Testing: {app.testing}")
     
-    # Registro de blueprints (irá aquí cuando refactoricemos las rutas)
-    # _register_blueprints(app)
+    # Registro de blueprints
+    _register_blueprints(app)
     
     # Contexto de aplicación para migraciones
     with app.app_context():
@@ -67,6 +67,11 @@ def create_app(config_name=None):
 def _register_blueprints(app):
     """
     Registra todos los blueprints de la aplicación
-    Esta función se ejecutará cuando convirtamos las rutas a Blueprints
     """
-    pass  # Será implementado en FASE 5
+    try:
+        # Blueprint de Auditoría (seguridad)
+        from app.rutas.auditoria import auditoria_bp
+        app.register_blueprint(auditoria_bp)
+        app.logger.info("Blueprint auditoría registrado")
+    except Exception as e:
+        app.logger.warning(f"Error registrando blueprint auditoría: {e}")

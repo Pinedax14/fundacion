@@ -7,6 +7,7 @@ import os
 import traceback
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, url_for, session, flash
+from app.models import Mascota
 from app.rutas.decoradores import admin_required_factory
 
 
@@ -44,6 +45,17 @@ class RutasAdmin:
         @self.app.route('/admin/panel')
         @self.admin_required
         def admin_panel():
+             if db.session.is_active:
+              db.session.rollback()
+    
+             try:
+                mascotas = Mascota.query.order_by(Mascota.estado.asc()).all()
+                return render_template('admin/mascotas.html', mascotas=mascotas)
+             except Exception as e:
+                db.session.rollback()
+                print(f"DB Error: {e}")  # Terminal debug
+                flash('Error cargando datos', 'error')
+                return redirect(url_for('home'))
             """
             Muestra el panel principal de administración
             Lista solicitudes de adopción y reportes de maltrato
