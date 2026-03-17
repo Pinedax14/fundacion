@@ -65,7 +65,7 @@
         {% for mascota in mascotas %}
             <div class="pet-card">
                 <a href="{{ url_for('detalle_mascota', mascota_id=mascota.id) if mascota.estado == 'Disponible' else '#' }}" class="stretched-link">
-                    <img src="{{ url_for('static', filename='images/' ~ mascota.nombre ~ '.jpg') }}" alt="Photo of {{ mascota.nombre }}" class="pet-card-image">
+                    <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}" alt="Photo of {{ mascota.nombre }}" class="pet-card-image">
                 </a>
                 <div class="pet-card-body">
                     <h4>{{ mascota.nombre }}</h4>

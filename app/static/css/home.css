@@ -6,7 +6,7 @@
     min-height: 70vh;
     border-radius: 1.5rem;
     overflow: hidden;
-    background-image: url("/static/images/fondo.jpg");
+    background-image: url("/static/images/fondos/fondo.jpg");
     background-size: cover;
     background-position: center;
     color: #ffffff;

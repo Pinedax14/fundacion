@@ -257,17 +257,17 @@ class RutasAdmin:
                     extension = ".jpg"
                     nombre_base = secure_filename(nombre.replace(" ", "_"))
                     nombre_archivo = f"{nombre_base}{extension}"
-                    ruta_guardado = os.path.join(self.app.static_folder, 'images', nombre_archivo)
+                    ruta_guardado = os.path.join(self.app.static_folder, 'images', 'mascotas', nombre_archivo)
 
                     # Evitar sobrescribir si el archivo ya existe
                     contador = 1
                     while os.path.exists(ruta_guardado):
                         nombre_archivo = f"{nombre_base}_{contador}{extension}"
-                        ruta_guardado = os.path.join(self.app.static_folder, 'images', nombre_archivo)
+                        ruta_guardado = os.path.join(self.app.static_folder, 'images', 'mascotas', nombre_archivo)
                         contador += 1
 
                     foto.save(ruta_guardado)
-                    foto_url = f'images/{nombre_archivo}'
+                    foto_url = f'images/mascotas/{nombre_archivo}'
 
                 try:
                     # Guardar mascota en BD

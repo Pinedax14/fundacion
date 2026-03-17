@@ -1,0 +1,222 @@
+[2026-03-17 10:43:16,499] INFO en app: Logging configurado correctamente
+[2026-03-17 10:43:16,499] INFO en app: Nivel de log: INFO
+[2026-03-17 10:43:16,500] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:43:16,500] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:43:16,500] INFO en app: Debug: True
+[2026-03-17 10:43:16,500] INFO en app: Testing: False
+[2026-03-17 10:43:18,724] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:48:28,424] INFO en app: Logging configurado correctamente
+[2026-03-17 10:48:28,425] INFO en app: Nivel de log: INFO
+[2026-03-17 10:48:28,425] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:48:28,426] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:48:28,426] INFO en app: Debug: True
+[2026-03-17 10:48:28,426] INFO en app: Testing: False
+[2026-03-17 10:48:30,218] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:49:30,802] INFO en app: Logging configurado correctamente
+[2026-03-17 10:49:30,802] INFO en app: Nivel de log: INFO
+[2026-03-17 10:49:30,803] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:49:30,803] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:49:30,803] INFO en app: Debug: True
+[2026-03-17 10:49:30,804] INFO en app: Testing: False
+[2026-03-17 10:49:32,580] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:50:55,538] INFO en app: Logging configurado correctamente
+[2026-03-17 10:50:55,539] INFO en app: Nivel de log: INFO
+[2026-03-17 10:50:55,539] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:50:55,539] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:50:55,539] INFO en app: Debug: True
+[2026-03-17 10:50:55,539] INFO en app: Testing: False
+[2026-03-17 10:50:57,173] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:51:18,329] INFO en app: Logging configurado correctamente
+[2026-03-17 10:51:18,329] INFO en app: Nivel de log: INFO
+[2026-03-17 10:51:18,329] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:51:18,329] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:51:18,329] INFO en app: Debug: True
+[2026-03-17 10:51:18,329] INFO en app: Testing: False
+[2026-03-17 10:51:20,173] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:51:21,088] INFO en app: Logging configurado correctamente
+[2026-03-17 10:51:21,088] INFO en app: Nivel de log: INFO
+[2026-03-17 10:51:21,088] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:51:21,088] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:51:21,088] INFO en app: Debug: True
+[2026-03-17 10:51:21,088] INFO en app: Testing: False
+[2026-03-17 10:51:22,885] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:51:58,579] INFO en app: Logging configurado correctamente
+[2026-03-17 10:51:58,579] INFO en app: Nivel de log: INFO
+[2026-03-17 10:51:58,579] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:51:58,579] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:51:58,579] INFO en app: Debug: True
+[2026-03-17 10:51:58,579] INFO en app: Testing: False
+[2026-03-17 10:52:00,207] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:52:01,131] INFO en app: Logging configurado correctamente
+[2026-03-17 10:52:01,132] INFO en app: Nivel de log: INFO
+[2026-03-17 10:52:01,132] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:52:01,132] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:52:01,132] INFO en app: Debug: True
+[2026-03-17 10:52:01,132] INFO en app: Testing: False
+[2026-03-17 10:52:03,310] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:53:12,744] INFO en app: Logging configurado correctamente
+[2026-03-17 10:53:12,744] INFO en app: Nivel de log: INFO
+[2026-03-17 10:53:12,744] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:53:12,745] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:53:12,745] INFO en app: Debug: True
+[2026-03-17 10:53:12,745] INFO en app: Testing: False
+[2026-03-17 10:53:14,477] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:53:15,404] INFO en app: Logging configurado correctamente
+[2026-03-17 10:53:15,404] INFO en app: Nivel de log: INFO
+[2026-03-17 10:53:15,404] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:53:15,405] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:53:15,405] INFO en app: Debug: True
+[2026-03-17 10:53:15,405] INFO en app: Testing: False
+[2026-03-17 10:53:17,050] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:54:20,222] INFO en app: Logging configurado correctamente
+[2026-03-17 10:54:20,222] INFO en app: Nivel de log: INFO
+[2026-03-17 10:54:20,222] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:54:20,222] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:54:20,223] INFO en app: Debug: True
+[2026-03-17 10:54:20,223] INFO en app: Testing: False
+[2026-03-17 10:54:20,242] INFO en app: Logging configurado correctamente
+[2026-03-17 10:54:20,242] INFO en app: Nivel de log: INFO
+[2026-03-17 10:54:20,242] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:54:20,243] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:54:20,243] INFO en app: Debug: True
+[2026-03-17 10:54:20,243] INFO en app: Testing: False
+[2026-03-17 10:54:22,043] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:54:22,078] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:55:21,772] INFO en app: Logging configurado correctamente
+[2026-03-17 10:55:21,773] INFO en app: Nivel de log: INFO
+[2026-03-17 10:55:21,773] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:55:21,773] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:55:21,774] INFO en app: Debug: True
+[2026-03-17 10:55:21,774] INFO en app: Testing: False
+[2026-03-17 10:55:23,669] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:55:24,595] INFO en app: Logging configurado correctamente
+[2026-03-17 10:55:24,595] INFO en app: Nivel de log: INFO
+[2026-03-17 10:55:24,596] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:55:24,596] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:55:24,596] INFO en app: Debug: True
+[2026-03-17 10:55:24,596] INFO en app: Testing: False
+[2026-03-17 10:55:26,339] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:56:22,558] INFO en app: Logging configurado correctamente
+[2026-03-17 10:56:22,559] INFO en app: Nivel de log: INFO
+[2026-03-17 10:56:22,559] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:56:22,559] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:56:22,559] INFO en app: Debug: True
+[2026-03-17 10:56:22,559] INFO en app: Testing: False
+[2026-03-17 10:56:24,313] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 10:56:25,192] INFO en app: Logging configurado correctamente
+[2026-03-17 10:56:25,193] INFO en app: Nivel de log: INFO
+[2026-03-17 10:56:25,193] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 10:56:25,193] INFO en app: Aplicación creada con config: development
+[2026-03-17 10:56:25,193] INFO en app: Debug: True
+[2026-03-17 10:56:25,193] INFO en app: Testing: False
+[2026-03-17 10:56:26,992] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:01:24,464] INFO en app: Logging configurado correctamente
+[2026-03-17 11:01:24,464] INFO en app: Nivel de log: INFO
+[2026-03-17 11:01:24,464] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:01:24,464] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:01:24,464] INFO en app: Debug: True
+[2026-03-17 11:01:24,464] INFO en app: Testing: False
+[2026-03-17 11:01:26,273] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:01:53,695] INFO en app: Logging configurado correctamente
+[2026-03-17 11:01:53,696] INFO en app: Nivel de log: INFO
+[2026-03-17 11:01:53,696] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:01:53,696] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:01:53,697] INFO en app: Debug: True
+[2026-03-17 11:01:53,697] INFO en app: Testing: False
+[2026-03-17 11:01:53,698] INFO en app: Logging configurado correctamente
+[2026-03-17 11:01:53,698] INFO en app: Nivel de log: INFO
+[2026-03-17 11:01:53,698] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:01:53,698] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:01:53,698] INFO en app: Debug: True
+[2026-03-17 11:01:53,699] INFO en app: Testing: False
+[2026-03-17 11:01:53,698] INFO en app: Logging configurado correctamente
+[2026-03-17 11:01:53,699] INFO en app: Nivel de log: INFO
+[2026-03-17 11:01:53,699] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:01:53,699] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:01:53,699] INFO en app: Debug: True
+[2026-03-17 11:01:53,700] INFO en app: Testing: False
+[2026-03-17 11:01:55,367] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:01:55,417] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:01:55,497] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:02:28,707] INFO en app: Logging configurado correctamente
+[2026-03-17 11:02:28,707] INFO en app: Nivel de log: INFO
+[2026-03-17 11:02:28,707] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:02:28,707] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:02:28,707] INFO en app: Debug: True
+[2026-03-17 11:02:28,707] INFO en app: Testing: False
+[2026-03-17 11:02:31,249] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:03:49,389] INFO en app: Logging configurado correctamente
+[2026-03-17 11:03:49,390] INFO en app: Nivel de log: INFO
+[2026-03-17 11:03:49,390] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:03:49,390] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:03:49,390] INFO en app: Debug: True
+[2026-03-17 11:03:49,390] INFO en app: Testing: False
+[2026-03-17 11:03:49,390] INFO en app: Logging configurado correctamente
+[2026-03-17 11:03:49,390] INFO en app: Logging configurado correctamente
+[2026-03-17 11:03:49,390] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:03:49,390] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:03:49,391] INFO en app: Nivel de log: INFO
+[2026-03-17 11:03:49,391] INFO en app: Debug: True
+[2026-03-17 11:03:49,391] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:03:49,391] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:03:49,391] INFO en app: Debug: True
+[2026-03-17 11:03:49,391] INFO en app: Testing: False
+[2026-03-17 11:03:51,002] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:03:51,084] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:03:51,127] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:03:55,613] INFO en app: Logging configurado correctamente
+[2026-03-17 11:03:55,613] INFO en app: Nivel de log: INFO
+[2026-03-17 11:03:55,613] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:03:55,613] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:03:55,613] INFO en app: Debug: True
+[2026-03-17 11:03:55,613] INFO en app: Testing: False
+[2026-03-17 11:03:58,105] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:16,999] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:16,999] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:17,000] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:17,000] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:17,000] INFO en app: Debug: True
+[2026-03-17 11:04:17,000] INFO en app: Testing: False
+[2026-03-17 11:04:17,008] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:17,008] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:17,009] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:17,009] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:17,009] INFO en app: Debug: True
+[2026-03-17 11:04:17,009] INFO en app: Testing: False
+[2026-03-17 11:04:17,020] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:17,021] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:17,021] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:17,021] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:17,021] INFO en app: Debug: True
+[2026-03-17 11:04:17,021] INFO en app: Testing: False
+[2026-03-17 11:04:18,620] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:18,753] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:18,896] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:25,946] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:25,946] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:25,946] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:25,946] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:25,947] INFO en app: Debug: True
+[2026-03-17 11:04:25,947] INFO en app: Testing: False
+[2026-03-17 11:04:30,799] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:33,738] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:33,739] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:33,739] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:33,739] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:33,739] INFO en app: Debug: True
+[2026-03-17 11:04:33,739] INFO en app: Testing: False
+[2026-03-17 11:04:33,796] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:33,796] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:33,796] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:33,796] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:33,796] INFO en app: Debug: True
+[2026-03-17 11:04:33,796] INFO en app: Testing: False
+[2026-03-17 11:04:34,015] INFO en app: Logging configurado correctamente
+[2026-03-17 11:04:34,015] INFO en app: Nivel de log: INFO
+[2026-03-17 11:04:34,015] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-03-17 11:04:34,015] INFO en app: Aplicación creada con config: development
+[2026-03-17 11:04:34,015] INFO en app: Debug: True
+[2026-03-17 11:04:34,015] INFO en app: Testing: False
+[2026-03-17 11:04:35,501] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:35,556] INFO en app: Tablas de BD verificadas/creadas
+[2026-03-17 11:04:35,720] INFO en app: Tablas de BD verificadas/creadas

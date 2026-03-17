@@ -365,7 +365,7 @@ class RutasAuth:
             mensaje.attach(MIMEText(cuerpo_html, 'html'))
 
             # Adjuntar logo de la fundación
-            with open("app/static/images/logo.jpg", "rb") as f:
+            with open("app/static/images/logos/logo.jpg", "rb") as f:
                 imagen = MIMEImage(f.read())
                 imagen.add_header('Content-ID', '<logo_fundacion>')
                 imagen.add_header('Content-Disposition', 'inline', filename="logo.jpg")
