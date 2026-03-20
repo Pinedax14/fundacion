@@ -223,7 +223,7 @@ def registrar_rutas_auth(app):
     def editar_perfil():
         """
         GET: Muestra formulario de edición de perfil
-        POST: Actualiza los datos del usuario
+        POST: Actualiza los datos del usuario (nombre, foto de perfil)
         """
         if 'usuario_id' not in session:
             flash('Debes iniciar sesión.', 'warning')
@@ -238,15 +238,45 @@ def registrar_rutas_auth(app):
         if request.method == 'POST':
             try:
                 nombre = request.form.get('nombre', '').strip()
-                
-                if not nombre:
-                    msg = 'El nombre no puede estar vacío.'
-                else:
+                foto_file = request.files.get('foto_perfil')
+
+                # Procesar foto de perfil si se subió
+                if foto_file and foto_file.filename != '':
+                    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+                    filename_parts = foto_file.filename.rsplit('.', 1)
+                    if len(filename_parts) > 1:
+                        extension = filename_parts[1].lower()
+                        if extension not in allowed_extensions:
+                            msg = 'Solo se permiten imágenes (png, jpg, jpeg, gif)'
+                        else:
+                            # Generar nombre único para la foto
+                            import uuid
+                            filename = f"{uuid.uuid4().hex}.{extension}"
+                            upload_folder = os.path.join(os.getcwd(), 'app', 'static', 'uploads', 'perfiles')
+
+                            if not os.path.exists(upload_folder):
+                                os.makedirs(upload_folder)
+
+                            filepath = os.path.join(upload_folder, filename)
+                            foto_file.save(filepath)
+                            usuario.foto_perfil = filename
+                            msg = 'Foto de perfil actualizada exitosamente!'
+                    else:
+                        msg = 'Archivo de imagen inválido'
+
+                # Actualizar nombre si se cambió
+                if nombre and nombre != usuario.nombre:
                     usuario.nombre = nombre
-                    db.session.commit()
                     session['usuario_nombre'] = nombre
-                    flash('Perfil actualizado exitosamente!', 'success')
-                    return redirect(url_for('perfil'))
+                    if not msg:
+                        msg = 'Perfil actualizado exitosamente!'
+
+                if not msg:
+                    msg = 'No se realizaron cambios.'
+
+                db.session.commit()
+                flash(msg, 'success')
+                return redirect(url_for('perfil'))
             except Exception as e:
                 db.session.rollback()
                 app.logger.error(f"Error actualizando perfil: {e}")

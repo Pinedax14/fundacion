@@ -59,7 +59,7 @@ class RutasReportes:
 
                 # Validar y guardar la imagen si se subió
                 foto_evidencia_url = None
-                if foto_evidencia and self.conexion.allowed_file(foto_evidencia.filename, self.app):
+                if foto_evidencia and self.conexion.allowed_file(foto_evidencia.filename):
                     # Asegurar que el nombre de archivo sea seguro
                     filename = secure_filename(foto_evidencia.filename)
                     filepath = os.path.join(self.app.config['UPLOAD_FOLDER'], filename)
@@ -69,17 +69,21 @@ class RutasReportes:
                     flash('El archivo de imagen no es válido o no se ha subido. Se creará el reporte sin foto.', 'warning')
 
                 try:
-                    # Guardar reporte en BD
+                    # Guardar reporte en BD (anónimo, sin usuario_id)
+                    
                     cur = self.conexion.get_cursor()
                     cur.execute("""
                         INSERT INTO reportes (ubicacion, descripcion_incidente, foto_evidencia_url, estado_reporte)
                         VALUES (%s, %s, %s, 'recibido')
+                        RETURNING id
                     """, (ubicacion, descripcion, foto_evidencia_url))
+                    reporte_id = cur.fetchone()[0]
                     self.conexion.commit()
                     cur.close()
 
-                    flash('¡Reporte enviado con éxito! Gracias por tu colaboración.', 'success')
+                    flash(f'¡Reporte enviado con éxito! ID del reporte: {reporte_id}. Gracias por tu colaboración.', 'success')
                 except Exception as e:
+                    self.conexion.rollback()
                     flash(f'Ocurrió un error al guardar el reporte: {e}', 'danger')
                     return redirect(url_for('reporte'))
 

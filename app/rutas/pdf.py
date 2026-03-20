@@ -127,7 +127,7 @@ class RutasPDF:
         Solo accessibles por administradores
         """
         try:
-            cursor = self.conexion.mysql.connection.cursor()
+            cursor = self.conexion.get_cursor()
             cursor.execute("""
                 SELECT id, nombre_donante, contacto_email, tipo_donacion,
                        descripcion_donacion, fecha_donacion, estado_entrega

@@ -163,8 +163,9 @@
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Telefono</th>
-                                <th>Dias</th>
+                                <th>Teléfono</th>
+                                <th>Días</th>
+                                <th>Horario</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -174,33 +175,29 @@
                             {% for voluntariado in solicitudes_voluntariado %}
                             <tr>
                                 <td>{{ voluntariado.id }}</td>
-                                <td>{{ donacion.nombre_donante }}</td>
-                                <td>{{ donacion.contacto_email }}</td>
-                                <td>{{ donacion.tipo_donacion }}</td>
-                                <td>{{ donacion.descripcion_donacion }}</td>
-                                <td>{{ donacion.fecha_donacion }}</td>
+                                <td>{{ voluntariado.nombre_completo }}</td>
+                                <td>{{ voluntariado.correo }}</td>
+                                <td>{{ voluntariado.telefono }}</td>
+                                <td>{{ voluntariado.franja_dias }}</td>
+                                <td>{{ voluntariado.franja_horaria }}</td>
+                                <td>{{ voluntariado.fecha_solicitud.strftime('%Y-%m-%d') }}</td>
                                 <td>
-                                    <span class="badge {{ 'bg-success' if donacion.estado_entrega|lower == 'recibido' else 'bg-warning text-dark' }}">
-                                        {{ donacion.estado_entrega|capitalize }}
+                                    <span class="badge {{ 'bg-success' if voluntariado.estado|lower == 'aprobada' else 'bg-warning text-dark' if voluntariado.estado|lower == 'pendiente' else 'bg-danger' }}">
+                                        {{ voluntariado.estado|capitalize }}
                                     </span>
                                 </td>
                                 <td>
-                                    {% if donacion.estado_entrega|lower == 'pendiente' %}
-                                        <form method="POST" action="{{ url_for('recibir_donacion') }}" class="d-inline">
-                                            <input type="hidden" name="donacion_id" value="{{ donacion.id }}">
-                                            <button type="submit" class="btn btn-success btn-sm">
-                                                Recibir
-                                            </button>
-                                        </form>
+                                    {% if voluntariado.estado|lower == 'pendiente' %}
+                                        <span class="text-muted">Pendiente de revisión</span>
                                     {% else %}
-                                        <span class="text-success">Recibida</span>
+                                        <span class="text-success">{{ voluntariado.estado|capitalize }}</span>
                                     {% endif %}
                                 </td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="8" class="text-center p-4">
-                                    No hay donaciones registradas.
+                                <td colspan="9" class="text-center p-4">
+                                    No hay solicitudes de voluntariado.
                                 </td>
                             </tr>
                             {% endfor %}

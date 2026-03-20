@@ -18,12 +18,12 @@ class Usuario(db.Model):
     password = db.Column(db.String(255), nullable=False)
     rol = db.Column(db.String(20), default='user', nullable=False)  # 'user', 'admin'
     verified = db.Column(db.Boolean, default=False)
+    foto_perfil = db.Column(db.String(255))  # URL o nombre del archivo de foto de perfil
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relaciones
     solicitudes_adopcion = db.relationship('SolicitudAdopcion', back_populates='usuario', cascade='all, delete-orphan')
-    reportes = db.relationship('Reporte', back_populates='usuario', cascade='all, delete-orphan')
     voluntariados = db.relationship('Voluntariado', back_populates='usuario', cascade='all, delete-orphan')
     
     def __repr__(self):
@@ -58,14 +58,14 @@ class SolicitudAdopcion(db.Model):
     __tablename__ = 'solicitudes_adopcion'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    mascota_id = db.Column(db.Integer, db.ForeignKey('mascotas.id'), nullable=False)
+    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    mascota_id = db.Column('id_mascota', db.Integer, db.ForeignKey('mascotas.id'), nullable=False)
     mensaje = db.Column(db.Text)
     direccion = db.Column(db.String(255))
     telefono = db.Column(db.String(20))
     ingresos = db.Column(db.Integer)
     estrato_social = db.Column(db.Integer)  # 1-6
-    estado = db.Column(db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
+    estado = db.Column('estado_solicitud', db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
     fecha_solicitud = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     nombre_mascota = db.Column(db.String(120))  # Denormalizado para queries
@@ -83,16 +83,12 @@ class Reporte(db.Model):
     __tablename__ = 'reportes'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     ubicacion = db.Column(db.String(255), nullable=False)
     descripcion_incidente = db.Column(db.Text, nullable=False)
     foto_evidencia_url = db.Column(db.String(255))
-    estado = db.Column(db.String(50), default='recibido', nullable=False)  # recibido, en_proceso, resuelto
+    estado = db.Column('estado_reporte', db.String(50), default='recibido', nullable=False)  # recibido, en_proceso, resuelto
     fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
-    # Relaciones
-    usuario = db.relationship('Usuario', back_populates='reportes')
     
     def __repr__(self):
         return f'<Reporte {self.ubicacion}>'
@@ -103,7 +99,7 @@ class Voluntariado(db.Model):
     __tablename__ = 'voluntariados'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     dias_disponibles = db.Column(db.String(255))  # JSON o string separado por comas
     franjas_horarias = db.Column(db.String(255))  # JSON o string
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
@@ -121,7 +117,7 @@ class VerificacionEmail(db.Model):
     __tablename__ = 'verificaciones_email'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     codigo = db.Column(db.String(10), unique=True, nullable=False, index=True)
     usado = db.Column(db.Boolean, default=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
@@ -146,6 +142,50 @@ class Donacion(db.Model):
         return f'<Donacion ${self.cantidad} {self.moneda}>'
 
 
+class SolicitudVoluntariado(db.Model):
+    """Modelo de Solicitud de Voluntariado
+    
+    Captura solicitudes de personas que quieren ser voluntarios.
+    """
+    __tablename__ = 'solicitudes_voluntariado'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nombre_completo = db.Column(db.String(120), nullable=False)
+    correo = db.Column(db.String(120), nullable=False)
+    telefono = db.Column(db.String(20), nullable=False)
+    franja_dias = db.Column(db.String(50), nullable=False)  # fines_semana, entre_semana, flexible
+    dias_semana = db.Column(db.String(255), nullable=False)  # JSON o string: "lunes, miercoles, viernes"
+    franja_horaria = db.Column(db.String(50), nullable=False)  # manana_8_14, tarde_14_20, noche_20_22
+    motivo_voluntariado = db.Column(db.Text, nullable=False)
+    estado = db.Column(db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
+    fecha_solicitud = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'<SolicitudVoluntariado {self.nombre_completo}>'
+
+
+class Item_Donacion(db.Model):
+    """Modelo de Items de Donación
+    
+    Describe los artículos específicos donados en una donación.
+    """
+    __tablename__ = 'donaciones_items'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nombre_donante = db.Column(db.String(120), nullable=False)
+    contacto_email = db.Column(db.String(120))
+    tipo_donacion = db.Column(db.String(100), nullable=False)  # alimento, juguete, medicinas, etc
+    descripcion_donacion = db.Column(db.Text)
+    fecha_donacion = db.Column(db.DateTime, default=datetime.utcnow)
+    estado_entrega = db.Column(db.String(50), default='pendiente')  # pendiente, entregado, cancelado
+    cantidad = db.Column(db.Integer, nullable=False, default=1)
+    valor_unitario = db.Column(db.Float)
+    
+    def __repr__(self):
+        return f'<Item_Donacion {self.tipo_donacion}>'
+
+
 class AuditLog(db.Model):
     """Modelo de Registro de Auditoría
     
@@ -155,19 +195,15 @@ class AuditLog(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
+    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
     usuario_nombre = db.Column(db.String(120))  # Desnormalizado por si se elimina usuario
     accion = db.Column(db.String(20), nullable=False)  # INSERT, UPDATE, DELETE
-    tabla_afectada = db.Column(db.String(50), nullable=False, index=True)
+    tabla = db.Column(db.String(50), nullable=False, index=True)
     registro_id = db.Column(db.Integer, nullable=False, index=True)  # PK del registro modificado
-    datos_antes = db.Column(db.JSON)  # Dict con valores anteriores (para UPDATE/DELETE)
-    datos_despues = db.Column(db.JSON)  # Dict con valores nuevos (para INSERT/UPDATE)
+    datos_anteriores = db.Column(db.JSON)  # Dict con valores anteriores (para UPDATE/DELETE)
+    datos_nuevos = db.Column(db.JSON)  # Dict con valores nuevos (para INSERT/UPDATE)
     ip_address = db.Column(db.String(45))  # IPv4 o IPv6
     user_agent = db.Column(db.String(500))
-    metodo_http = db.Column(db.String(10))  # GET, POST, PUT, DELETE
-    ruta = db.Column(db.String(255))  # Ej: /admin/editar_mascota
-    estado_respuesta = db.Column(db.Integer)  # HTTP status code (200, 500, etc)
-    notas = db.Column(db.Text)  # Notas adicionales o errores
     
     usuario = db.relationship('Usuario', foreign_keys=[usuario_id])
     

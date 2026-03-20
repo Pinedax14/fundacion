@@ -7,7 +7,6 @@ import os
 import traceback
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, url_for, session, flash
-from app.models import Mascota
 from app.rutas.decoradores import admin_required_factory
 
 
@@ -45,43 +44,45 @@ class RutasAdmin:
         @self.app.route('/admin/panel')
         @self.admin_required
         def admin_panel():
-             if db.session.is_active:
-              db.session.rollback()
-    
-             try:
-                mascotas = Mascota.query.order_by(Mascota.estado.asc()).all()
-                return render_template('admin/mascotas.html', mascotas=mascotas)
-             except Exception as e:
-                db.session.rollback()
-                print(f"DB Error: {e}")  # Terminal debug
-                flash('Error cargando datos', 'error')
-                return redirect(url_for('home'))
+            
             """
             Muestra el panel principal de administración
             Lista solicitudes de adopción y reportes de maltrato
             Solo accesible para administradores
             """
-            cursor = self.conexion.get_cursor()
+            try:
+                from sqlalchemy import text
+                from app import db
+                
+                # Obtener solicitudes pendientes y en proceso
+                query_solicitudes = """
+                    SELECT s.id, u.nombre AS usuario_nombre, m.nombre AS mascota_nombre,
+                           s.fecha_solicitud, s.estado_solicitud
+                    FROM solicitudes_adopcion s
+                    JOIN usuarios u ON s.id_usuario = u.id
+                    JOIN mascotas m ON s.id_mascota = m.id
+                    ORDER BY s.fecha_solicitud DESC
+                """
+                solicitudes_result = db.session.execute(text(query_solicitudes))
+                solicitudes = solicitudes_result.fetchall()
+                print(f"DEBUG: Encontradas {len(solicitudes)} solicitudes en la BD")
 
-            # Obtener solicitudes pendientes y en proceso
-            query_solicitudes = """
-                SELECT s.id, u.nombre AS usuario_nombre, m.nombre AS mascota_nombre,
-                       s.fecha_solicitud, s.estado_solicitud
-                FROM solicitudes_adopcion s
-                JOIN usuarios u ON s.id_usuario = u.id
-                JOIN mascotas m ON s.id_mascota = m.id
-                WHERE TRIM(LOWER(s.estado_solicitud)) IN ('pendiente', 'en proceso')
-                ORDER BY s.fecha_solicitud DESC
-            """
-            cursor.execute(query_solicitudes)
-            solicitudes = cursor.fetchall()
+                # Obtener todos los reportes
+                reportes_result = db.session.execute(text("SELECT * FROM reportes ORDER BY fecha_reporte DESC"))
+                reportes = reportes_result.fetchall()
+                print(f"DEBUG: Encontrados {len(reportes)} reportes en la BD")
 
-            # Obtener todos los reportes
-            cursor.execute("SELECT * FROM reportes ORDER BY fecha_reporte DESC")
-            reportes = cursor.fetchall()
-
-            cursor.close()
-            return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes)
+                # Obtener solicitudes de voluntariado
+                voluntariado_result = db.session.execute(text("SELECT * FROM solicitudes_voluntariado ORDER BY fecha_solicitud DESC"))
+                solicitudes_voluntariado = voluntariado_result.fetchall()
+                print(f"DEBUG: Encontradas {len(solicitudes_voluntariado)} solicitudes de voluntariado en la BD")
+                
+                return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes, solicitudes_voluntariado=solicitudes_voluntariado)
+            except Exception as e:
+                print(f"ERROR en admin_panel: {e}")  # Debug
+                db.session.rollback()
+                flash(f'Error al cargar panel: {e}', 'danger')
+                return render_template('admin/admin_panel.html', solicitudes=[], reportes=[], solicitudes_voluntariado=[])
 
         @self.app.route('/admin/detalle_solicitud/<int:solicitud_id>')
         @self.admin_required
@@ -93,24 +94,29 @@ class RutasAdmin:
             Args:
                 solicitud_id: ID de la solicitud
             """
-            cursor = self.conexion.get_cursor()
-            query = """
-                SELECT s.*, u.nombre AS usuario_nombre, u.email AS usuario_email,
-                       m.nombre AS mascota_nombre, m.foto_url AS mascota_foto
-                FROM solicitudes_adopcion s
-                JOIN usuarios u ON s.id_usuario = u.id
-                JOIN mascotas m ON s.id_mascota = m.id
-                WHERE s.id = %s
-            """
-            cursor.execute(query, [solicitud_id])
-            solicitud = cursor.fetchone()
-            cursor.close()
+            try:
+                cursor = self.conexion.get_cursor()
+                query = """
+                    SELECT s.*, u.nombre AS usuario_nombre, u.email AS usuario_email,
+                           m.nombre AS mascota_nombre, m.foto_url AS mascota_foto
+                    FROM solicitudes_adopcion s
+                    JOIN usuarios u ON s.id_usuario = u.id
+                    JOIN mascotas m ON s.id_mascota = m.id
+                    WHERE s.id = %s
+                """
+                cursor.execute(query, [solicitud_id])
+                solicitud = cursor.fetchone()
+                cursor.close()
 
-            if solicitud:
-                return render_template('admin/detalle_solicitud.html', solicitud=solicitud)
+                if solicitud:
+                    return render_template('admin/detalle_solicitud.html', solicitud=solicitud)
 
-            flash('Solicitud no encontrada.', 'danger')
-            return redirect(url_for('admin_panel'))
+                flash('Solicitud no encontrada.', 'danger')
+                return redirect(url_for('admin_panel'))
+            except Exception as e:
+                self.conexion.rollback()
+                flash(f'Error al cargar solicitud: {e}', 'danger')
+                return redirect(url_for('admin_panel'))
 
         @self.app.route('/admin/respuesta_solicitud/<int:solicitud_id>', methods=['POST'])
         @self.admin_required
@@ -154,6 +160,7 @@ class RutasAdmin:
                 return redirect(url_for('admin_panel'))
 
             except Exception as e:
+                self.conexion.rollback()
                 flash(f'Ocurrió un error de base de datos: {e}', 'danger')
                 return redirect(url_for('admin_panel'))
 
@@ -166,16 +173,21 @@ class RutasAdmin:
             Args:
                 reporte_id: ID del reporte
             """
-            cursor = self.conexion.get_cursor()
-            cursor.execute("SELECT * FROM reportes WHERE id = %s", [reporte_id])
-            reporte = cursor.fetchone()
-            cursor.close()
+            try:
+                cursor = self.conexion.get_cursor()
+                cursor.execute("SELECT * FROM reportes WHERE id = %s", [reporte_id])
+                reporte = cursor.fetchone()
+                cursor.close()
 
-            if not reporte:
-                flash('El reporte no fue encontrado.', 'warning')
+                if not reporte:
+                    flash('El reporte no fue encontrado.', 'warning')
+                    return redirect(url_for('admin_panel'))
+
+                return render_template('admin/detalle_reporte.html', reporte=reporte)
+            except Exception as e:
+                self.conexion.rollback()
+                flash(f'Error al cargar reporte: {e}', 'danger')
                 return redirect(url_for('admin_panel'))
-
-            return render_template('admin/detalle_reporte.html', reporte=reporte)
 
         @self.app.route('/reporte/resolver/<int:reporte_id>', methods=['POST'])
         @self.admin_required
@@ -193,6 +205,7 @@ class RutasAdmin:
                 cur.close()
                 flash('El reporte ha sido marcado como resuelto.', 'success')
             except Exception as e:
+                self.conexion.rollback()
                 flash(f'Error al actualizar el reporte: {e}', 'danger')
             return redirect(url_for('admin_panel'))
 
@@ -219,15 +232,16 @@ class RutasAdmin:
                         if os.path.exists(ruta_foto):
                             os.remove(ruta_foto)
                     except Exception as e:
-                        print(f"No se pudo eliminar el archivo de imagen: {e}")
+                        self.app.logger.warning(f"No se pudo eliminar el archivo de imagen: {e}")
 
                 # Eliminar reporte de BD
                 cursor.execute("DELETE FROM reportes WHERE id = %s", [reporte_id])
                 self.conexion.commit()
                 cursor.close()
 
-                flash('El reporte ha been eliminado correctamente.', 'success')
+                flash('El reporte ha sido eliminado correctamente.', 'success')
             except Exception as e:
+                self.conexion.rollback()
                 flash(f'Error al eliminar el reporte: {e}', 'danger')
             return redirect(url_for('admin_panel'))
 
@@ -296,9 +310,8 @@ class RutasAdmin:
                     return redirect(url_for('admin_panel'))
 
                 except Exception as e:
-                    print(f"\n=== DEBUG ERROR: Traceback completo ===")
-                    traceback.print_exc()
-                    print(f"=== Fin del error ===\n")
+                    self.conexion.rollback()
+                    self.app.logger.error(f"\n=== DEBUG ERROR: {str(e)} ===\n")
                     flash(f'Ocurrió un error al agregar la mascota: {e}', 'danger')
                     return redirect(url_for('ingresar_mascota'))
 

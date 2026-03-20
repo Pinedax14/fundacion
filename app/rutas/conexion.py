@@ -41,17 +41,36 @@ class LegacyCursor:
     def execute(self, query, params=None):
         """Ejecuta una query SQL usando SQLAlchemy raw SQL"""
         try:
-            from sqlalchemy import text
-            if params:
-                # Convertir lista a tupla si es necesario
-                if isinstance(params, (list, tuple)):
-                    # parametrizar la query
-                    result = self.db.session.execute(text(query), params if isinstance(params, dict) else {f'param_{i}': p for i, p in enumerate(params)})
-                else:
-                    result = self.db.session.execute(text(query), params)
-            else:
+            from sqlalchemy import text, bindparam
+            
+            if not params:
+                # Sin parámetros
                 result = self.db.session.execute(text(query))
+            else:
+                # Con parámetros - usar bindparams para compatibilidad
+                # Convertir %s a :param_0, :param_1, etc
+                import re
+                
+                if isinstance(params, (list, tuple)):
+                    # Crear parámetros nombrados
+                    query_with_params = query
+                    param_dict = {}
+                    
+                    # Reemplazar cada %s con :param_i
+                    for i, param in enumerate(params):
+                        query_with_params = query_with_params.replace('%s', f':param_{i}', 1)
+                        param_dict[f'param_{i}'] = param
+                    
+                    result = self.db.session.execute(text(query_with_params), param_dict)
+                else:
+                    # Ya es un diccionario
+                    result = self.db.session.execute(text(query), params)
+            
             self.result = result
+            # Para INSERT/UPDATE/DELETE, no mantener el result ya que se cierra automáticamente,
+            # excepto si tienen RETURNING
+            if query.strip().upper().startswith(('INSERT', 'UPDATE', 'DELETE')) and 'RETURNING' not in query.upper():
+                self.result = None
             return self
         except Exception as e:
             print(f"Error en query: {str(e)}")

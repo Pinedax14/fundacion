@@ -5,6 +5,7 @@ Contiene las rutas públicas principales de la fundación
 
 from flask import render_template, request, redirect, url_for, flash, g, session
 from app.rutas.decoradores import admin_required_factory
+from app.models import db, Usuario
 
 
 class RutasHome:
@@ -45,28 +46,26 @@ class RutasHome:
             Hook que se ejecuta antes de cada request.
             Carga los datos del usuario logueado en g.usuario si existe sesión.
             Omite esto para archivos estáticos.
+            Usa ORM en lugar de SQL raw para evitar errores de transacción.
             """
             # No procesar para archivos estáticos
             if request.path.startswith('/static/'):
                 return
 
-            # Si hay sesión, cargar usuario desde BD
+            # Si hay sesión, cargar usuario desde BD usando ORM
             if 'loggedin' in session:
                 user_id = session.get('id')
 
                 if user_id is not None:
-                    cursor = self.conexion.get_cursor()
                     try:
-                        cursor.execute(
-                            'SELECT * FROM usuarios WHERE id = %s',
-                            (user_id,)
-                        )
-                        g.usuario = cursor.fetchone()
+                        # Usar ORM directo en lugar de SQL raw
+                        usuario = Usuario.query.get(user_id)
+                        g.usuario = usuario
                     except Exception as e:
                         print(f"Error al cargar usuario: {e}")
+                        # Rollback para limpiar la transacción fallida
+                        db.session.rollback()
                         g.usuario = None
-                    finally:
-                        cursor.close()
                 else:
                     g.usuario = None
             else:
@@ -79,36 +78,41 @@ class RutasHome:
             POST: Procesa la solicitud de voluntariado y la guarda en BD
             """
             if request.method == 'POST':
-                # Obtener datos del formulario
-                nombre = request.form.get('nombre_completo')
-                correo = request.form.get('correo')
-                telefono = request.form.get('telefono')
-                franja_dias = request.form.get('franja_dias')          # fines_semana/entre_semana
-                dias_semana = request.form.getlist('dias_semana')      # múltiples checkboxes
-                franja_horaria = request.form.get('franja_horaria')    # manana_8_14/tarde_15_19
-                motivo = request.form.get('motivo_voluntariado')
+                try:
+                    # Obtener datos del formulario
+                    nombre = request.form.get('nombre_completo')
+                    correo = request.form.get('correo')
+                    telefono = request.form.get('telefono')
+                    franja_dias = request.form.get('franja_dias')          # fines_semana/entre_semana
+                    dias_semana = request.form.getlist('dias_semana')      # múltiples checkboxes
+                    franja_horaria = request.form.get('franja_horaria')    # manana_8_14/tarde_15_19
+                    motivo = request.form.get('motivo_voluntariado')
 
-                # Convertir lista de días a string
-                dias_semana_texto = ", ".join(dias_semana) if dias_semana else None
+                    # Convertir lista de días a string
+                    dias_semana_texto = ", ".join(dias_semana) if dias_semana else None
 
-                # Validaciones básicas
-                if not nombre or not correo or not telefono or not franja_dias or not franja_horaria or not motivo:
-                    flash('Por favor, completa todos los campos obligatorios.', 'warning')
+                    # Validaciones básicas
+                    if not nombre or not correo or not telefono or not franja_dias or not franja_horaria or not motivo:
+                        flash('Por favor, completa todos los campos obligatorios.', 'warning')
+                        return render_template('home/voluntariado.html')
+
+                    # Guardar en la base de datos
+                    cur = self.conexion.get_cursor()
+                    sql = """
+                    INSERT INTO solicitudes_voluntariado
+                        (nombre_completo, correo, telefono, franja_dias, dias_semana, franja_horaria, motivo_voluntariado, estado)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, 'pendiente')
+                    """
+                    cur.execute(sql, (nombre, correo, telefono, franja_dias, dias_semana_texto, franja_horaria, motivo))
+                    self.conexion.commit()
+                    cur.close()
+
+                    flash('¡Gracias por querer ser voluntario! Pronto nos pondremos en contacto contigo.', 'success')
+                    return redirect(url_for('home'))
+                except Exception as e:
+                    self.conexion.rollback()
+                    flash(f'Error al procesar solicitud de voluntariado: {e}', 'danger')
                     return render_template('home/voluntariado.html')
-
-                # Guardar en la base de datos
-                cur = self.conexion.get_cursor()
-                sql = """
-                INSERT INTO solicitudes_voluntariado
-                    (nombre_completo, correo, telefono, franja_dias, dias_semana, franja_horaria, motivo_voluntariado)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """
-                cur.execute(sql, (nombre, correo, telefono, franja_dias, dias_semana_texto, franja_horaria, motivo))
-                self.conexion.commit()
-                cur.close()
-
-                flash('¡Gracias por querer ser voluntario! Pronto nos pondremos en contacto contigo.', 'success')
-                return redirect(url_for('home'))
 
             return render_template('home/voluntariado.html')
 
