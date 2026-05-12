@@ -99,7 +99,7 @@ class Voluntariado(db.Model):
     __tablename__ = 'voluntariados'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     dias_disponibles = db.Column(db.String(255))  # JSON o string separado por comas
     franjas_horarias = db.Column(db.String(255))  # JSON o string
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
@@ -117,7 +117,7 @@ class VerificacionEmail(db.Model):
     __tablename__ = 'verificaciones_email'
     
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     codigo = db.Column(db.String(10), unique=True, nullable=False, index=True)
     usado = db.Column(db.Boolean, default=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
@@ -195,15 +195,19 @@ class AuditLog(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
-    usuario_id = db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
     usuario_nombre = db.Column(db.String(120))  # Desnormalizado por si se elimina usuario
     accion = db.Column(db.String(20), nullable=False)  # INSERT, UPDATE, DELETE
-    tabla = db.Column(db.String(50), nullable=False, index=True)
+    tabla_afectada = db.Column('tabla_afectada', db.String(50), nullable=False, index=True)
     registro_id = db.Column(db.Integer, nullable=False, index=True)  # PK del registro modificado
-    datos_anteriores = db.Column(db.JSON)  # Dict con valores anteriores (para UPDATE/DELETE)
-    datos_nuevos = db.Column(db.JSON)  # Dict con valores nuevos (para INSERT/UPDATE)
+    datos_antes = db.Column('datos_antes', db.JSON)  # Dict con valores anteriores (para UPDATE/DELETE)
+    datos_despues = db.Column('datos_despues', db.JSON)  # Dict con valores nuevos (para INSERT/UPDATE)
     ip_address = db.Column(db.String(45))  # IPv4 o IPv6
     user_agent = db.Column(db.String(500))
+    ruta = db.Column(db.String(255))
+    estado_respuesta = db.Column(db.String(50))
+    notas = db.Column(db.Text)
+    metodo_http = db.Column(db.String(20))
     
     usuario = db.relationship('Usuario', foreign_keys=[usuario_id])
     

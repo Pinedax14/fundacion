@@ -12,6 +12,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from flask import render_template, request, redirect, url_for, session, flash, g
+from sqlalchemy.exc import IntegrityError
 from app.rutas.decoradores import admin_required_factory
 from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota
 from datetime import datetime, timedelta
@@ -59,27 +60,30 @@ class RutasAuth:
             """
             msg = ''
             if request.method == 'POST':
-                nombre = request.form.get('nombre')
+                nombre = request.form.get('nombre', '').strip()
                 email = request.form.get('email', '').strip().lower()
-                password = request.form.get('password')
-                confirmar_password = request.form.get('confirmar_password')
-
-                # Obtener usuario existente con este email (usando ORM)
-                cuenta = Usuario.query.filter_by(email=email).first()
+                password = request.form.get('password', '')
+                confirmar_password = request.form.get('confirmar_password', '')
 
                 # Validaciones del registro
-                if cuenta:
-                    msg = '¡La cuenta de correo electrónico ya existe!'
+                if not nombre:
+                    msg = 'El nombre es obligatorio.'
+                elif not email:
+                    msg = 'El correo electrónico es obligatorio.'
                 elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
                     msg = '¡Dirección de correo electrónico no válida!'
+                elif Usuario.query.filter_by(email=email).first():
+                    msg = '¡La cuenta de correo electrónico ya existe!'
                 elif password != confirmar_password:
                     msg = '¡Las contraseñas no coinciden!'
-                # Requerimientos de contraseña: 8+ chars, número y símbolo especial
-                elif len(password) < 8 or not re.search(r"[0-9]", password) or not re.search(r"[!@#$%^&*()-_=+{};:,<.>]", password):
-                    msg = 'La contraseña debe tener al menos 8 caracteres, un número y un símbolo especial.'
+                elif len(password) < 8:
+                    msg = 'La contraseña debe tener al menos 8 caracteres.'
+                elif not re.search(r"[0-9]", password):
+                    msg = 'La contraseña debe contener al menos un número.'
+                elif not re.search(r"[!@#$%^&*()-_=+{};:,<.>]", password):
+                    msg = 'La contraseña debe contener al menos un símbolo especial.'
                 else:
                     try:
-                        # Crear nuevo usuario
                         hash_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
                         nuevo_usuario = Usuario(
                             nombre=nombre,
@@ -90,10 +94,11 @@ class RutasAuth:
                         db.session.add(nuevo_usuario)
                         db.session.commit()
 
-                        # Generar código de verificación
-                        codigo = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+                        codigo = self._generar_codigo_verificacion_unico()
+                        if not codigo:
+                            raise RuntimeError('No se pudo generar un código de verificación único.')
+
                         fecha_expiracion = datetime.utcnow() + timedelta(hours=24)
-                        
                         verificacion = VerificacionEmail(
                             usuario_id=nuevo_usuario.id,
                             codigo=codigo,
@@ -102,13 +107,24 @@ class RutasAuth:
                         db.session.add(verificacion)
                         db.session.commit()
 
-                        # Enviar correo de verificación
-                        self._enviar_correo_verificacion(email, nombre, codigo)
-                        flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
+                        correo_enviado = self._enviar_correo_verificacion(email, nombre, codigo)
+                        if correo_enviado:
+                            flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
+                        else:
+                            flash('Te has registrado correctamente, pero no se pudo enviar el correo de verificación. Contacta al administrador.', 'warning')
+
                         return redirect(url_for('verificar_email'))
+
+                    except IntegrityError as e:
+                        db.session.rollback()
+                        self.app.logger.exception('Error en registro - integridad de datos:')
+                        if 'email' in str(e).lower():
+                            msg = '¡La cuenta de correo electrónico ya existe!'
+                        else:
+                            msg = 'Error durante el registro. Intenta de nuevo.'
                     except Exception as e:
                         db.session.rollback()
-                        self.app.logger.error(f"Error en registro: {e}")
+                        self.app.logger.exception('Error en registro:')
                         msg = 'Error durante el registro. Intenta de nuevo.'
             
             return render_template('auth/registro.html', msg=msg)
@@ -400,6 +416,15 @@ class RutasAuth:
             flash('La funcionalidad para eliminar la cuenta aún está en construcción.', 'info')
             return redirect(url_for('perfil'))
 
+    def _generar_codigo_verificacion_unico(self, longitud=6, max_intentos=10):
+        """Genera un código de verificación único para evitar colisiones de base de datos."""
+        caracteres = string.ascii_uppercase + string.digits
+        for _ in range(max_intentos):
+            codigo = ''.join(random.choices(caracteres, k=longitud))
+            if not VerificacionEmail.query.filter_by(codigo=codigo).first():
+                return codigo
+        return None
+
     def _enviar_correo_verificacion(self, email, nombre, codigo):
         """
         Envía correo de verificación al usuario registrado
@@ -408,33 +433,36 @@ class RutasAuth:
             email: Email del usuario
             nombre: Nombre del usuario
             codigo: Código de verificación
+
+        Returns:
+            bool: True si el correo se envía correctamente, False si falla.
         """
         try:
-            # Crear mensaje de correo
             asunto = "Código de verificación de tu cuenta"
             mensaje = MIMEMultipart()
             mensaje['From'] = self.REMITENTE
             mensaje['To'] = email
             mensaje['Subject'] = asunto
 
-            # Usar plantilla HTML para el correo
             cuerpo_html = render_template('auth/correo_verificacion.html', nombre=nombre, codigo=codigo)
             mensaje.attach(MIMEText(cuerpo_html, 'html'))
 
-            # Adjuntar logo de la fundación
-            with open("app/static/images/logos/logo.jpg", "rb") as f:
-                imagen = MIMEImage(f.read())
-                imagen.add_header('Content-ID', '<logo_fundacion>')
-                imagen.add_header('Content-Disposition', 'inline', filename="logo.jpg")
-                mensaje.attach(imagen)
+            try:
+                with open("app/static/images/logos/logo.jpg", "rb") as f:
+                    imagen = MIMEImage(f.read())
+                    imagen.add_header('Content-ID', '<logo_fundacion>')
+                    imagen.add_header('Content-Disposition', 'inline', filename="logo.jpg")
+                    mensaje.attach(imagen)
+            except FileNotFoundError:
+                self.app.logger.warning('Logo de correo no encontrado, se enviará el correo sin imagen.')
 
-            # Enviar correo
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             server.login(self.REMITENTE, self.CONTRASENA_APP)
             server.sendmail(self.REMITENTE, email, mensaje.as_string())
             server.quit()
+            return True
 
         except Exception as e:
-            print(f"Error al enviar correo: {e}")
-            flash(f'Error al enviar el correo de verificación: {e}', 'danger')
+            self.app.logger.error(f"Error al enviar correo: {e}")
+            return False

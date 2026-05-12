@@ -20,12 +20,7 @@ conexion = Conexion(app)
 registrar_todas_las_rutas(app, conexion)
 
 if __name__ == '__main__':
-    print("=" * 50)
-    print("ALMAS CON COLA - Sistema de Gestión")
-    print("=" * 50)
-    print(f"Iniciando servidor en http://0.0.0.0:5000")
-    print(f"Ambiente: {os.getenv('FLASK_ENV', 'development')}")
-    print("=" * 50)
+   
 
     app.run(
         debug=app.debug,

@@ -1832,3 +1832,358 @@ ostgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
 [2026-03-20 15:30:51,808] INFO en app: Testing: False
 [2026-03-20 15:30:51,939] INFO en app: Blueprint auditoría registrado
 [2026-03-20 15:30:54,033] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:49:25,132] INFO en app: Logging configurado correctamente
+[2026-05-12 17:49:25,132] INFO en app: Nivel de log: INFO
+[2026-05-12 17:49:25,133] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:49:25,133] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:49:25,133] INFO en app: Debug: True
+[2026-05-12 17:49:25,134] INFO en app: Testing: False
+[2026-05-12 17:49:26,155] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:49:29,955] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:49:30,814] INFO en app: Logging configurado correctamente
+[2026-05-12 17:49:30,814] INFO en app: Nivel de log: INFO
+[2026-05-12 17:49:30,814] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:49:30,815] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:49:30,815] INFO en app: Debug: True
+[2026-05-12 17:49:30,815] INFO en app: Testing: False
+[2026-05-12 17:49:31,118] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:49:33,642] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:49:53,906] INFO en app: Logging configurado correctamente
+[2026-05-12 17:49:53,907] INFO en app: Nivel de log: INFO
+[2026-05-12 17:49:53,907] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:49:53,907] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:49:53,908] INFO en app: Debug: True
+[2026-05-12 17:49:53,908] INFO en app: Testing: False
+[2026-05-12 17:49:54,051] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:49:56,555] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:51:11,508] ERROR en app: Error en registro: (psycopg2.errors.UndefinedColumn) column "id_usuario" of relation "verificaciones_email" does not exist
+LINE 1: INSERT INTO verificaciones_email (id_usuario, codigo, usado,...
+                                          ^
+
+[SQL: INSERT INTO verificaciones_email (id_usuario, codigo, usado, fecha_creacion, fecha_expiracion) VALUES (%(id_usuario)s, %(codigo)s, %(usado)s, %(fecha_creacion)s, %(fecha_expiracion)s) RETURNING verificaciones_email.id]
+[parameters: {'id_usuario': 27, 'codigo': 'S8YYF3', 'usado': False, 'fecha_creacion': datetime.datetime(2026, 5, 12, 22, 51, 11, 326656), 'fecha_expiracion': datetime.datetime(2026, 5, 13, 22, 51, 11, 142596)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-05-12 17:54:35,920] INFO en app: Logging configurado correctamente
+[2026-05-12 17:54:35,921] INFO en app: Nivel de log: INFO
+[2026-05-12 17:54:35,921] INFO en app: Base de datos: sqlite:///:memory:...
+[2026-05-12 17:54:35,921] INFO en app: Aplicación creada con config: testing
+[2026-05-12 17:54:35,921] INFO en app: Debug: False
+[2026-05-12 17:54:35,921] INFO en app: Testing: True
+[2026-05-12 17:54:35,927] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:54:35,936] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:55:42,818] INFO en app: Logging configurado correctamente
+[2026-05-12 17:55:42,818] INFO en app: Nivel de log: INFO
+[2026-05-12 17:55:42,818] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:55:42,819] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:55:42,819] INFO en app: Debug: True
+[2026-05-12 17:55:42,819] INFO en app: Testing: False
+[2026-05-12 17:55:42,994] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:55:45,344] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:56:05,128] INFO en app: Logging configurado correctamente
+[2026-05-12 17:56:05,129] INFO en app: Nivel de log: INFO
+[2026-05-12 17:56:05,129] INFO en app: Base de datos: sqlite:///:memory:...
+[2026-05-12 17:56:05,129] INFO en app: Aplicación creada con config: testing
+[2026-05-12 17:56:05,129] INFO en app: Debug: False
+[2026-05-12 17:56:05,129] INFO en app: Testing: True
+[2026-05-12 17:56:05,135] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:56:05,142] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:56:27,007] INFO en app: Logging configurado correctamente
+[2026-05-12 17:56:27,007] INFO en app: Nivel de log: INFO
+[2026-05-12 17:56:27,008] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:56:27,008] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:56:27,008] INFO en app: Debug: True
+[2026-05-12 17:56:27,008] INFO en app: Testing: False
+[2026-05-12 17:56:27,169] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:56:29,505] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:57:04,513] ERROR en app: Error en registro:
+Traceback (most recent call last):
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column verificaciones_email.id_usuario does not exist
+LINE 1: ...rificaciones_email.id AS verificaciones_email_id, verificaci...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\app\rutas\auth.py", line 97, in registro
+    codigo = self._generar_codigo_verificacion_unico()
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\app\rutas\auth.py", line 424, in _generar_codigo_verificacion_unico
+    if not VerificacionEmail.query.filter_by(codigo=codigo).first():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2759, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column verificaciones_email.id_usuario does not exist
+LINE 1: ...rificaciones_email.id AS verificaciones_email_id, verificaci...
+                                                             ^
+
+[SQL: SELECT verificaciones_email.id AS verificaciones_email_id, verificaciones_email.id_usuario AS verificaciones_email_id_usuario, verificaciones_email.codigo AS verificaciones_email_codigo, verificaciones_email.usado AS verificaciones_email_usado, verificaciones_email.fecha_creacion AS verificaciones_email_fecha_creacion, verificaciones_email.fecha_expiracion AS verificaciones_email_fecha_expiracion 
+FROM verificaciones_email 
+WHERE verificaciones_email.codigo = %(codigo_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'codigo_1': 'JUV9ET', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-05-12 17:58:05,969] INFO en app: Logging configurado correctamente
+[2026-05-12 17:58:05,970] INFO en app: Nivel de log: INFO
+[2026-05-12 17:58:05,970] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:58:05,970] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:58:05,970] INFO en app: Debug: True
+[2026-05-12 17:58:05,970] INFO en app: Testing: False
+[2026-05-12 17:58:05,977] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:58:08,375] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:58:09,317] ERROR en app: Error en registro:
+Traceback (most recent call last):
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column verificaciones_email.id_usuario does not exist
+LINE 1: ...rificaciones_email.id AS verificaciones_email_id, verificaci...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\app\rutas\auth.py", line 97, in registro
+    codigo = self._generar_codigo_verificacion_unico()
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\app\rutas\auth.py", line 424, in _generar_codigo_verificacion_unico
+    if not VerificacionEmail.query.filter_by(codigo=codigo).first():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2759, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Pipe\Documents\Proyecto\fundacion\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column verificaciones_email.id_usuario does not exist
+LINE 1: ...rificaciones_email.id AS verificaciones_email_id, verificaci...
+                                                             ^
+
+[SQL: SELECT verificaciones_email.id AS verificaciones_email_id, verificaciones_email.id_usuario AS verificaciones_email_id_usuario, verificaciones_email.codigo AS verificaciones_email_codigo, verificaciones_email.usado AS verificaciones_email_usado, verificaciones_email.fecha_creacion AS verificaciones_email_fecha_creacion, verificaciones_email.fecha_expiracion AS verificaciones_email_fecha_expiracion 
+FROM verificaciones_email 
+WHERE verificaciones_email.codigo = %(codigo_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'codigo_1': 'RVJT3R', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-05-12 17:58:25,165] INFO en app: Logging configurado correctamente
+[2026-05-12 17:58:25,165] INFO en app: Nivel de log: INFO
+[2026-05-12 17:58:25,165] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:58:25,165] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:58:25,165] INFO en app: Debug: True
+[2026-05-12 17:58:25,166] INFO en app: Testing: False
+[2026-05-12 17:58:25,172] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:58:27,530] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:58:41,682] INFO en app: Logging configurado correctamente
+[2026-05-12 17:58:41,682] INFO en app: Nivel de log: INFO
+[2026-05-12 17:58:41,682] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:58:41,683] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:58:41,683] INFO en app: Debug: True
+[2026-05-12 17:58:41,683] INFO en app: Testing: False
+[2026-05-12 17:58:41,688] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:58:44,034] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 17:59:10,212] INFO en app: Logging configurado correctamente
+[2026-05-12 17:59:10,213] INFO en app: Nivel de log: INFO
+[2026-05-12 17:59:10,213] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 17:59:10,213] INFO en app: Aplicación creada con config: development
+[2026-05-12 17:59:10,213] INFO en app: Debug: True
+[2026-05-12 17:59:10,213] INFO en app: Testing: False
+[2026-05-12 17:59:10,219] INFO en app: Blueprint auditoría registrado
+[2026-05-12 17:59:12,638] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 18:00:42,098] INFO en app: Logging configurado correctamente
+[2026-05-12 18:00:42,098] INFO en app: Nivel de log: INFO
+[2026-05-12 18:00:42,099] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 18:00:42,099] INFO en app: Aplicación creada con config: development
+[2026-05-12 18:00:42,099] INFO en app: Debug: True
+[2026-05-12 18:00:42,100] INFO en app: Testing: False
+[2026-05-12 18:00:42,246] INFO en app: Blueprint auditoría registrado
+[2026-05-12 18:00:44,613] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 18:00:48,064] INFO en app: Logging configurado correctamente
+[2026-05-12 18:00:48,065] INFO en app: Nivel de log: INFO
+[2026-05-12 18:00:48,065] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 18:00:48,065] INFO en app: Aplicación creada con config: development
+[2026-05-12 18:00:48,065] INFO en app: Debug: True
+[2026-05-12 18:00:48,065] INFO en app: Testing: False
+[2026-05-12 18:00:48,071] INFO en app: Blueprint auditoría registrado
+[2026-05-12 18:00:50,627] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 18:01:21,182] INFO en app: Logging configurado correctamente
+[2026-05-12 18:01:21,182] INFO en app: Nivel de log: INFO
+[2026-05-12 18:01:21,182] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 18:01:21,183] INFO en app: Aplicación creada con config: development
+[2026-05-12 18:01:21,183] INFO en app: Debug: True
+[2026-05-12 18:01:21,183] INFO en app: Testing: False
+[2026-05-12 18:01:21,329] INFO en app: Blueprint auditoría registrado
+[2026-05-12 18:01:23,678] INFO en app: Tablas de BD verificadas/creadas
