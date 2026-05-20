@@ -16,6 +16,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password = db.Column(db.String(255), nullable=False)
+    fecha_nacimiento = db.Column(db.Date, nullable=True)  # Fecha de nacimiento del usuario
     rol = db.Column(db.String(20), default='user', nullable=False)  # 'user', 'admin'
     verified = db.Column(db.Boolean, default=False)
     foto_perfil = db.Column(db.String(255))  # URL o nombre del archivo de foto de perfil
@@ -63,7 +64,7 @@ class SolicitudAdopcion(db.Model):
     mensaje = db.Column(db.Text)
     direccion = db.Column(db.String(255))
     telefono = db.Column(db.String(20))
-    ingresos = db.Column(db.Integer)
+    ingresos = db.Column(db.String(50))  # Rango de ingresos (ej: "1000000-2000000", "10000000+")
     estrato_social = db.Column(db.Integer)  # 1-6
     estado = db.Column('estado_solicitud', db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
     fecha_solicitud = db.Column(db.DateTime, default=datetime.utcnow)

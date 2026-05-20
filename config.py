@@ -23,7 +23,7 @@ class Config:
     SQLALCHEMY_ECHO = False
     
     # Sesiones
-    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
     SESSION_COOKIE_SECURE = False
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'

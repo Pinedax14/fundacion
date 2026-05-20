@@ -2187,3 +2187,632 @@ WHERE verificaciones_email.codigo = %(codigo_1)s
 [2026-05-12 18:01:21,183] INFO en app: Testing: False
 [2026-05-12 18:01:21,329] INFO en app: Blueprint auditoría registrado
 [2026-05-12 18:01:23,678] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 18:12:18,760] INFO en app: Logging configurado correctamente
+[2026-05-12 18:12:18,760] INFO en app: Nivel de log: INFO
+[2026-05-12 18:12:18,760] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 18:12:18,761] INFO en app: Aplicación creada con config: development
+[2026-05-12 18:12:18,761] INFO en app: Debug: True
+[2026-05-12 18:12:18,761] INFO en app: Testing: False
+[2026-05-12 18:12:18,944] INFO en app: Blueprint auditoría registrado
+[2026-05-12 18:12:21,418] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 18:12:22,173] INFO en app: Logging configurado correctamente
+[2026-05-12 18:12:22,173] INFO en app: Nivel de log: INFO
+[2026-05-12 18:12:22,173] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 18:12:22,174] INFO en app: Aplicación creada con config: development
+[2026-05-12 18:12:22,174] INFO en app: Debug: True
+[2026-05-12 18:12:22,174] INFO en app: Testing: False
+[2026-05-12 18:12:22,333] INFO en app: Blueprint auditoría registrado
+[2026-05-12 18:12:24,853] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:08:26,761] INFO en app: Logging configurado correctamente
+[2026-05-12 19:08:26,762] INFO en app: Nivel de log: INFO
+[2026-05-12 19:08:26,762] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:08:26,762] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:08:26,763] INFO en app: Debug: True
+[2026-05-12 19:08:26,763] INFO en app: Testing: False
+[2026-05-12 19:08:27,478] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:08:30,813] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:08:43,122] INFO en app: Logging configurado correctamente
+[2026-05-12 19:08:43,123] INFO en app: Nivel de log: INFO
+[2026-05-12 19:08:43,123] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:08:43,123] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:08:43,124] INFO en app: Debug: True
+[2026-05-12 19:08:43,124] INFO en app: Testing: False
+[2026-05-12 19:08:43,300] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:08:45,826] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:08:57,057] INFO en app: Logging configurado correctamente
+[2026-05-12 19:08:57,057] INFO en app: Nivel de log: INFO
+[2026-05-12 19:08:57,058] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:08:57,058] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:08:57,058] INFO en app: Debug: True
+[2026-05-12 19:08:57,059] INFO en app: Testing: False
+[2026-05-12 19:08:57,223] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:08:59,689] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:09:41,771] INFO en app: Logging configurado correctamente
+[2026-05-12 19:09:41,772] INFO en app: Nivel de log: INFO
+[2026-05-12 19:09:41,772] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:09:41,773] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:09:41,773] INFO en app: Debug: True
+[2026-05-12 19:09:41,773] INFO en app: Testing: False
+[2026-05-12 19:09:42,677] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:09:45,141] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:10:02,360] INFO en app: Logging configurado correctamente
+[2026-05-12 19:10:02,360] INFO en app: Nivel de log: INFO
+[2026-05-12 19:10:02,360] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:10:02,360] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:10:02,360] INFO en app: Debug: True
+[2026-05-12 19:10:02,360] INFO en app: Testing: False
+[2026-05-12 19:10:46,893] INFO en app: Logging configurado correctamente
+[2026-05-12 19:10:46,894] INFO en app: Nivel de log: INFO
+[2026-05-12 19:10:46,894] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:10:46,894] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:10:46,894] INFO en app: Debug: True
+[2026-05-12 19:10:46,895] INFO en app: Testing: False
+[2026-05-12 19:10:47,030] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:10:49,429] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:11:03,973] INFO en app: Logging configurado correctamente
+[2026-05-12 19:11:03,973] INFO en app: Nivel de log: INFO
+[2026-05-12 19:11:03,973] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:11:03,973] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:11:03,973] INFO en app: Debug: True
+[2026-05-12 19:11:03,973] INFO en app: Testing: False
+[2026-05-12 19:11:04,111] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:11:06,501] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:11:16,258] INFO en app: Logging configurado correctamente
+[2026-05-12 19:11:16,258] INFO en app: Nivel de log: INFO
+[2026-05-12 19:11:16,258] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:11:16,258] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:11:16,258] INFO en app: Debug: True
+[2026-05-12 19:11:16,259] INFO en app: Testing: False
+[2026-05-12 19:11:16,396] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:11:18,772] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:11:36,431] INFO en app: Logging configurado correctamente
+[2026-05-12 19:11:36,431] INFO en app: Nivel de log: INFO
+[2026-05-12 19:11:36,432] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:11:36,432] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:11:36,432] INFO en app: Debug: True
+[2026-05-12 19:11:36,433] INFO en app: Testing: False
+[2026-05-12 19:11:36,566] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:11:38,984] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:11:51,789] INFO en app: Logging configurado correctamente
+[2026-05-12 19:11:51,789] INFO en app: Nivel de log: INFO
+[2026-05-12 19:11:51,789] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:11:51,789] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:11:51,789] INFO en app: Debug: True
+[2026-05-12 19:11:51,790] INFO en app: Testing: False
+[2026-05-12 19:11:51,925] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:11:54,427] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:11:55,820] INFO en app: Logging configurado correctamente
+[2026-05-12 19:11:55,821] INFO en app: Nivel de log: INFO
+[2026-05-12 19:11:55,821] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:11:55,821] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:11:55,821] INFO en app: Debug: True
+[2026-05-12 19:11:55,821] INFO en app: Testing: False
+[2026-05-12 19:11:55,955] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:11:58,347] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:12:07,389] INFO en app: Logging configurado correctamente
+[2026-05-12 19:12:07,389] INFO en app: Nivel de log: INFO
+[2026-05-12 19:12:07,389] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:12:07,389] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:12:07,390] INFO en app: Debug: True
+[2026-05-12 19:12:07,390] INFO en app: Testing: False
+[2026-05-12 19:12:07,521] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:12:09,980] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:12:30,447] INFO en app: Logging configurado correctamente
+[2026-05-12 19:12:30,447] INFO en app: Nivel de log: INFO
+[2026-05-12 19:12:30,447] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:12:30,448] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:12:30,448] INFO en app: Debug: True
+[2026-05-12 19:12:30,448] INFO en app: Testing: False
+[2026-05-12 19:12:30,584] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:12:32,930] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:12:44,918] INFO en app: Logging configurado correctamente
+[2026-05-12 19:12:44,919] INFO en app: Nivel de log: INFO
+[2026-05-12 19:12:44,919] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:12:44,919] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:12:44,919] INFO en app: Debug: True
+[2026-05-12 19:12:44,919] INFO en app: Testing: False
+[2026-05-12 19:12:45,059] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:12:47,550] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:12:53,423] INFO en app: Logging configurado correctamente
+[2026-05-12 19:12:53,423] INFO en app: Nivel de log: INFO
+[2026-05-12 19:12:53,423] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:12:53,423] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:12:53,423] INFO en app: Debug: True
+[2026-05-12 19:12:53,423] INFO en app: Testing: False
+[2026-05-12 19:12:53,555] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:12:55,960] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:13:02,910] INFO en app: Logging configurado correctamente
+[2026-05-12 19:13:02,910] INFO en app: Nivel de log: INFO
+[2026-05-12 19:13:02,910] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:13:02,910] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:13:02,911] INFO en app: Debug: True
+[2026-05-12 19:13:02,911] INFO en app: Testing: False
+[2026-05-12 19:13:03,048] WARNING en app: Error registrando blueprint auditoría: invalid syntax (auth.py, line 158)
+[2026-05-12 19:13:05,466] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:14:51,640] INFO en app: Logging configurado correctamente
+[2026-05-12 19:14:51,640] INFO en app: Nivel de log: INFO
+[2026-05-12 19:14:51,640] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:14:51,641] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:14:51,641] INFO en app: Debug: True
+[2026-05-12 19:14:51,641] INFO en app: Testing: False
+[2026-05-12 19:14:51,647] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:14:54,139] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:15:09,291] INFO en app: Logging configurado correctamente
+[2026-05-12 19:15:09,291] INFO en app: Nivel de log: INFO
+[2026-05-12 19:15:09,291] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:15:09,292] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:15:09,292] INFO en app: Debug: True
+[2026-05-12 19:15:09,292] INFO en app: Testing: False
+[2026-05-12 19:15:09,298] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:15:11,643] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:15:19,895] INFO en app: Logging configurado correctamente
+[2026-05-12 19:15:19,896] INFO en app: Nivel de log: INFO
+[2026-05-12 19:15:19,896] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:15:19,896] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:15:19,896] INFO en app: Debug: True
+[2026-05-12 19:15:19,897] INFO en app: Testing: False
+[2026-05-12 19:15:19,903] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:15:22,421] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:15:31,291] INFO en app: Logging configurado correctamente
+[2026-05-12 19:15:31,291] INFO en app: Nivel de log: INFO
+[2026-05-12 19:15:31,291] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:15:31,292] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:15:31,292] INFO en app: Debug: True
+[2026-05-12 19:15:31,292] INFO en app: Testing: False
+[2026-05-12 19:15:31,300] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:15:33,749] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:15:42,686] INFO en app: Logging configurado correctamente
+[2026-05-12 19:15:42,686] INFO en app: Nivel de log: INFO
+[2026-05-12 19:15:42,687] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:15:42,687] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:15:42,687] INFO en app: Debug: True
+[2026-05-12 19:15:42,687] INFO en app: Testing: False
+[2026-05-12 19:15:42,695] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:15:45,053] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:15:53,972] INFO en app: Logging configurado correctamente
+[2026-05-12 19:15:53,972] INFO en app: Nivel de log: INFO
+[2026-05-12 19:15:53,972] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:15:53,972] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:15:53,972] INFO en app: Debug: True
+[2026-05-12 19:15:53,972] INFO en app: Testing: False
+[2026-05-12 19:15:53,980] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:15:56,408] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:16:05,544] INFO en app: Logging configurado correctamente
+[2026-05-12 19:16:05,545] INFO en app: Nivel de log: INFO
+[2026-05-12 19:16:05,545] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:16:05,545] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:16:05,546] INFO en app: Debug: True
+[2026-05-12 19:16:05,546] INFO en app: Testing: False
+[2026-05-12 19:16:05,554] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:16:08,008] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:16:16,934] INFO en app: Logging configurado correctamente
+[2026-05-12 19:16:16,934] INFO en app: Nivel de log: INFO
+[2026-05-12 19:16:16,934] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:16:16,934] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:16:16,935] INFO en app: Debug: True
+[2026-05-12 19:16:16,935] INFO en app: Testing: False
+[2026-05-12 19:16:16,941] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:16:19,389] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:17:11,007] INFO en app: Logging configurado correctamente
+[2026-05-12 19:17:11,007] INFO en app: Nivel de log: INFO
+[2026-05-12 19:17:11,007] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:17:11,008] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:17:11,008] INFO en app: Debug: True
+[2026-05-12 19:17:11,008] INFO en app: Testing: False
+[2026-05-12 19:17:11,178] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:17:13,522] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:17:14,285] INFO en app: Logging configurado correctamente
+[2026-05-12 19:17:14,286] INFO en app: Nivel de log: INFO
+[2026-05-12 19:17:14,286] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:17:14,286] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:17:14,287] INFO en app: Debug: True
+[2026-05-12 19:17:14,287] INFO en app: Testing: False
+[2026-05-12 19:17:14,437] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:17:16,802] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:22:37,281] INFO en app: Logging configurado correctamente
+[2026-05-12 19:22:37,281] INFO en app: Nivel de log: INFO
+[2026-05-12 19:22:37,281] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:22:37,282] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:22:37,282] INFO en app: Debug: True
+[2026-05-12 19:22:37,282] INFO en app: Testing: False
+[2026-05-12 19:22:37,444] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:22:39,835] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:23:33,881] INFO en app: Logging configurado correctamente
+[2026-05-12 19:23:33,881] INFO en app: Nivel de log: INFO
+[2026-05-12 19:23:33,882] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:23:33,882] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:23:33,882] INFO en app: Debug: True
+[2026-05-12 19:23:33,882] INFO en app: Testing: False
+[2026-05-12 19:23:34,039] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:23:36,487] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-12 19:28:30,469] INFO en app: Logging configurado correctamente
+[2026-05-12 19:28:30,469] INFO en app: Nivel de log: INFO
+[2026-05-12 19:28:30,470] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-12 19:28:30,470] INFO en app: Aplicación creada con config: development
+[2026-05-12 19:28:30,470] INFO en app: Debug: True
+[2026-05-12 19:28:30,471] INFO en app: Testing: False
+[2026-05-12 19:28:30,659] INFO en app: Blueprint auditoría registrado
+[2026-05-12 19:28:33,081] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 12:38:53,750] INFO en app: Logging configurado correctamente
+[2026-05-20 12:38:53,750] INFO en app: Nivel de log: INFO
+[2026-05-20 12:38:53,751] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 12:38:53,751] INFO en app: Aplicación creada con config: development
+[2026-05-20 12:38:53,751] INFO en app: Debug: True
+[2026-05-20 12:38:53,752] INFO en app: Testing: False
+[2026-05-20 12:38:54,784] INFO en app: Blueprint auditoría registrado
+[2026-05-20 12:39:01,925] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 12:39:02,797] INFO en app: Logging configurado correctamente
+[2026-05-20 12:39:02,797] INFO en app: Nivel de log: INFO
+[2026-05-20 12:39:02,797] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 12:39:02,798] INFO en app: Aplicación creada con config: development
+[2026-05-20 12:39:02,798] INFO en app: Debug: True
+[2026-05-20 12:39:02,798] INFO en app: Testing: False
+[2026-05-20 12:39:02,955] INFO en app: Blueprint auditoría registrado
+[2026-05-20 12:39:05,398] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:10:53,961] INFO en app: Logging configurado correctamente
+[2026-05-20 14:10:53,961] INFO en app: Nivel de log: INFO
+[2026-05-20 14:10:53,962] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:10:53,962] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:10:53,963] INFO en app: Debug: True
+[2026-05-20 14:10:53,963] INFO en app: Testing: False
+[2026-05-20 14:10:54,208] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:10:57,368] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:10:58,169] INFO en app: Logging configurado correctamente
+[2026-05-20 14:10:58,169] INFO en app: Nivel de log: INFO
+[2026-05-20 14:10:58,169] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:10:58,170] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:10:58,170] INFO en app: Debug: True
+[2026-05-20 14:10:58,170] INFO en app: Testing: False
+[2026-05-20 14:10:58,323] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:11:00,749] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:23:47,359] INFO en app: Logging configurado correctamente
+[2026-05-20 14:23:47,360] INFO en app: Nivel de log: INFO
+[2026-05-20 14:23:47,360] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:23:47,361] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:23:47,361] INFO en app: Debug: True
+[2026-05-20 14:23:47,361] INFO en app: Testing: False
+[2026-05-20 14:23:47,678] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:23:51,371] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:24:26,581] INFO en app: Logging configurado correctamente
+[2026-05-20 14:24:26,582] INFO en app: Nivel de log: INFO
+[2026-05-20 14:24:26,582] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:24:26,582] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:24:26,582] INFO en app: Debug: True
+[2026-05-20 14:24:26,583] INFO en app: Testing: False
+[2026-05-20 14:24:26,828] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:24:29,248] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:25:33,086] INFO en app: Logging configurado correctamente
+[2026-05-20 14:25:33,087] INFO en app: Nivel de log: INFO
+[2026-05-20 14:25:33,087] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:25:33,088] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:25:33,088] INFO en app: Debug: True
+[2026-05-20 14:25:33,088] INFO en app: Testing: False
+[2026-05-20 14:25:33,389] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:25:35,977] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:25:36,817] INFO en app: Logging configurado correctamente
+[2026-05-20 14:25:36,817] INFO en app: Nivel de log: INFO
+[2026-05-20 14:25:36,817] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:25:36,818] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:25:36,818] INFO en app: Debug: True
+[2026-05-20 14:25:36,818] INFO en app: Testing: False
+[2026-05-20 14:25:36,991] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:25:39,427] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:27:51,971] INFO en app: Logging configurado correctamente
+[2026-05-20 14:27:51,971] INFO en app: Nivel de log: INFO
+[2026-05-20 14:27:51,972] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:27:51,972] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:27:51,972] INFO en app: Debug: True
+[2026-05-20 14:27:51,972] INFO en app: Testing: False
+[2026-05-20 14:27:52,171] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:27:54,667] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:48:04,629] INFO en app: Logging configurado correctamente
+[2026-05-20 14:48:04,630] INFO en app: Nivel de log: INFO
+[2026-05-20 14:48:04,630] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:48:04,630] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:48:04,630] INFO en app: Debug: True
+[2026-05-20 14:48:04,631] INFO en app: Testing: False
+[2026-05-20 14:48:04,880] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:48:07,932] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:48:23,460] INFO en app: Logging configurado correctamente
+[2026-05-20 14:48:23,460] INFO en app: Nivel de log: INFO
+[2026-05-20 14:48:23,460] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:48:23,461] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:48:23,461] INFO en app: Debug: True
+[2026-05-20 14:48:23,461] INFO en app: Testing: False
+[2026-05-20 14:48:23,661] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:48:26,288] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:48:35,620] INFO en app: Logging configurado correctamente
+[2026-05-20 14:48:35,621] INFO en app: Nivel de log: INFO
+[2026-05-20 14:48:35,621] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:48:35,621] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:48:35,621] INFO en app: Debug: True
+[2026-05-20 14:48:35,622] INFO en app: Testing: False
+[2026-05-20 14:48:35,803] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:48:38,351] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:48:44,542] INFO en app: Logging configurado correctamente
+[2026-05-20 14:48:44,542] INFO en app: Nivel de log: INFO
+[2026-05-20 14:48:44,542] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:48:44,542] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:48:44,543] INFO en app: Debug: True
+[2026-05-20 14:48:44,543] INFO en app: Testing: False
+[2026-05-20 14:48:44,725] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:48:47,351] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:48:51,485] INFO en app: Logging configurado correctamente
+[2026-05-20 14:48:51,485] INFO en app: Nivel de log: INFO
+[2026-05-20 14:48:51,485] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:48:51,486] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:48:51,486] INFO en app: Debug: True
+[2026-05-20 14:48:51,486] INFO en app: Testing: False
+[2026-05-20 14:48:51,679] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:48:54,029] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:49:00,253] INFO en app: Logging configurado correctamente
+[2026-05-20 14:49:00,253] INFO en app: Nivel de log: INFO
+[2026-05-20 14:49:00,253] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:49:00,254] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:49:00,254] INFO en app: Debug: True
+[2026-05-20 14:49:00,254] INFO en app: Testing: False
+[2026-05-20 14:49:00,452] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:49:03,111] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:50:29,236] INFO en app: Logging configurado correctamente
+[2026-05-20 14:50:29,236] INFO en app: Nivel de log: INFO
+[2026-05-20 14:50:29,236] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:50:29,237] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:50:29,237] INFO en app: Debug: True
+[2026-05-20 14:50:29,237] INFO en app: Testing: False
+[2026-05-20 14:50:29,478] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:50:31,851] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:53:17,527] INFO en app: Logging configurado correctamente
+[2026-05-20 14:53:17,528] INFO en app: Nivel de log: INFO
+[2026-05-20 14:53:17,528] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:53:17,528] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:53:17,529] INFO en app: Debug: True
+[2026-05-20 14:53:17,529] INFO en app: Testing: False
+[2026-05-20 14:53:17,765] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:53:20,533] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:54:08,074] INFO en app: Logging configurado correctamente
+[2026-05-20 14:54:08,075] INFO en app: Nivel de log: INFO
+[2026-05-20 14:54:08,075] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:54:08,075] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:54:08,076] INFO en app: Debug: True
+[2026-05-20 14:54:08,076] INFO en app: Testing: False
+[2026-05-20 14:54:08,246] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:54:10,652] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:59:16,950] INFO en app: Logging configurado correctamente
+[2026-05-20 14:59:16,950] INFO en app: Nivel de log: INFO
+[2026-05-20 14:59:16,951] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:59:16,951] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:59:16,951] INFO en app: Debug: True
+[2026-05-20 14:59:16,952] INFO en app: Testing: False
+[2026-05-20 14:59:17,188] INFO en app: Blueprint auditoría registrado
+[2026-05-20 14:59:20,306] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 14:59:57,470] INFO en app: Logging configurado correctamente
+[2026-05-20 14:59:57,470] INFO en app: Nivel de log: INFO
+[2026-05-20 14:59:57,471] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 14:59:57,471] INFO en app: Aplicación creada con config: development
+[2026-05-20 14:59:57,471] INFO en app: Debug: True
+[2026-05-20 14:59:57,471] INFO en app: Testing: False
+[2026-05-20 14:59:57,665] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:00:00,082] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:00:45,609] INFO en app: Logging configurado correctamente
+[2026-05-20 15:00:45,610] INFO en app: Nivel de log: INFO
+[2026-05-20 15:00:45,610] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:00:45,610] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:00:45,611] INFO en app: Debug: True
+[2026-05-20 15:00:45,611] INFO en app: Testing: False
+[2026-05-20 15:00:45,807] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:00:48,252] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:01:19,331] INFO en app: Logging configurado correctamente
+[2026-05-20 15:01:19,332] INFO en app: Nivel de log: INFO
+[2026-05-20 15:01:19,332] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:01:19,332] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:01:19,333] INFO en app: Debug: True
+[2026-05-20 15:01:19,333] INFO en app: Testing: False
+[2026-05-20 15:01:19,508] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:01:21,827] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:02:00,199] INFO en app: Logging configurado correctamente
+[2026-05-20 15:02:00,199] INFO en app: Nivel de log: INFO
+[2026-05-20 15:02:00,199] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:02:00,200] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:02:00,200] INFO en app: Debug: True
+[2026-05-20 15:02:00,200] INFO en app: Testing: False
+[2026-05-20 15:02:00,395] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:02:02,880] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:02:24,582] INFO en app: Logging configurado correctamente
+[2026-05-20 15:02:24,582] INFO en app: Nivel de log: INFO
+[2026-05-20 15:02:24,583] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:02:24,583] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:02:24,583] INFO en app: Debug: True
+[2026-05-20 15:02:24,583] INFO en app: Testing: False
+[2026-05-20 15:02:24,770] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:02:27,039] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:02:35,282] INFO en app: Logging configurado correctamente
+[2026-05-20 15:02:35,283] INFO en app: Nivel de log: INFO
+[2026-05-20 15:02:35,283] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:02:35,283] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:02:35,283] INFO en app: Debug: True
+[2026-05-20 15:02:35,284] INFO en app: Testing: False
+[2026-05-20 15:02:35,464] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:02:37,900] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:02:48,235] INFO en app: Logging configurado correctamente
+[2026-05-20 15:02:48,236] INFO en app: Nivel de log: INFO
+[2026-05-20 15:02:48,236] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:02:48,237] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:02:48,237] INFO en app: Debug: True
+[2026-05-20 15:02:48,237] INFO en app: Testing: False
+[2026-05-20 15:02:48,406] WARNING en app: Error registrando blueprint auditoría: invalid syntax (admin_data_service.py, line 38)
+[2026-05-20 15:02:50,870] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:04:06,616] INFO en app: Logging configurado correctamente
+[2026-05-20 15:04:06,616] INFO en app: Nivel de log: INFO
+[2026-05-20 15:04:06,617] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:04:06,617] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:04:06,617] INFO en app: Debug: True
+[2026-05-20 15:04:06,618] INFO en app: Testing: False
+[2026-05-20 15:04:06,774] WARNING en app: Error registrando blueprint auditoría: invalid syntax (admin_data_service.py, line 38)
+[2026-05-20 15:04:09,138] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:06:23,431] INFO en app: Logging configurado correctamente
+[2026-05-20 15:06:23,431] INFO en app: Nivel de log: INFO
+[2026-05-20 15:06:23,432] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:06:23,432] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:06:23,433] INFO en app: Debug: True
+[2026-05-20 15:06:23,433] INFO en app: Testing: False
+[2026-05-20 15:06:23,625] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:06:26,152] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:06:26,956] INFO en app: Logging configurado correctamente
+[2026-05-20 15:06:26,956] INFO en app: Nivel de log: INFO
+[2026-05-20 15:06:26,957] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:06:26,957] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:06:26,957] INFO en app: Debug: True
+[2026-05-20 15:06:26,958] INFO en app: Testing: False
+[2026-05-20 15:06:27,130] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:06:29,520] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:18:36,951] INFO en app: Logging configurado correctamente
+[2026-05-20 15:18:36,952] INFO en app: Nivel de log: INFO
+[2026-05-20 15:18:36,952] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:18:36,952] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:18:36,953] INFO en app: Debug: True
+[2026-05-20 15:18:36,953] INFO en app: Testing: False
+[2026-05-20 15:18:37,137] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:18:39,584] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:19:27,148] INFO en app: Logging configurado correctamente
+[2026-05-20 15:19:27,149] INFO en app: Nivel de log: INFO
+[2026-05-20 15:19:27,149] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:19:27,149] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:19:27,150] INFO en app: Debug: True
+[2026-05-20 15:19:27,150] INFO en app: Testing: False
+[2026-05-20 15:19:27,326] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:19:29,706] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:21:39,074] INFO en app: Logging configurado correctamente
+[2026-05-20 15:21:39,074] INFO en app: Nivel de log: INFO
+[2026-05-20 15:21:39,074] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:21:39,075] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:21:39,075] INFO en app: Debug: True
+[2026-05-20 15:21:39,075] INFO en app: Testing: False
+[2026-05-20 15:21:39,274] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:21:41,698] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:22:06,494] INFO en app: Logging configurado correctamente
+[2026-05-20 15:22:06,495] INFO en app: Nivel de log: INFO
+[2026-05-20 15:22:06,495] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:22:06,495] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:22:06,496] INFO en app: Debug: True
+[2026-05-20 15:22:06,496] INFO en app: Testing: False
+[2026-05-20 15:22:06,670] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:22:09,024] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:30:06,627] INFO en app: Logging configurado correctamente
+[2026-05-20 15:30:06,628] INFO en app: Nivel de log: INFO
+[2026-05-20 15:30:06,628] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:30:06,628] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:30:06,629] INFO en app: Debug: True
+[2026-05-20 15:30:06,629] INFO en app: Testing: False
+[2026-05-20 15:30:06,819] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:30:09,280] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:30:17,608] INFO en app: Logging configurado correctamente
+[2026-05-20 15:30:17,609] INFO en app: Nivel de log: INFO
+[2026-05-20 15:30:17,609] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:30:17,609] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:30:17,610] INFO en app: Debug: True
+[2026-05-20 15:30:17,610] INFO en app: Testing: False
+[2026-05-20 15:30:17,778] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:30:20,168] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:30:37,803] INFO en app: Logging configurado correctamente
+[2026-05-20 15:30:37,804] INFO en app: Nivel de log: INFO
+[2026-05-20 15:30:37,804] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:30:37,804] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:30:37,804] INFO en app: Debug: True
+[2026-05-20 15:30:37,805] INFO en app: Testing: False
+[2026-05-20 15:30:37,969] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:30:40,473] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:30:53,949] INFO en app: Logging configurado correctamente
+[2026-05-20 15:30:53,949] INFO en app: Nivel de log: INFO
+[2026-05-20 15:30:53,950] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:30:53,950] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:30:53,950] INFO en app: Debug: True
+[2026-05-20 15:30:53,951] INFO en app: Testing: False
+[2026-05-20 15:30:54,116] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:30:56,627] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:31:54,606] INFO en app: Logging configurado correctamente
+[2026-05-20 15:31:54,607] INFO en app: Nivel de log: INFO
+[2026-05-20 15:31:54,607] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:31:54,607] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:31:54,607] INFO en app: Debug: True
+[2026-05-20 15:31:54,608] INFO en app: Testing: False
+[2026-05-20 15:31:54,780] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:31:57,232] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:34:15,022] INFO en app: Logging configurado correctamente
+[2026-05-20 15:34:15,023] INFO en app: Nivel de log: INFO
+[2026-05-20 15:34:15,023] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:34:15,024] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:34:15,024] INFO en app: Debug: True
+[2026-05-20 15:34:15,024] INFO en app: Testing: False
+[2026-05-20 15:34:15,262] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:34:17,689] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:34:46,765] INFO en app: Logging configurado correctamente
+[2026-05-20 15:34:46,766] INFO en app: Nivel de log: INFO
+[2026-05-20 15:34:46,766] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:34:46,767] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:34:46,767] INFO en app: Debug: True
+[2026-05-20 15:34:46,767] INFO en app: Testing: False
+[2026-05-20 15:34:46,968] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:34:49,468] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 15:52:14,747] INFO en app: Logging configurado correctamente
+[2026-05-20 15:52:14,748] INFO en app: Nivel de log: INFO
+[2026-05-20 15:52:14,748] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 15:52:14,748] INFO en app: Aplicación creada con config: development
+[2026-05-20 15:52:14,749] INFO en app: Debug: True
+[2026-05-20 15:52:14,749] INFO en app: Testing: False
+[2026-05-20 15:52:14,929] INFO en app: Blueprint auditoría registrado
+[2026-05-20 15:52:17,543] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 16:53:06,171] INFO en app: Logging configurado correctamente
+[2026-05-20 16:53:06,172] INFO en app: Nivel de log: INFO
+[2026-05-20 16:53:06,172] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 16:53:06,172] INFO en app: Aplicación creada con config: development
+[2026-05-20 16:53:06,172] INFO en app: Debug: True
+[2026-05-20 16:53:06,173] INFO en app: Testing: False
+[2026-05-20 16:53:06,422] INFO en app: Blueprint auditoría registrado
+[2026-05-20 16:53:09,636] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 16:54:08,996] INFO en app: Logging configurado correctamente
+[2026-05-20 16:54:08,997] INFO en app: Nivel de log: INFO
+[2026-05-20 16:54:08,997] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 16:54:08,997] INFO en app: Aplicación creada con config: development
+[2026-05-20 16:54:08,998] INFO en app: Debug: True
+[2026-05-20 16:54:08,998] INFO en app: Testing: False
+[2026-05-20 16:54:09,192] INFO en app: Blueprint auditoría registrado
+[2026-05-20 16:54:11,682] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 16:54:12,533] INFO en app: Logging configurado correctamente
+[2026-05-20 16:54:12,533] INFO en app: Nivel de log: INFO
+[2026-05-20 16:54:12,534] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 16:54:12,534] INFO en app: Aplicación creada con config: development
+[2026-05-20 16:54:12,534] INFO en app: Debug: True
+[2026-05-20 16:54:12,534] INFO en app: Testing: False
+[2026-05-20 16:54:12,704] INFO en app: Blueprint auditoría registrado
+[2026-05-20 16:54:15,150] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 16:59:27,934] ERROR en app: 
+=== DEBUG ERROR: 'LegacyCursor' object has no attribute 'lastrowid' ===
+
+[2026-05-20 16:59:47,530] INFO en app: Logging configurado correctamente
+[2026-05-20 16:59:47,531] INFO en app: Nivel de log: INFO
+[2026-05-20 16:59:47,531] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 16:59:47,531] INFO en app: Aplicación creada con config: development
+[2026-05-20 16:59:47,532] INFO en app: Debug: True
+[2026-05-20 16:59:47,532] INFO en app: Testing: False
+[2026-05-20 16:59:47,689] INFO en app: Blueprint auditoría registrado
+[2026-05-20 16:59:50,172] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 17:00:27,564] ERROR en app: 
+=== DEBUG ERROR: 'LegacyCursor' object has no attribute 'lastrowid' ===
+
+[2026-05-20 17:00:50,180] INFO en app: Logging configurado correctamente
+[2026-05-20 17:00:50,181] INFO en app: Nivel de log: INFO
+[2026-05-20 17:00:50,181] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 17:00:50,181] INFO en app: Aplicación creada con config: development
+[2026-05-20 17:00:50,182] INFO en app: Debug: True
+[2026-05-20 17:00:50,182] INFO en app: Testing: False
+[2026-05-20 17:00:50,375] INFO en app: Blueprint auditoría registrado
+[2026-05-20 17:00:52,860] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 17:01:03,272] INFO en app: Logging configurado correctamente
+[2026-05-20 17:01:03,272] INFO en app: Nivel de log: INFO
+[2026-05-20 17:01:03,272] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-05-20 17:01:03,273] INFO en app: Aplicación creada con config: development
+[2026-05-20 17:01:03,273] INFO en app: Debug: True
+[2026-05-20 17:01:03,273] INFO en app: Testing: False
+[2026-05-20 17:01:03,456] INFO en app: Blueprint auditoría registrado
+[2026-05-20 17:01:05,918] INFO en app: Tablas de BD verificadas/creadas
+[2026-05-20 17:01:20,597] INFO en app: [AUDIT] INSERT mascotas[47] usuario=Felipe pineda ip=127.0.0.1

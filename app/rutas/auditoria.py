@@ -4,16 +4,31 @@ Rutas para visualizar logs de auditoría (admin)
 
 from flask import Blueprint, render_template, request, session, flash, redirect, current_app
 from datetime import datetime, timedelta
+from types import SimpleNamespace
+from functools import wraps
 from app.models import db, AuditLog
 from app.services.audit_service import AuditService
-from app.utils.decoradores import requerir_admin
+from app.services.admin_data_service import AdminDataStructureService
+
+admin_data_service = AdminDataStructureService()
 
 # Crear blueprint
 auditoria_bp = Blueprint('auditoria', __name__, url_prefix='/admin/auditoria')
 
 
+def admin_required(f):
+    """Decorador para verificar que el usuario sea administrador"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'loggedin' not in session or session.get('rol') != 'admin':
+            flash('Acceso no autorizado. Debes ser administrador.', 'danger')
+            return redirect('/home')
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 @auditoria_bp.route('/logs', methods=['GET'])
-@requerir_admin
+@admin_required
 def ver_logs():
     """
     Visualiza los logs de auditoría con filtros.
@@ -53,29 +68,35 @@ def ver_logs():
             except ValueError:
                 pass
         
-        # Obtiene logs filtrados
-        logs, total = AuditService.obtener_logs_filtrados(
-            tabla_afectada=tabla,
+        # Cargar todos los logs en memoria usando LinkedList
+        audit_logs_linkedlist = admin_data_service.cargar_audit_logs_en_linkedlist()
+
+        # Filtrar en memoria según los criterios
+        filtered_logs = admin_data_service.filtrar_audit_logs(
+            audit_logs_linkedlist,
+            tabla=tabla,
             usuario_id=usuario_id,
             accion=accion,
             fecha_desde=fecha_desde,
-            fecha_hasta=fecha_hasta,
-            limite=50,
-            pagina=pagina
+            fecha_hasta=fecha_hasta
         )
-        
-        # Calcula paginación
+
+        total = len(filtered_logs)
         total_paginas = (total + 49) // 50  # ceil(total / 50)
         
-        # Obtiene tablas únicas para dropdown
-        tablas = db.session.query(AuditLog.tabla_afectada).distinct().all()
-        tablas = [t[0] for t in tablas if t[0]]
+        # Paginación en memoria
+        offset = (pagina - 1) * 50
+        logs_page = filtered_logs[offset:offset + 50]
         
-        # Obtiene acciones únicas
+        # Convertir a objetos tipo atributo para plantilla
+        logs_page = [SimpleNamespace(**log) for log in logs_page]
+        
+        # Tablas de todos los logs para el dropdown
+        tablas = sorted({log.get('tabla_afectada') for log in audit_logs_linkedlist if log.get('tabla_afectada')})
         acciones = ['INSERT', 'UPDATE', 'DELETE']
         
         return render_template('admin/audit_logs.html',
-                               logs=logs,
+                               logs=logs_page,
                                total=total,
                                pagina=pagina,
                                total_paginas=total_paginas,
@@ -96,7 +117,7 @@ def ver_logs():
 
 
 @auditoria_bp.route('/detalles/<int:log_id>', methods=['GET'])
-@requerir_admin
+@admin_required
 def detalles_log(log_id):
     """
     Muestra detalles completos de un log.
@@ -117,7 +138,7 @@ def detalles_log(log_id):
 
 
 @auditoria_bp.route('/anomalias', methods=['GET'])
-@requerir_admin
+@admin_required
 def detectar_anomalias():
     """
     Muestra anomalías detectadas en los últimos cambios.
@@ -137,7 +158,7 @@ def detectar_anomalias():
 
 
 @auditoria_bp.route('/exportar', methods=['GET'])
-@requerir_admin
+@admin_required
 def exportar_logs():
     """
     Exporta logs en CSV.
@@ -147,20 +168,21 @@ def exportar_logs():
         usuario_id = request.args.get('usuario', type=int)
         accion = request.args.get('accion')
         
-        logs, _ = AuditService.obtener_logs_filtrados(
-            tabla_afectada=tabla,
+        audit_logs_linkedlist = admin_data_service.cargar_audit_logs_en_linkedlist()
+        filtered_logs = admin_data_service.filtrar_audit_logs(
+            audit_logs_linkedlist,
+            tabla=tabla,
             usuario_id=usuario_id,
-            accion=accion,
-            limite=10000  # Límite máximo de exportación
+            accion=accion
         )
         
         # Genera CSV
         csv_data = "ID,Timestamp,Usuario,Acción,Tabla,Registro_ID,IP,Método,Ruta\n"
         
-        for log in logs:
-            csv_data += f"{log.id},{log.timestamp.isoformat()},{log.usuario_nombre},"
-            csv_data += f"{log.accion},{log.tabla_afectada},{log.registro_id},"
-            csv_data += f"{log.ip_address},{log.metodo_http},{log.ruta}\n"
+        for log in filtered_logs:
+            csv_data += f"{log['id']},{log['timestamp'].isoformat()},{log.get('usuario_nombre','')},"
+            csv_data += f"{log.get('accion','')},{log.get('tabla_afectada','')},{log.get('registro_id','')},"
+            csv_data += f"{log.get('ip_address','')},{log.get('metodo_http','')},{log.get('ruta','')}\n"
         
         from flask import make_response
         response = make_response(csv_data)
@@ -176,7 +198,7 @@ def exportar_logs():
 
 
 @auditoria_bp.route('/limpiar', methods=['POST'])
-@requerir_admin
+@admin_required
 def limpiar_logs():
     """
     Limpia logs más antiguos (archivado).

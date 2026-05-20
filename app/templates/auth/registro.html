@@ -17,6 +17,12 @@
       <form action="{{ url_for('registro') }}" method="post" autocomplete="off">
         <input type="text" name="nombre" placeholder="Nombre completo" id="nombre" required>
         <input type="email" name="email" placeholder="Correo electrónico" id="email" required>
+        
+        <div class="date-field">
+          <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+          <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+          <small id="date-error" style="color: #dc3545; display: none;"></small>
+        </div>
 
         <div class="password-field">
           <input type="password" name="password" placeholder="Contraseña" id="password" required>
@@ -102,6 +108,91 @@ passwordInput.addEventListener('input', function() {
   validate(requirements.uppercase, /[A-Z]/);
   validate(requirements.number, /[0-9]/);
   validate(requirements.symbol, /[^A-Za-z0-9]/);
+});
+</script>
+
+<!-- Validación de fecha de nacimiento en tiempo real -->
+<script>
+const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+const dateErrorMessage = document.getElementById('date-error');
+
+function validateBirthDate(dateString) {
+  if (!dateString) return { valid: false, message: '' };
+  
+  const fecha = new Date(dateString);
+  const hoy = new Date();
+  
+  // No permitir fechas futuras
+  if (fecha > hoy) {
+    return { valid: false, message: 'La fecha de nacimiento no puede ser en el futuro.' };
+  }
+  
+  // Calcular edad
+  let edad = hoy.getFullYear() - fecha.getFullYear();
+  const mesActual = hoy.getMonth();
+  const mesNacimiento = fecha.getMonth();
+  
+  if (mesActual < mesNacimiento || (mesActual === mesNacimiento && hoy.getDate() < fecha.getDate())) {
+    edad--;
+  }
+  
+  // No permitir fechas muy antiguas (más de 150 años)
+  if (edad > 150) {
+    return { valid: false, message: 'La fecha de nacimiento no puede ser más de 150 años atrás.' };
+  }
+  
+  // Validar que sea mayor de edad (mínimo 13 años)
+  if (edad < 13) {
+    return { valid: false, message: 'Debes tener al menos 13 años para registrarte.' };
+  }
+  
+  return { valid: true, message: '', edad: edad };
+}
+
+fechaNacimientoInput.addEventListener('change', function() {
+  const result = validateBirthDate(this.value);
+  
+  if (!this.value) {
+    dateErrorMessage.style.display = 'none';
+    this.classList.remove('is-invalid');
+  } else if (!result.valid) {
+    dateErrorMessage.textContent = result.message;
+    dateErrorMessage.style.display = 'block';
+    this.classList.add('is-invalid');
+  } else {
+    dateErrorMessage.style.display = 'none';
+    this.classList.remove('is-invalid');
+  }
+});
+
+// Validar al enviar el formulario
+document.querySelector('form').addEventListener('submit', function(e) {
+  const dateValue = fechaNacimientoInput.value;
+  const result = validateBirthDate(dateValue);
+  
+  if (!dateValue) {
+    e.preventDefault();
+    dateErrorMessage.textContent = 'La fecha de nacimiento es obligatoria.';
+    dateErrorMessage.style.display = 'block';
+    fechaNacimientoInput.classList.add('is-invalid');
+  } else if (!result.valid) {
+    e.preventDefault();
+    dateErrorMessage.textContent = result.message;
+    dateErrorMessage.style.display = 'block';
+    fechaNacimientoInput.classList.add('is-invalid');
+  }
+});
+
+// Establecer fecha máxima a hoy
+document.addEventListener('DOMContentLoaded', function() {
+  const hoy = new Date().toISOString().split('T')[0];
+  fechaNacimientoInput.setAttribute('max', hoy);
+  
+  // Establecer fecha mínima a 150 años atrás
+  const hace150Años = new Date();
+  hace150Años.setFullYear(hace150Años.getFullYear() - 150);
+  const fechaMinima = hace150Años.toISOString().split('T')[0];
+  fechaNacimientoInput.setAttribute('min', fechaMinima);
 });
 </script>
 {% endblock %}

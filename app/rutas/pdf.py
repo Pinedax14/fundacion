@@ -8,6 +8,7 @@ from datetime import datetime
 from flask import send_file, flash, redirect, url_for, session
 from functools import wraps
 from app.rutas.pdf_generator import PDFGenerator
+from app.services.admin_data_service import AdminDataStructureService
 
 
 def admin_required_decorator(f):
@@ -44,6 +45,7 @@ class RutasPDF:
         self.app = app
         self.conexion = conexion
         self.pdf_gen = PDFGenerator()
+        self.admin_data_service = AdminDataStructureService()
         self._registrar_rutas()
 
     def _registrar_rutas(self):
@@ -64,10 +66,18 @@ class RutasPDF:
         Solo accessibles por administradores
         """
         try:
-            cursor = self.conexion.mysql.connection.cursor()
-            cursor.execute("SELECT id, nombre, email, password, fecha_registro, rol FROM usuarios ORDER BY fecha_registro DESC")
-            usuarios = cursor.fetchall()
-            cursor.close()
+            usuarios_linkedlist = self.admin_data_service.cargar_usuarios_en_linkedlist()
+            usuarios = [
+                (
+                    u['id'],
+                    u['nombre'],
+                    u['email'],
+                    u['password'],
+                    u['fecha_registro'],
+                    u['rol']
+                )
+                for u in usuarios_linkedlist.to_list()
+            ]
 
             if not usuarios:
                 flash("No hay usuarios registrados para generar el reporte", "warning")
@@ -93,15 +103,22 @@ class RutasPDF:
         Solo accessibles por administradores
         """
         try:
-            cursor = self.conexion.mysql.connection.cursor()
-            cursor.execute("""
-                SELECT id, nombre, especie, raza, edad, sexo, descripcion,
-                       foto_url, estado, fecha_ingreso
-                FROM mascotas
-                ORDER BY fecha_ingreso DESC
-            """)
-            mascotas = cursor.fetchall()
-            cursor.close()
+            mascotas_linkedlist = self.admin_data_service.cargar_mascotas_en_linkedlist()
+            mascotas = [
+                (
+                    m['id'],
+                    m['nombre'],
+                    m['especie'],
+                    m['raza'],
+                    m['edad'],
+                    m['sexo'],
+                    m['descripcion'],
+                    m['foto_url'],
+                    m['estado'],
+                    m['fecha_ingreso']
+                )
+                for m in mascotas_linkedlist.to_list()
+            ]
 
             if not mascotas:
                 flash("No hay mascotas registradas para generar el reporte", "warning")
@@ -127,15 +144,19 @@ class RutasPDF:
         Solo accessibles por administradores
         """
         try:
-            cursor = self.conexion.get_cursor()
-            cursor.execute("""
-                SELECT id, nombre_donante, contacto_email, tipo_donacion,
-                       descripcion_donacion, fecha_donacion, estado_entrega
-                FROM donaciones_items
-                ORDER BY fecha_donacion DESC
-            """)
-            donaciones = cursor.fetchall()
-            cursor.close()
+            donaciones_linkedlist = self.admin_data_service.cargar_donaciones_en_linkedlist()
+            donaciones = [
+                (
+                    d['id'],
+                    d['nombre_donante'],
+                    d['contacto_email'],
+                    d['tipo_donacion'],
+                    d['descripcion_donacion'],
+                    d['fecha_donacion'],
+                    d['estado_entrega']
+                )
+                for d in donaciones_linkedlist.to_list()
+            ]
 
             if not donaciones:
                 flash("No hay donaciones registradas para generar el reporte", "warning")
@@ -161,15 +182,22 @@ class RutasPDF:
         Solo accessibles por administradores
         """
         try:
-            cursor = self.conexion.mysql.connection.cursor()
-            cursor.execute("""
-                SELECT id, ubicacion, descripcion_incidente, foto_evidencia_url,
-                       fecha_reporte, estado_reporte
-                FROM reportes
-                ORDER BY fecha_reporte DESC
-            """)
-            reportes = cursor.fetchall()
-            cursor.close()
+            reportes_queue = self.admin_data_service.cargar_reportes_en_queue()
+            reportes = []
+            while len(reportes_queue) > 0:
+                reportes.append(reportes_queue.dequeue())
+
+            reportes = [
+                (
+                    r['id'],
+                    r['ubicacion'],
+                    r['descripcion_incidente'],
+                    r['foto_evidencia_url'],
+                    r['fecha_reporte'],
+                    r['estado_reporte']
+                )
+                for r in reportes
+            ]
 
             if not reportes:
                 flash("No hay reportes de maltrato registrados", "warning")

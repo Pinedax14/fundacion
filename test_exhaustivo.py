@@ -164,7 +164,7 @@ with app.app_context():
     adopcion_data = {
         'direccion': 'Calle Principal 123, Apartamento 4B',
         'telefono': '3005551234',
-        'ingresos': '2500000',
+        'ingresos': '2000000-3000000',
         'estrato': '3',
         'mensaje': 'Amo mucho los perros y quiero darle un hogar'
     }
@@ -213,7 +213,7 @@ with app.app_context():
         mensaje='Quiero adoptar a Firulais',
         direccion='Calle 123',
         telefono='1234567890',
-        ingresos=2000000,
+        ingresos='1000000-2000000',
         estrato_social=3,
         estado='pendiente'
     )

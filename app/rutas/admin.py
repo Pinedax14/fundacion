@@ -8,6 +8,8 @@ import traceback
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, url_for, session, flash
 from app.rutas.decoradores import admin_required_factory
+from app.services.admin_data_service import AdminDataStructureService
+from app.services.audit_service import AuditService
 
 
 class RutasAdmin:
@@ -34,6 +36,7 @@ class RutasAdmin:
         self.app = app
         self.conexion = conexion
         self.bcrypt = conexion.bcrypt
+        self.admin_data_service = AdminDataStructureService()
         # Crear decorador admin que usa la misma sesión/contexto
         self.admin_required = admin_required_factory(app)
         self.registrar_rutas()
@@ -47,40 +50,34 @@ class RutasAdmin:
             
             """
             Muestra el panel principal de administración
-            Lista solicitudes de adopción y reportes de maltrato
+            Carga solicitudes, reportes y voluntariados en estructuras de nodos (LinkedList, Queue)
             Solo accesible para administradores
             """
             try:
-                from sqlalchemy import text
-                from app import db
+                # Cargar datos en estructuras de nodos
+                solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_en_linkedlist()
+                reportes_queue = self.admin_data_service.cargar_reportes_en_queue()
+                voluntariados_linkedlist = self.admin_data_service.cargar_voluntariados_en_linkedlist()
                 
-                # Obtener solicitudes pendientes y en proceso
-                query_solicitudes = """
-                    SELECT s.id, u.nombre AS usuario_nombre, m.nombre AS mascota_nombre,
-                           s.fecha_solicitud, s.estado_solicitud
-                    FROM solicitudes_adopcion s
-                    JOIN usuarios u ON s.id_usuario = u.id
-                    JOIN mascotas m ON s.id_mascota = m.id
-                    ORDER BY s.fecha_solicitud DESC
-                """
-                solicitudes_result = db.session.execute(text(query_solicitudes))
-                solicitudes = solicitudes_result.fetchall()
-                print(f"DEBUG: Encontradas {len(solicitudes)} solicitudes en la BD")
+                # Filtrar solicitudes en memoria si se solicita un estado
+                estado_filtro = request.args.get('estado')
+                if estado_filtro:
+                    solicitudes = self.admin_data_service.filtrar_solicitudes_por_estado(solicitudes_linkedlist, estado_filtro)
+                else:
+                    solicitudes = solicitudes_linkedlist.to_list()
 
-                # Obtener todos los reportes
-                reportes_result = db.session.execute(text("SELECT * FROM reportes ORDER BY fecha_reporte DESC"))
-                reportes = reportes_result.fetchall()
-                print(f"DEBUG: Encontrados {len(reportes)} reportes en la BD")
-
-                # Obtener solicitudes de voluntariado
-                voluntariado_result = db.session.execute(text("SELECT * FROM solicitudes_voluntariado ORDER BY fecha_solicitud DESC"))
-                solicitudes_voluntariado = voluntariado_result.fetchall()
-                print(f"DEBUG: Encontradas {len(solicitudes_voluntariado)} solicitudes de voluntariado en la BD")
+                reportes = []
+                while len(reportes_queue) > 0:
+                    reportes.append(reportes_queue.dequeue())
+                solicitudes_voluntariado = voluntariados_linkedlist.to_list()
+                
+                print(f"DEBUG: Cargadas {len(solicitudes)} solicitudes en LinkedList")
+                print(f"DEBUG: Cargados {len(reportes)} reportes en Queue")
+                print(f"DEBUG: Cargadas {len(solicitudes_voluntariado)} solicitudes de voluntariado en LinkedList")
                 
                 return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes, solicitudes_voluntariado=solicitudes_voluntariado)
             except Exception as e:
                 print(f"ERROR en admin_panel: {e}")  # Debug
-                db.session.rollback()
                 flash(f'Error al cargar panel: {e}', 'danger')
                 return render_template('admin/admin_panel.html', solicitudes=[], reportes=[], solicitudes_voluntariado=[])
 
@@ -156,6 +153,15 @@ class RutasAdmin:
                 self.conexion.commit()
                 cursor.close()
 
+                # Registrar en auditoría
+                AuditService.registrar_cambio(
+                    accion='UPDATE',
+                    tabla_afectada='solicitudes_adopcion',
+                    registro_id=solicitud_id,
+                    datos_despues={'estado_solicitud': respuesta},
+                    notas=f'Solicitud de adopción {respuesta} por administrador'
+                )
+                
                 flash(f'La solicitud ha sido marcada como \"{respuesta}\".', 'success')
                 return redirect(url_for('admin_panel'))
 
@@ -203,6 +209,16 @@ class RutasAdmin:
                 cur.execute("UPDATE reportes SET estado_reporte = 'resuelto' WHERE id = %s", [reporte_id])
                 self.conexion.commit()
                 cur.close()
+                
+                # Registrar en auditoría
+                AuditService.registrar_cambio(
+                    accion='UPDATE',
+                    tabla_afectada='reportes',
+                    registro_id=reporte_id,
+                    datos_despues={'estado_reporte': 'resuelto'},
+                    notas='Reporte de maltrato marcado como resuelto'
+                )
+                
                 flash('El reporte ha sido marcado como resuelto.', 'success')
             except Exception as e:
                 self.conexion.rollback()
@@ -238,6 +254,14 @@ class RutasAdmin:
                 cursor.execute("DELETE FROM reportes WHERE id = %s", [reporte_id])
                 self.conexion.commit()
                 cursor.close()
+
+                # Registrar en auditoría
+                AuditService.registrar_cambio(
+                    accion='DELETE',
+                    tabla_afectada='reportes',
+                    registro_id=reporte_id,
+                    notas='Reporte de maltrato eliminado por administrador'
+                )
 
                 flash('El reporte ha sido eliminado correctamente.', 'success')
             except Exception as e:
@@ -301,10 +325,29 @@ class RutasAdmin:
                     cursor.execute("""
                         INSERT INTO mascotas (nombre, especie, raza, edad, sexo, descripcion, foto_url, estado)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id
                     """, (nombre, especie, raza, edad, sexo, descripcion, foto_url, 'Disponible'))
-
+                    
+                    resultado = cursor.fetchone()
+                    mascota_id = resultado['id'] if resultado else None
                     self.conexion.commit()
                     cursor.close()
+
+                    # Registrar en auditoría
+                    AuditService.registrar_cambio(
+                        accion='INSERT',
+                        tabla_afectada='mascotas',
+                        registro_id=mascota_id,
+                        datos_despues={
+                            'nombre': nombre,
+                            'especie': especie,
+                            'raza': raza,
+                            'edad': edad,
+                            'sexo': sexo,
+                            'estado': 'Disponible'
+                        },
+                        notas='Mascota ingresada al sistema por administrador'
+                    )
 
                     flash('Mascota agregada correctamente.', 'success')
                     return redirect(url_for('admin_panel'))

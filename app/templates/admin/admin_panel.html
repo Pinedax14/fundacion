@@ -55,6 +55,16 @@
                 Reportes PDF
             </button>
         </li>
+        <li class="nav-item mb-2" role="presentation">
+            <button class="nav-link"
+                    id="auditoria-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#auditoria"
+                    type="button"
+                    role="tab">
+                📋 Auditoría
+            </button>
+        </li>
     </ul>
 
     <div class="tab-content" id="adminTabContent">
@@ -279,6 +289,66 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB AUDITORÍA -->
+        <div class="tab-pane fade" id="auditoria" role="tabpanel" aria-labelledby="auditoria-tab">
+            <div class="card card-body">
+                <h2 class="mt-3">📋 Logs de Auditoría</h2>
+                <p class="text-muted">Acceso completo al sistema de auditoría con filtros, búsqueda y detección de anomalías.</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 2.5rem;" class="mb-3">📊</div>
+                                <h5 class="card-title">Ver Logs</h5>
+                                <p class="card-text text-muted small">
+                                    Visualiza todos los cambios registrados con filtros avanzados.
+                                </p>
+                                <a href="/admin/auditoria/logs" class="btn btn-primary-custom btn-sm">
+                                    <i class="bi bi-search me-1"></i>Ir a Logs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 2.5rem;" class="mb-3">⚠️</div>
+                                <h5 class="card-title">Detectar Anomalías</h5>
+                                <p class="card-text text-muted small">
+                                    Identifica actividades sospechosas y patrones anómalos.
+                                </p>
+                                <a href="/admin/auditoria/anomalias" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>Analizar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <div style="font-size: 2.5rem;" class="mb-3">📥</div>
+                                <h5 class="card-title">Exportar Logs</h5>
+                                <p class="card-text text-muted small">
+                                    Descarga los logs en formato CSV para análisis.
+                                </p>
+                                <a href="/admin/auditoria/exportar" class="btn btn-success btn-sm">
+                                    <i class="bi bi-download me-1"></i>Exportar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    <strong>ℹ️ Información:</strong> El sistema registra automáticamente todos los cambios en solicitudes, mascotas, reportes y voluntariados.
+                    Los logs incluyen usuario, IP, timestamp, tipo de acción y datos modificados.
                 </div>
             </div>
         </div>

@@ -2,7 +2,8 @@
 Validadores usando Marshmallow para validación centralizada de datos
 """
 
-from marshmallow import Schema, fields, ValidationError, validate, pre_load
+from marshmallow import Schema, fields, ValidationError, validate
+from datetime import datetime, timedelta
 import re
 
 
@@ -10,6 +11,7 @@ class UsuarioRegistroSchema(Schema):
     """Schema para validar registro de usuario"""
     nombre = fields.Str(required=True, validate=validate.Length(min=3, max=120))
     email = fields.Email(required=True)
+    fecha_nacimiento = fields.Date(required=True, format='%Y-%m-%d')
     password = fields.Str(
         required=True,
         validate=validate.Length(min=8),
@@ -26,6 +28,24 @@ class UsuarioRegistroSchema(Schema):
             raise ValidationError("Debe contener al menos un número")
         if not re.search(r'[!@#$%^&*]', value):
             raise ValidationError("Debe contener al menos un símbolo especial")
+    
+    def validate_fecha_nacimiento(self, value):
+        """Validar que la fecha de nacimiento es válida"""
+        hoy = datetime.now().date()
+        
+        # No permitir fechas futuras
+        if value > hoy:
+            raise ValidationError("La fecha de nacimiento no puede ser en el futuro.")
+        
+        # No permitir fechas muy antiguas (más de 150 años atrás)
+        fecha_minima = hoy - timedelta(days=150*365.25)
+        if value < fecha_minima:
+            raise ValidationError("La fecha de nacimiento no puede ser más de 150 años atrás.")
+        
+        # Validar que sea mayor de edad (mínimo 13 años)
+        edad_minima = hoy - timedelta(days=13*365.25)
+        if value > edad_minima:
+            raise ValidationError("Debes tener al menos 13 años para registrarte.")
 
 
 class UsuarioLoginSchema(Schema):
@@ -49,7 +69,18 @@ class SolicitudAdopcionSchema(Schema):
     mensaje = fields.Str()
     direccion = fields.Str(required=True, validate=validate.Length(min=10))
     telefono = fields.Str(required=True, validate=validate.Length(min=7, max=20))
-    ingresos = fields.Int(required=True)
+    ingresos = fields.Str(required=True, validate=validate.OneOf([
+        '1000000-2000000',
+        '2000000-3000000',
+        '3000000-4000000',
+        '4000000-5000000',
+        '5000000-6000000',
+        '6000000-7000000',
+        '7000000-8000000',
+        '8000000-9000000',
+        '9000000-10000000',
+        '10000000+'
+    ]))
     estrato_social = fields.Int(required=True, validate=validate.Range(min=1, max=6))
 
 

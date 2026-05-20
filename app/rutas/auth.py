@@ -15,7 +15,9 @@ from flask import render_template, request, redirect, url_for, session, flash, g
 from sqlalchemy.exc import IntegrityError
 from app.rutas.decoradores import admin_required_factory
 from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota
-from datetime import datetime, timedelta
+from app.services.postgres_user_service import PostgresUserService
+from app.services.admin_data_service import AdminDataStructureService
+from datetime import datetime, timedelta, date
 
 
 class RutasAuth:
@@ -42,6 +44,8 @@ class RutasAuth:
         self.conexion = conexion
         self.mysql = conexion.mysql
         self.bcrypt = conexion.bcrypt
+        self.postgres_user_service = PostgresUserService()
+        self.admin_data_service = AdminDataStructureService()
         self.admin_required = admin_required_factory(app)
         # Credenciales de correo desde variables de entorno
         self.REMITENTE = "almasconcola@gmail.com"
@@ -56,7 +60,7 @@ class RutasAuth:
             """
             GET: Muestra formulario de registro
             POST: Procesa el registro de nuevo usuario
-            Validaciones: email único, formato válido, contraseña fuerte
+            Validaciones: email único, formato válido, contraseña fuerte, fecha de nacimiento válida
             """
             msg = ''
             if request.method == 'POST':
@@ -64,6 +68,7 @@ class RutasAuth:
                 email = request.form.get('email', '').strip().lower()
                 password = request.form.get('password', '')
                 confirmar_password = request.form.get('confirmar_password', '')
+                fecha_nacimiento_str = request.form.get('fecha_nacimiento', '').strip()
 
                 # Validaciones del registro
                 if not nombre:
@@ -72,60 +77,94 @@ class RutasAuth:
                     msg = 'El correo electrónico es obligatorio.'
                 elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
                     msg = '¡Dirección de correo electrónico no válida!'
-                elif Usuario.query.filter_by(email=email).first():
-                    msg = '¡La cuenta de correo electrónico ya existe!'
-                elif password != confirmar_password:
-                    msg = '¡Las contraseñas no coinciden!'
-                elif len(password) < 8:
-                    msg = 'La contraseña debe tener al menos 8 caracteres.'
-                elif not re.search(r"[0-9]", password):
-                    msg = 'La contraseña debe contener al menos un número.'
-                elif not re.search(r"[!@#$%^&*()-_=+{};:,<.>]", password):
-                    msg = 'La contraseña debe contener al menos un símbolo especial.'
+                elif not fecha_nacimiento_str:
+                    msg = 'La fecha de nacimiento es obligatoria.'
                 else:
+                    # Validar y parsear fecha de nacimiento
+                    fecha_valida = True
                     try:
-                        hash_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
-                        nuevo_usuario = Usuario(
-                            nombre=nombre,
-                            email=email,
-                            password=hash_password,
-                            rol='user'
-                        )
-                        db.session.add(nuevo_usuario)
-                        db.session.commit()
-
-                        codigo = self._generar_codigo_verificacion_unico()
-                        if not codigo:
-                            raise RuntimeError('No se pudo generar un código de verificación único.')
-
-                        fecha_expiracion = datetime.utcnow() + timedelta(hours=24)
-                        verificacion = VerificacionEmail(
-                            usuario_id=nuevo_usuario.id,
-                            codigo=codigo,
-                            fecha_expiracion=fecha_expiracion
-                        )
-                        db.session.add(verificacion)
-                        db.session.commit()
-
-                        correo_enviado = self._enviar_correo_verificacion(email, nombre, codigo)
-                        if correo_enviado:
-                            flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
+                        fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, '%Y-%m-%d').date()
+                        hoy = date.today()
+                        
+                        # No permitir fechas futuras
+                        if fecha_nacimiento > hoy:
+                            msg = 'La fecha de nacimiento no puede ser en el futuro.'
+                            fecha_valida = False
+                        # No permitir fechas muy antiguas (más de 150 años)
+                        elif (hoy.year - fecha_nacimiento.year) > 150:
+                            msg = 'La fecha de nacimiento no puede ser más de 150 años atrás.'
+                            fecha_valida = False
+                        # Validar que sea mayor de edad (mínimo 13 años)
                         else:
-                            flash('Te has registrado correctamente, pero no se pudo enviar el correo de verificación. Contacta al administrador.', 'warning')
+                            edad = hoy.year - fecha_nacimiento.year
+                            if (hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day):
+                                edad -= 1
+                            if edad < 13:
+                                msg = 'Debes tener al menos 13 años para registrarte.'
+                                fecha_valida = False
+                    except ValueError:
+                        msg = 'Formato de fecha de nacimiento inválido. Usa el formato YYYY-MM-DD.'
+                        fecha_valida = False
+                    
+                    if not fecha_valida:
+                        pass  # msg ya contiene el mensaje de error
+                    elif Usuario.query.filter_by(email=email).first():
+                        msg = '¡La cuenta de correo electrónico ya existe!'
+                    elif password != confirmar_password:
+                        msg = '¡Las contraseñas no coinciden!'
+                    elif len(password) < 8:
+                        msg = 'La contraseña debe tener al menos 8 caracteres.'
+                    elif not re.search(r"[0-9]", password):
+                        msg = 'La contraseña debe contener al menos un número.'
+                    elif not re.search(r"[!@#$%^&*()-_=+{};:,<.>]", password):
+                        msg = 'La contraseña debe contener al menos un símbolo especial.'
+                    else:
+                        try:
+                            hash_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
 
-                        return redirect(url_for('verificar_email'))
+                            # Registrar el usuario usando el procedimiento almacenado en PostgreSQL/Neon
+                            usuario_id = self.postgres_user_service.registrar_usuario(
+                                nombre=nombre,
+                                email=email,
+                                password_hash=hash_password,
+                                fecha_nacimiento=fecha_nacimiento
+                            )
 
-                    except IntegrityError as e:
-                        db.session.rollback()
-                        self.app.logger.exception('Error en registro - integridad de datos:')
-                        if 'email' in str(e).lower():
-                            msg = '¡La cuenta de correo electrónico ya existe!'
-                        else:
+                            if not usuario_id:
+                                raise RuntimeError('No se pudo crear el usuario en la base de datos.')
+
+                            codigo = self._generar_codigo_verificacion_unico()
+                            if not codigo:
+                                raise RuntimeError('No se pudo generar un código de verificación único.')
+
+                            fecha_expiracion = datetime.utcnow() + timedelta(hours=24)
+                            verificacion = VerificacionEmail(
+                                usuario_id=usuario_id,
+                                codigo=codigo,
+                                fecha_expiracion=fecha_expiracion
+                            )
+                            db.session.add(verificacion)
+                            db.session.commit()
+
+                            correo_enviado = self._enviar_correo_verificacion(email, nombre, codigo)
+                            if correo_enviado:
+                                flash('¡Te has registrado exitosamente! Se ha enviado un correo de verificación.', 'success')
+                            else:
+                                flash('Te has registrado correctamente, pero no se pudo enviar el correo de verificación. Contacta al administrador.', 'warning')
+
+                            return redirect(url_for('verificar_email'))
+
+                        except IntegrityError as e:
+                            db.session.rollback()
+                            self.app.logger.exception('Error en registro - integridad de datos:')
+                            if 'email' in str(e).lower():
+                                msg = '¡La cuenta de correo electrónico ya existe!'
+                            else:
+                                msg = 'Error durante el registro. Intenta de nuevo.'
+                        except Exception as e:
+                            db.session.rollback()
+                            self.app.logger.exception('Error en registro:')
                             msg = 'Error durante el registro. Intenta de nuevo.'
-                    except Exception as e:
-                        db.session.rollback()
-                        self.app.logger.exception('Error en registro:')
-                        msg = 'Error durante el registro. Intenta de nuevo.'
             
             return render_template('auth/registro.html', msg=msg)
 
@@ -233,31 +272,11 @@ class RutasAuth:
                 flash('Usuario no encontrado.', 'warning')
                 return redirect(url_for('login'))
 
-            # Obtener solicitudes de adopción del usuario (usando ORM con joins)
-            solicitudes = db.session.query(
-                SolicitudAdopcion.id,
-                SolicitudAdopcion.fecha_solicitud,
-                SolicitudAdopcion.estado,
-                Mascota.nombre.label('mascota_nombre'),
-                Mascota.foto_url.label('mascota_foto')
-            ).join(Mascota).filter(
-                SolicitudAdopcion.usuario_id == user_id
-            ).order_by(
-                db.desc(SolicitudAdopcion.fecha_solicitud)
-            ).all()
+            # Obtener solicitudes de adopción del usuario usando estructuras de nodos
+            solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_usuario_en_linkedlist(user_id)
+            solicitudes_formatted = solicitudes_linkedlist.to_list()
 
-            # Convert to dict-like format for template compatibility
-            solicitudes_formatted = []
-            for solicitud in solicitudes:
-                solicitudes_formatted.append({
-                    'id': solicitud[0],
-                    'fecha_solicitud': solicitud[1],
-                    'estado_solicitud': solicitud[2],
-                    'mascota_nombre': solicitud[3],
-                    'mascota_foto': solicitud[4]
-                })
-
-            # Convert usuario to dict for template
+            # Convert usuario a dict para el template
             usuario_dict = {
                 'nombre': usuario.nombre,
                 'email': usuario.email,

@@ -34,7 +34,8 @@ body {
 
 .form-container input[type="text"],
 .form-container input[type="email"],
-.form-container input[type="password"] {
+.form-container input[type="password"],
+.form-container input[type="date"] {
     width: 100%;
     padding: 0.8rem 1rem;
     margin-bottom: 1rem;
@@ -47,6 +48,36 @@ body {
 .password-field {
     position: relative;
     margin-bottom: 1rem;
+}
+
+.date-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.date-field label {
+    display: block;
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.date-field input[type="date"] {
+    margin-bottom: 0.3rem;
+}
+
+.date-field small {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+}
+
+/* Estilos para input date inválido */
+.date-field input[type="date"].is-invalid {
+    border-color: #dc3545;
+    background-color: #fff5f5;
 }
 
 .password-field .toggle-password {

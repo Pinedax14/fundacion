@@ -4,6 +4,8 @@ Contiene las rutas para listar, filtrar, ver detalles y solicitar adopción de m
 """
 
 from flask import render_template, request, redirect, url_for, session, flash
+from app.services.admin_data_service import AdminDataStructureService
+import re
 
 
 class RutasMascotas:
@@ -28,6 +30,7 @@ class RutasMascotas:
         self.app = app
         self.conexion = conexion
         self.mysql = conexion.mysql
+        self.admin_data_service = AdminDataStructureService()
         self.registrar_rutas()
 
     def registrar_rutas(self):
@@ -37,68 +40,67 @@ class RutasMascotas:
         def mascotas():
             """
             Muestra el listado de todas las mascotas disponibles
-            Ordena por estado (disponibles primero)
+            Carga mascotas en LinkedList para procesamiento en memoria
             """
             try:
-                cursor = self.conexion.get_cursor()
-                cursor.execute("SELECT id, nombre, estado, fecha_ingreso FROM mascotas ORDER BY estado ASC")
-                lista_mascotas = cursor.fetchall()
-                cursor.close()
+                # Cargar mascotas en LinkedList
+                mascotas_linkedlist = self.admin_data_service.cargar_mascotas_en_linkedlist()
+                
+                # Convertir a lista para template
+                lista_mascotas = mascotas_linkedlist.to_list()
+                
+                print(f"DEBUG: Cargadas {len(lista_mascotas)} mascotas en LinkedList")
+                
                 return render_template('mascotas/mascotas.html', mascotas=lista_mascotas)
             except Exception as e:
-                self.conexion.rollback()
                 flash(f'Error al cargar mascotas: {e}', 'danger')
+                print(f"ERROR en mascotas: {e}")
                 return render_template('mascotas/mascotas.html', mascotas=[])
 
         @self.app.route('/filtrar_mascotas', methods=['GET'])
         def filtrar_mascotas():
             """
             Filtra mascotas por especie, raza, edad y sexo
+            Carga todas las mascotas en LinkedList y filtra en memoria
             Parámetros GET: especie, raza, edad, sexo
             """
             try:
-                especie = request.args.get('especie')
-                raza = request.args.get('raza')
-                edad = request.args.get('edad')
-                sexo = request.args.get('sexo')
+                # Obtener parámetros de filtro
+                especie = request.args.get('especie', '').strip().lower()
+                raza = request.args.get('raza', '').strip().lower()
+                edad = request.args.get('edad', '').strip()
+                sexo = request.args.get('sexo', '').strip().upper()
 
-                # Construir query dinámicamente según filtros
-                sql_query = "SELECT * FROM mascotas WHERE 1=1"
-                params = []
+                # Cargar todas las mascotas en LinkedList
+                mascotas_linkedlist = self.admin_data_service.cargar_mascotas_en_linkedlist()
+                mascotas_disponibles = mascotas_linkedlist.to_list()
 
-                if especie:
-                    sql_query += " AND especie = %s"
-                    params.append(especie)
+                # Filtrar en memoria
+                mascotas_filtradas = []
+                for mascota in mascotas_disponibles:
+                    coincide = True
+                    
+                    if especie and mascota.get('especie', '').lower() != especie:
+                        coincide = False
+                    
+                    if coincide and raza and raza not in mascota.get('raza', '').lower():
+                        coincide = False
+                    
+                    if coincide and edad and str(mascota.get('edad', '')) != edad:
+                        coincide = False
+                    
+                    if coincide and sexo and mascota.get('sexo', '').upper() != sexo:
+                        coincide = False
+                    
+                    if coincide:
+                        mascotas_filtradas.append(mascota)
 
-                if raza:
-                    sql_query += " AND raza LIKE %s"
-                    params.append(f"%{raza}%")
+                print(f"DEBUG: Cargadas {len(mascotas_disponibles)} mascotas, filtradas a {len(mascotas_filtradas)}")
 
-                if edad:
-                    sql_query += " AND edad = %s"
-                    params.append(edad)
-
-                if sexo:
-                    sql_query += " AND sexo = %s"
-                    params.append(sexo)
-
-                # Ejecutar query
-                cur = self.conexion.get_cursor()
-                cur.execute(sql_query, params)
-                mascotas_filtradas = cur.fetchall()
-
-                # Convertir resultados a diccionarios si es necesario
-                column_names = [desc[0] for desc in cur.description] if cur.description else []
-                cur.close()
-
-                lista_de_mascotas = []
-                for row in mascotas_filtradas:
-                    lista_de_mascotas.append(dict(zip(column_names, row)))
-
-                return render_template('mascotas/mascotas.html', mascotas=lista_de_mascotas)
+                return render_template('mascotas/mascotas.html', mascotas=mascotas_filtradas)
             except Exception as e:
-                self.conexion.rollback()
                 flash(f'Error al filtrar mascotas: {e}', 'danger')
+                print(f"ERROR en filtrar_mascotas: {e}")
                 return render_template('mascotas/mascotas.html', mascotas=[])
 
         @self.app.route('/mascota/<int:mascota_id>')
@@ -150,9 +152,42 @@ class RutasMascotas:
                     id_usuario = session['id']
                     direccion = request.form.get('direccion')
                     telefono = request.form.get('telefono')
-                    ingresos = request.form.get('ingresos')
-                    estrato = request.form.get('estrato')
+                    ingresos_raw = request.form.get('ingresos', '').strip()
+                    estrato_raw = request.form.get('estrato', '').strip()
                     mensaje = request.form.get('mensaje')
+
+                    # Validar ingresos como rango válido
+                    ingresos_rangos_validos = [
+                        '1000000-2000000',
+                        '2000000-3000000',
+                        '3000000-4000000',
+                        '4000000-5000000',
+                        '5000000-6000000',
+                        '6000000-7000000',
+                        '7000000-8000000',
+                        '8000000-9000000',
+                        '9000000-10000000',
+                        '10000000+'
+                    ]
+                    try:
+                        if not ingresos_raw or ingresos_raw not in ingresos_rangos_validos:
+                            raise ValueError('Debes seleccionar un rango de ingresos válido.')
+                        ingresos = ingresos_raw
+                    except ValueError as err:
+                        flash(str(err), 'danger')
+                        cursor.close()
+                        return redirect(url_for('solicitar_adopcion', mascota_id=mascota_id))
+
+                    try:
+                        if not estrato_raw or not re.fullmatch(r'\d+', estrato_raw):
+                            raise ValueError('El estrato social debe ser un número entero.')
+                        estrato = int(estrato_raw)
+                        if estrato < 1 or estrato > 6:
+                            raise ValueError('El estrato social debe estar entre 1 y 6.')
+                    except ValueError as err:
+                        flash(str(err), 'danger')
+                        cursor.close()
+                        return redirect(url_for('solicitar_adopcion', mascota_id=mascota_id))
 
                     # Guardar solicitud de adopción
                     from datetime import datetime
