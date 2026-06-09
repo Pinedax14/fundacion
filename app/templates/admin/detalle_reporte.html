@@ -3,11 +3,37 @@
 {% block title %}Detalle de Reporte #{{ reporte.id }}{% endblock %}
 
 {% block content %}
-<style> body { background-color: #f8f9fa; } </style>
+<style>
+    .report-detail-container {
+        padding: 2rem 1rem 3rem;
+    }
+    .report-detail-card {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 28px 80px rgba(0,0,0,0.18);
+        border-radius: 1.5rem;
+    }
+    .report-detail-header {
+        background: rgba(255,255,255,0.04);
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+        color: var(--text-primary);
+    }
+    .report-detail-header h4 {
+        margin: 0;
+    }
+    .report-detail-blockquote {
+        background: rgba(255,255,255,0.04);
+        padding: 1.2rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+</style>
 
-<div class="container my-5">
-    <div class="card shadow-sm mx-auto" style="max-width: 800px;">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+<div class="report-detail-container">
+    <div class="card shadow-sm report-detail-card">
+        <div class="card-header report-detail-header d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Detalle del Reporte #{{ reporte.id }}</h4>
             <span class="badge {{ 'bg-success' if reporte.estado_reporte == 'resuelto' else 'bg-warning text-dark' }} fs-6">{{ reporte.estado_reporte|capitalize }}</span>
         </div>
@@ -16,7 +42,7 @@
             <p><strong>Ubicación:</strong> {{ reporte.ubicacion }}</p>
             <hr>
             <h6>Descripción del Incidente:</h6>
-            <blockquote class="blockquote bg-light p-3 rounded"><p>{{ reporte.descripcion_incidente }}</p></blockquote>
+            <blockquote class="blockquote report-detail-blockquote"><p>{{ reporte.descripcion_incidente }}</p></blockquote>
 
             {% if reporte.foto_evidencia_url %}
             <hr>

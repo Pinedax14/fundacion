@@ -13,6 +13,7 @@ from app.rutas.reportes import RutasReportes
 from app.rutas.admin import RutasAdmin
 from app.rutas.pdf import RutasPDF
 from app.rutas.idioma import RutasIdioma
+from app.rutas.auditoria import auditoria_bp
 
 
 def registrar_todas_las_rutas(app, conexion):
@@ -20,7 +21,7 @@ def registrar_todas_las_rutas(app, conexion):
     Registra todas las rutas de la aplicación
 
     Esta función centraliza el registro de todos los manejadores de rutas.
-    Se llama desde el archivo principal (run.py) después de crear la aplicación Flask.
+    Se llama desde el archivo principal (run.py) o desde la fábrica de la aplicación.
 
     Args:
         app: Instancia de Flask
@@ -40,6 +41,10 @@ def registrar_todas_las_rutas(app, conexion):
 
     # Registrar rutas de idioma
     rutas_idioma = RutasIdioma(app, conexion)
+
+    # Registrar blueprint de auditoría
+    app.register_blueprint(auditoria_bp)
+    app.logger.info("Blueprint auditoría registrado")
 
     return {
         'home': rutas_home,

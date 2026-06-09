@@ -3,14 +3,9 @@
 {% block title %}Detalles de {{ mascota.nombre }}{% endblock %}
 
 {% block content %}
-<style>
-   
-    .pet-name-title {
-        color: var(--primary-color);
-    }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 
-<div class="container mt-4">
+<div class="page-panel container mt-4">
 
     <!-- ======================= INICIO DE CAMBIOS ======================= -->
 
@@ -28,29 +23,29 @@
 
     <!-- 2. Rejilla de Bootstrap para un diseño responsivo -->
     <!-- En pantallas pequeñas (<768px), la información se apilará debajo de la imagen. -->
-    <div class="row g-4 bg-white p-4 rounded-3 shadow-sm">
+
+    <div class="row g-4 p-4 align-items-start">
         
         <!-- Columna de la Imagen -->
         <div class="col-md-6">
-            <!-- 3. Clases para imagen responsiva y redondeada -->
+            <!-- imagen responsiva -->
             <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto ampliada de {{ mascota.nombre }}" class="img-fluid rounded-3">
         </div>
 
         <!-- Columna de la Información -->
         <div class="col-md-6 d-flex flex-column">
-            <h2 class="pet-name-title display-4">{{ mascota.nombre }}</h2>
-            <p class="lead">{{ mascota.descripcion }}</p>
+            <h2 class="display-4 pet-title">{{ mascota.nombre }}</h2>
+            <p class="lead pet-lead">{{ mascota.descripcion }}</p>
             
             <!-- 4. Lista de Bootstrap para las especificaciones -->
-            <ul class="list-group list-group-flush my-4">
-                <li class="list-group-item"><strong>Especie:</strong> {{ mascota.especie }}</li>
-                <li class="list-group-item"><strong>Raza:</strong> {{ mascota.raza }}</li>
-                <li class="list-group-item"><strong>Edad:</strong> {{ mascota.edad }} años</li>
-                <li class="list-group-item"><strong>Sexo:</strong> {{ mascota.sexo }}</li>
-                <li class="list-group-item">
-                    <strong>Estado:</strong> 
-                    <!-- 5. Utilidad de texto de Bootstrap para el color y grosor -->
-                    <span class="text-success fw-bold">{{ mascota.estado }}</span>
+            <ul class="spec-list list-unstyled my-4">
+                <li><strong>Especie:</strong> {{ mascota.especie }}</li>
+                <li><strong>Raza:</strong> {{ mascota.raza }}</li>
+                <li><strong>Edad:</strong> {{ mascota.edad }} años</li>
+                <li><strong>Sexo:</strong> {{ mascota.sexo }}</li>
+                <li>
+                    <strong>Estado:</strong>
+                    <span class="fw-bold">{{ mascota.estado }}</span>
                 </li>
             </ul>
             

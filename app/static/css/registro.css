@@ -1,83 +1,68 @@
-/* Fondo general */
 body {
-    background-color: #eaf0f6;
+    margin: 0;
+    background: transparent;
 }
 
-/* Centrar el formulario más arriba */
 .registro-page-wrapper {
-    min-height: calc(100vh - 80px); /* ajusta 80px si tu navbar es más alto/bajo */
-    padding-top: 0px;              /* cuanto menor, más arriba queda */
+    min-height: calc(100vh - 150px);
+    padding: 2rem 0 3rem;
 }
 
 .content-wrapper {
     display: flex;
     justify-content: center;
-    align-items: flex-start;   /* ya no al centro vertical, sino arriba */
-    padding: 2rem 1rem;        /* menos padding vertical */
+    align-items: center;
+    padding: 0 1rem;
 }
 
 .form-container {
-    max-width: 450px;
-    width: 100%;
-    background-color: white;
+    width: min(480px, 100%);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 28px 80px rgba(0,0,0,0.22);
+    border-radius: 2rem;
     padding: 2.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    text-align: center;
 }
 
 .form-container h1 {
-    color: #9324d7;            /* morado primario */
-    font-weight: bold;
-    margin-bottom: 2rem;
+    color: var(--text-primary);
+    font-weight: 800;
+    margin-bottom: 1.75rem;
+    letter-spacing: -0.02em;
 }
 
 .form-container input[type="text"],
 .form-container input[type="email"],
 .form-container input[type="password"],
-.form-container input[type="date"] {
+.form-container input[type="date"],
+.form-container select,
+.form-container textarea {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 1rem 1.1rem;
     margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    box-sizing: border-box;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 }
 
-.password-field {
-    position: relative;
-    margin-bottom: 1rem;
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+    color: rgba(244,243,248,0.6);
 }
 
+.form-container label,
+.date-field label {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.password-field,
 .date-field {
     position: relative;
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.date-field label {
-    display: block;
-    font-size: 0.85rem;
-    color: #333;
-    margin-bottom: 0.3rem;
-    font-weight: 500;
-}
-
-.date-field input[type="date"] {
-    margin-bottom: 0.3rem;
-}
-
-.date-field small {
-    display: block;
-    margin-top: 0.3rem;
-    font-size: 0.8rem;
-}
-
-/* Estilos para input date inválido */
-.date-field input[type="date"].is-invalid {
-    border-color: #dc3545;
-    background-color: #fff5f5;
+    margin-bottom: 1rem;
 }
 
 .password-field .toggle-password {
@@ -86,92 +71,76 @@ body {
     right: 1rem;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #4682B4; /* azul del icono ojo */
+    color: var(--accent-soft);
 }
 
-.form-container input[type="submit"] {
+.form-container input[type="submit"],
+.form-container .submit-btn,
+.form-container .btn {
     width: 100%;
-    background-color: #8d1cd3; /* morado botón */
-    color: white;
     border: none;
-    padding: 0.9rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 4px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-soft) 80%);
+    color: #0c0713;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.form-container input[type="submit"]:hover {
-    background-color: #8726e8; /* morado más claro en hover */
+.form-container input[type="submit"]:hover,
+.form-container .submit-btn:hover,
+.form-container .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
 }
 
 .form-container .form-link {
     display: block;
     margin-top: 1.5rem;
-    text-decoration: underline;
-    color: #4682B4;
+    text-align: center;
+    color: var(--text-primary);
+    opacity: 0.82;
+}
+
+.form-container .form-link:hover {
+    opacity: 1;
 }
 
 .msg {
     text-align: center;
-    color: #d9534f;
+    color: var(--accent-soft);
     margin-bottom: 1rem;
-    font-weight: bold;
+    font-weight: 700;
 }
 
-/* Lista de requisitos de contraseña */
 #password-requirements {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    font-size: 0.85rem;
-    text-align: left;
-    margin: -0.5rem 0 1rem 0.5rem;
-    color: #6c757d;
+    margin: 0 0 1.2rem 0;
+    color: var(--text-muted);
 }
 
 #password-requirements li {
-    color: #dc3545;        /* rojo por defecto */
-    transition: all 0.3s;
-    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+    color: rgba(244,243,248,0.75);
 }
 
 #password-requirements li.valid {
-    color: #9324d7;        /* morado cuando es válido */
-    text-decoration: line-through;
+    color: var(--accent-soft);
 }
 
 #password-requirements li i {
-    width: 20px;           /* alinear iconos */
-}
-/* Quitar márgenes globales que empujan hacia abajo */
-body {
-    margin: 0;
+    width: 20px;
 }
 
-/* Forzar que el bloque de registro arranque bien arriba */
-.registro-page-wrapper {
-    min-height: calc(100vh - 80px);
-    padding-top: 0;
-}
-
-/* Eliminar margen extra arriba del wrapper y del título */
-.content-wrapper {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-.form-container h1 {
-    margin-top: 0 !important;
-}
-/* Empujar todo el bloque de registro hacia ARRIBA */
-.registro-page-wrapper {
-    position: relative;
-    top: -90px;  /* valor negativo = sube; prueba -40, -60, -80 */
-}
-
-/* Asegurar que nada más lo vuelva a bajar */
-.content-wrapper {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+.input-error,
+.form-control.is-invalid {
+    border-color: #d9534f;
+    background: rgba(217,83,79,0.08);
 }

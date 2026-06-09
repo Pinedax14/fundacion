@@ -1,144 +1,160 @@
-  /* Estilos personalizados para la galería y las tarjetas */
-    .pet-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2rem;
-        padding: 2rem 0;
-    }
-    .pet-card {
-        background: #fff;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        text-align: center;
-        position: relative;
-        transition: transform 0.3s, box-shadow 0.3s;
-        /* --- MEJORA: Animación de entrada --- */
-        animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .pet-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-    .pet-card-image {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-    }
-    .pet-card-body {
-        padding: 1.5rem;
-    }
-    .pet-card-body h4 {
-        margin: 0 0 0.5rem 0;
-        color: var(--primary-color);
-        font-weight: 700;
-    }
-    .pet-card-body .ingreso-date {
-        font-size: 0.9rem;
-        color: #888;
-    }
-    .adopted-overlay {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(255, 255, 255, 0.85);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        backdrop-filter: blur(3px);
-    }
-    .adopted-overlay h3 {
-        color: #ed7505;
-        font-weight: bold;
-        font-size: 2rem;
-        margin: 0;
-    }
-    .adopted-overlay p {
-        color: #555;
-        font-size: 1.1rem;
-    }
+/* Estilos actualizados: tema oscuro / glass para coincidir con el home */
+.pet-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.6rem;
+    padding: 2rem 0;
+}
 
-    /* Botón principal "Filtrar Mascotas" */
+.pet-card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 28px 80px rgba(0,0,0,0.22);
+    text-align: left;
+    position: relative;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    animation: fadeIn 0.5s ease-in-out;
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pet-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 42px 120px rgba(0,0,0,0.34);
+}
+
+.pet-card-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.pet-card-body {
+    padding: 1.2rem 1.4rem 1.6rem;
+}
+
+.pet-card-body h4 {
+    margin: 0 0 0.4rem 0;
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.pet-card-body .ingreso-date {
+    font-size: 0.9rem;
+    color: rgba(244,243,248,0.66);
+}
+
+.adopted-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(9,5,15,0.82);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: blur(6px);
+}
+
+.adopted-overlay h3 {
+    color: var(--accent-soft);
+    font-weight: 800;
+    font-size: 1.9rem;
+    margin: 0;
+}
+
+.adopted-overlay p {
+    color: rgba(244,243,248,0.78);
+    font-size: 1rem;
+}
+
+.adopted-overlay.in-process {
+    background: rgba(255,255,255,0.06);
+}
+
+.adopted-overlay.in-process h3 {
+    color: var(--accent-soft);
+}
+
+.adopted-overlay.in-process p {
+    color: rgba(244,243,248,0.82);
+}
+
+/* Botón principal "Filtrar Mascotas" adaptado al tema home */
 .btn-filtro-mascotas {
-    background: #f7f3ff;                 /* fondo claro para que se vea la “pastilla” */
-    color: #6c3dd9;
-    border: 2px solid #6c3dd9;           /* recuadro morado */
-    border-radius: 999px;                /* píldora */
-    font-weight: 700;
-    letter-spacing: 0.03em;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-soft) 100%);
+    color: #0c0713;
+    border: none;
+    border-radius: 999px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding-inline: 1.5rem;
-    box-shadow: 0 4px 10px rgba(108, 61, 217, 0.18);
-    transition: background-color 0.15s ease, color 0.15s ease,
-                box-shadow 0.15s ease, transform 0.1s ease;
+    gap: 0.5rem;
+    padding: 0.9rem 1.25rem;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.28);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .btn-filtro-mascotas i {
-    color: #ff8c42;                      /* icono naranja */
+    color: rgba(12,7,19,0.9);
 }
 
 .btn-filtro-mascotas:hover {
-    background: #6c3dd9;                 /* se llena de morado al pasar */
-    color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(108, 61, 217, 0.28);
+    transform: translateY(-2px);
+    box-shadow: 0 26px 70px rgba(0,0,0,0.34);
 }
 
-.btn-filtro-mascotas:hover i {
-    color: #ffffff;
-}
-
-/* Tarjeta del formulario de filtros */
+/* Tarjeta del formulario de filtros (glass) */
 .filtro-mascotas-card {
-    background: #f7f3ff;
-    border: 1px solid #e0d4ff;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(65, 50, 135, 0.08);
+    box-shadow: 0 22px 56px rgba(0,0,0,0.22);
 }
 
 /* Labels y selects del filtro */
 .filtro-mascotas-label {
-    color: #413287;
-    font-weight: 600;
+    color: rgba(244,243,248,0.86);
+    font-weight: 700;
 }
 
 .filtro-mascotas-select {
     border-radius: 0.75rem;
-    border-color: #d1c5ff;
+    border-color: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: #fff;
 }
 
 .filtro-mascotas-select:focus {
-    border-color: #6c3dd9;
-    box-shadow: 0 0 0 0.2rem rgba(108, 61, 217, 0.25);
+    border-color: rgba(155,79,242,0.7);
+    box-shadow: 0 0 0 0.15rem rgba(155,79,242,0.12);
 }
 
 /* Botones aplicar / limpiar */
-.btn-aplicar-filtro {
-    background: #6c3dd9;
-    border-color: #6c3dd9;
-    color: #fff;
-    font-weight: 600;
+..btn-aplicar-filtro {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-soft) 100%);
+    border: none;
+    color: #0c0713;
+    font-weight: 700;
 }
 
 .btn-aplicar-filtro:hover {
-    background: #552bb5;
-    border-color: #552bb5;
+    filter: brightness(1.02);
 }
 
 .btn-limpiar-filtro {
-    background: #ff8c42;
-    border-color: #ff8c42;
-    color: #fff;
-    font-weight: 600;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: rgba(244,243,248,0.9);
+    font-weight: 700;
 }
 
 .btn-limpiar-filtro:hover {
-    background: #e8752b;
-    border-color: #e8752b;
+    background: rgba(255,255,255,0.10);
 }

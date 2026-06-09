@@ -5,7 +5,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 
-<div class="profile-page-container">
+<div class="page-panel profile-page-container container">
     <div class="row g-4">
         <!-- Columna Izquierda (Barra Lateral) -->
         <div class="col-lg-4">
@@ -17,13 +17,13 @@
                         <div class="mb-3">
                             <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
                                  alt="Foto de perfil"
-                                 style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+                                 class="profile-avatar">
                         </div>
                     {% else %}
                         <div class="mb-3">
                             <img src="{{ url_for('static', filename='uploads/perfiles/' ~ g.usuario.foto_perfil) }}"
                                  alt="Foto por defecto"
-                                 style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+                                 class="profile-avatar">
                         </div>
                     {% endif %}
 
@@ -90,7 +90,7 @@
         <!-- Columna Derecha (Solicitudes) -->
         <div class="col-lg-8">
             <main class="profile-content">
-                <h2 class="mb-3" style="color: var(--primary-color);">
+                <h2 class="mb-3">
                     Mis Solicitudes de Adopción
                 </h2>
 

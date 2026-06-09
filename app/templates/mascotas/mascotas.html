@@ -5,9 +5,9 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mascotas.css') }}">
 
-<div class="container">
-    <h1 class="text-center mt-5" style="color: var(--primary-color);">Conoce a nuestros peludos</h1>
-    <p class="text-center text-muted mb-5">Cada uno de ellos está esperando una segunda oportunidad. ¡Encuentra a tu próximo mejor amigo!</p>
+<div class="page-panel container">
+    <h1 class="text-center mt-4">Conoce a nuestros peludos</h1>
+    <p class="text-center mb-4">Cada uno de ellos está esperando una segunda oportunidad. ¡Encuentra a tu próximo mejor amigo!</p>
 
     <!-- FORMULARIO DE FILTROS DESPLEGABLE -->
     <div class="mb-4">
@@ -94,9 +94,9 @@
                         <p>Ya encontré un hogar</p>
                     </div>
                 {% elif mascota.estado == 'En proceso' %}
-                    <div class="adopted-overlay" style="background-color: rgba(255, 193, 7, 0.8);" data-bs-toggle="tooltip" data-bs-placement="top" title="Alguien está en proceso de adoptarme. ¡Pronto podría tener un nuevo hogar!">
-                        <h3 style="color: #333;">En Proceso</h3>
-                        <p style="color: #333;">Alguien me está conociendo</p>
+                    <div class="adopted-overlay in-process" data-bs-toggle="tooltip" data-bs-placement="top" title="Alguien está en proceso de adoptarme. ¡Pronto podría tener un nuevo hogar!">
+                        <h3>En Proceso</h3>
+                        <p>Alguien me está conociendo</p>
                     </div>
                 {% endif %}
             </div>

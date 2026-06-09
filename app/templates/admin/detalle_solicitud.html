@@ -4,17 +4,46 @@
 
 {% block content %}
 
-<div class="container my-4">
+<style>
+    .admin-solicitud-shell {
+        padding: 2rem 1rem 3rem;
+    }
+    .admin-solicitud-shell .card,
+    .admin-solicitud-shell .bg-success-subtle,
+    .admin-solicitud-shell .bg-info,
+    .admin-solicitud-shell .bg-secondary,
+    .admin-solicitud-shell .card.text-center {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        box-shadow: 0 28px 80px rgba(0,0,0,0.18) !important;
+        color: var(--text-primary) !important;
+    }
+    .admin-solicitud-shell .card-header {
+        background: rgba(255,255,255,0.06) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.10) !important;
+    }
+    .admin-solicitud-shell .list-group-item {
+        background: rgba(255,255,255,0.02) !important;
+        border-color: rgba(255,255,255,0.08) !important;
+        color: var(--text-primary) !important;
+    }
+    .admin-solicitud-shell .card-body a {
+        color: var(--secondary-color) !important;
+    }
+    .admin-solicitud-shell .blockquote {
+        background: rgba(255,255,255,0.04);
+        border-left: 4px solid rgba(155,79,242,0.35);
+        color: var(--text-primary);
+    }
+</style>
+
+<div class="container my-4 admin-solicitud-shell">
     
     <!-- ======================= INICIO DE CAMBIOS ======================= -->
 
-    <div class="bg-light p-4 p-md-5 rounded-3 shadow-sm">
+    <div class="glass-panel p-4 p-md-5 rounded-3 shadow-sm">
 
-        <h1 class="text-center fw-bold mb-4" style="color: var(--primary-color);">Detalle de Solicitud de Adopción</h1>
-
-        <!-- Alertas de Bootstrap para mensajes flash -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
+        <h1 class="text-center text-primary fw-bold mb-4">Detalle de Solicitud de Adopción</h1>
                 {% for category, message in messages %}
                     <div class="alert alert-{{ 'success' if category=='success' else 'danger' }} alert-dismissible fade show text-center" role="alert">
                         {{ message }}

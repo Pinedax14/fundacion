@@ -36,7 +36,7 @@ class RutasAdmin:
         self.app = app
         self.conexion = conexion
         self.bcrypt = conexion.bcrypt
-        self.admin_data_service = AdminDataStructureService()
+        self.admin_data_service = AdminDataStructureService()   # Servicio para cargar datos en estructuras de nodos (LinkedList, Queue)            
         # Crear decorador admin que usa la misma sesión/contexto
         self.admin_required = admin_required_factory(app)
         self.registrar_rutas()
@@ -45,7 +45,7 @@ class RutasAdmin:
         """Registra todas las rutas administrativas"""
 
         @self.app.route('/admin/panel')
-        @self.admin_required
+        @self.admin_required    # Solo accesible para administradores
         def admin_panel():
             
             """
@@ -55,7 +55,7 @@ class RutasAdmin:
             """
             try:
                 # Cargar datos en estructuras de nodos
-                solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_en_linkedlist()
+                solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_en_linkedlist() 
                 reportes_queue = self.admin_data_service.cargar_reportes_en_queue()
                 voluntariados_linkedlist = self.admin_data_service.cargar_voluntariados_en_linkedlist()
                 

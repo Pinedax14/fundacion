@@ -6,6 +6,7 @@ Contiene las rutas públicas principales de la fundación
 from flask import render_template, request, redirect, url_for, flash, g, session
 from app.rutas.decoradores import admin_required_factory
 from app.models import db, Usuario
+from app.services.admin_data_service import AdminDataStructureService
 
 
 class RutasHome:
@@ -29,6 +30,7 @@ class RutasHome:
         self.conexion = conexion
         self.bcrypt = conexion.bcrypt
         self.admin_required = admin_required_factory(app)
+        self.admin_data_service = AdminDataStructureService()
         self.registrar_rutas()
 
     def registrar_rutas(self):
@@ -38,7 +40,29 @@ class RutasHome:
         @self.app.route('/home')
         def home():
             # Página principal de la fundación
-            return render_template('home/home.html')
+            luna_id = None
+            bruno_id = None
+            chicletera_id = None
+
+            try:
+                mascotas_linkedlist = self.admin_data_service.cargar_mascotas_en_linkedlist()
+                for mascota in mascotas_linkedlist:
+                    nombre = mascota.get('nombre', '').strip().lower()
+                    if nombre == 'luna':
+                        luna_id = mascota.get('id')
+                    elif nombre == 'bruno':
+                        bruno_id = mascota.get('id')
+                    elif nombre == 'chicletera':
+                        chicletera_id = mascota.get('id')
+            except Exception as e:
+                print(f"ERROR al cargar mascotas destacadas en home: {e}")
+
+            return render_template(
+                'home/home.html',
+                luna_id=luna_id,
+                bruno_id=bruno_id,
+                chicletera_id=chicletera_id
+            )
 
         @self.app.before_request
         def cargar_usuario():

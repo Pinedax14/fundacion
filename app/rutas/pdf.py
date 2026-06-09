@@ -6,23 +6,9 @@ Requiere rol de administrador
 
 from datetime import datetime
 from flask import send_file, flash, redirect, url_for, session
-from functools import wraps
 from app.rutas.pdf_generator import PDFGenerator
 from app.services.admin_data_service import AdminDataStructureService
-
-
-def admin_required_decorator(f):
-    """
-    Decorador que verifica si el usuario es administrador
-    Usado internamente en las rutas PDF
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'loggedin' not in session or session.get('rol') != 'admin':
-            flash('Acceso denegado. Solo administradores pueden generar reportes.', 'danger')
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
+from app.rutas.decoradores import admin_required_factory
 
 
 class RutasPDF:
@@ -46,20 +32,20 @@ class RutasPDF:
         self.conexion = conexion
         self.pdf_gen = PDFGenerator()
         self.admin_data_service = AdminDataStructureService()
+        self.admin_required = admin_required_factory(app)
         self._registrar_rutas()
 
     def _registrar_rutas(self):
         """Registra todas las rutas de reportes PDF"""
         self.app.add_url_rule('/reporte/usuarios', 'reporte_usuarios',
-                             self.reporte_usuarios, methods=['GET'])
+                             self.admin_required(self.reporte_usuarios), methods=['GET'])
         self.app.add_url_rule('/reporte/mascotas', 'reporte_mascotas',
-                             self.reporte_mascotas, methods=['GET'])
+                             self.admin_required(self.reporte_mascotas), methods=['GET'])
         self.app.add_url_rule('/reporte/donaciones', 'reporte_donaciones',
-                             self.reporte_donaciones, methods=['GET'])
+                             self.admin_required(self.reporte_donaciones), methods=['GET'])
         self.app.add_url_rule('/reporte/maltrato', 'reporte_maltrato',
-                             self.reporte_maltrato, methods=['GET'])
+                             self.admin_required(self.reporte_maltrato), methods=['GET'])
 
-    @admin_required_decorator
     def reporte_usuarios(self):
         """
         Genera un reporte PDF con la lista de usuarios registrados
@@ -96,7 +82,6 @@ class RutasPDF:
             flash("Error al generar el reporte PDF", "danger")
             return redirect(url_for('admin_panel'))
 
-    @admin_required_decorator
     def reporte_mascotas(self):
         """
         Genera un reporte PDF con la lista de mascotas en el sistema
@@ -137,7 +122,6 @@ class RutasPDF:
             flash("Error al generar el reporte PDF", "danger")
             return redirect(url_for('admin_panel'))
 
-    @admin_required_decorator
     def reporte_donaciones(self):
         """
         Genera un reporte PDF con la lista de donaciones
@@ -175,7 +159,6 @@ class RutasPDF:
             flash("Error al generar el reporte PDF", "danger")
             return redirect(url_for('admin_panel'))
 
-    @admin_required_decorator
     def reporte_maltrato(self):
         """
         Genera un reporte PDF con la lista de reportes de maltrato animal

@@ -52,14 +52,14 @@ class Config:
     REQUIRE_NUMBER = True
 
 
-class DevelopmentConfig(Config):
+class DevelopmentConfig(Config): #configuración para desarrollo 
     """Configuración para desarrollo"""
-    DEBUG = True
-    SQLALCHEMY_ECHO = True
+    DEBUG = True 
+    SQLALCHEMY_ECHO = True  # Mostrar consultas SQL en desarrollo
     SESSION_COOKIE_SECURE = False
     
     # Base de datos
-    database_url = os.getenv('DATABASE_URL')
+    database_url = os.getenv('DATABASE_URL') #conexión a la base de datos desde variable de entorno
     if database_url:
         SQLALCHEMY_DATABASE_URI = database_url
     else:

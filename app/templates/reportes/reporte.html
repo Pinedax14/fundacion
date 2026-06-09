@@ -4,21 +4,31 @@
 
 {% block content %}
 <style>
-    /* Estilos para centrar el formulario y aplicar el fondo de tu tema */
-    body {
-        background-color: #eaf0f6; /* Fondo azul claro que hemos usado antes */
-    }
     .report-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 80vh; /* Centra el formulario verticalmente */
+        min-height: 80vh;
         padding: 2rem 1rem;
+    }
+    .report-card {
+        width: 100%;
+        max-width: 700px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 28px 80px rgba(0,0,0,0.18);
+        border-radius: 1.5rem;
+    }
+    .report-card .card-body {
+        padding: 2.5rem;
+    }
+    .report-textarea {
+        min-height: 150px;
     }
 </style>
 
 <div class="report-container">
-    <div class="card shadow-lg mx-auto" style="width: 100%; max-width: 700px;">
+    <div class="card shadow-lg mx-auto report-card">
         <div class="card-body p-4 p-md-5">
 
             <div class="text-center mb-4">
@@ -42,7 +52,7 @@
                 
                 <!-- Campo Descripción con Etiqueta Flotante -->
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" id="descripcion_incidente" name="descripcion_incidente" placeholder="Describe lo que observaste" style="height: 150px" required></textarea>
+                    <textarea class="form-control report-textarea" id="descripcion_incidente" name="descripcion_incidente" placeholder="Describe lo que observaste" required></textarea>
                     <label for="descripcion_incidente">Descripción del Incidente</label>
                     <div class="invalid-feedback">
                         Es importante que describas con detalle lo que sucedió.

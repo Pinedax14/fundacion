@@ -51,9 +51,13 @@ def create_app(config_name=None):
     app.logger.info(f"Aplicación creada con config: {config_name}")
     app.logger.info(f"Debug: {app.debug}")
     app.logger.info(f"Testing: {app.testing}")
-    
-    # Registro de blueprints
-    _register_blueprints(app)
+
+    # Registrar rutas y blueprints
+    from app.rutas import registrar_todas_las_rutas
+    from app.rutas.conexion import Conexion
+
+    conexion = Conexion(app)
+    registrar_todas_las_rutas(app, conexion)
     
     # Contexto de aplicación para migraciones
     with app.app_context():
@@ -62,16 +66,3 @@ def create_app(config_name=None):
         app.logger.info("Tablas de BD verificadas/creadas")
     
     return app, db
-
-
-def _register_blueprints(app):
-    """
-    Registra todos los blueprints de la aplicación
-    """
-    try:
-        # Blueprint de Auditoría (seguridad)
-        from app.rutas.auditoria import auditoria_bp
-        app.register_blueprint(auditoria_bp)
-        app.logger.info("Blueprint auditoría registrado")
-    except Exception as e:
-        app.logger.warning(f"Error registrando blueprint auditoría: {e}")

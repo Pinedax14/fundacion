@@ -1,55 +1,79 @@
-.form-wrapper { padding: 2rem; }
-    .form-adopt {
-        max-width: 700px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 2rem 3rem;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    .form-adopt h2 {
-        color: var(--primary-color);
-        text-align: center;
-        margin-bottom: 0.5rem;
-    }
-    .form-adopt p.subtitle {
-        text-align: center;
-        color: #555;
-        margin-bottom: 2rem;
-    }
-    .form-adopt label {
-        font-weight: bold;
-        display: block;
-        margin-top: 1rem;
-        color: #444;
-    }
-    .form-adopt input[type="text"],
-    .form-adopt input[type="number"],
-    .form-adopt select,
-    .form-adopt textarea {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        margin-top: 0.5rem;
-        font-family: inherit;
-        font-size: 1rem;
-        box-sizing: border-box;
-    }
-    .form-adopt .submit-btn {
-        display: block;
-        width: 100%;
-        padding: 1rem;
-        margin-top: 2rem;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    .form-adopt .submit-btn:hover {
-        background-color: var(--hover-color);
-    }
+.form-wrapper {
+    padding: 2rem;
+}
+
+.form-adopt {
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.06);
+    padding: 2rem 3rem;
+    border-radius: 1.75rem;
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 28px 80px rgba(0,0,0,0.18);
+}
+
+.form-adopt h2 {
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.form-adopt p.subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.form-adopt label {
+    font-weight: 700;
+    display: block;
+    margin-top: 1.4rem;
+    color: var(--text-primary);
+}
+
+.form-adopt input[type="text"],
+.form-adopt input[type="number"],
+.form-adopt select,
+.form-adopt textarea {
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    margin-top: 0.75rem;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-adopt input[type="text"]:focus,
+.form-adopt input[type="number"]:focus,
+.form-adopt select:focus,
+.form-adopt textarea:focus {
+    border-color: rgba(155,79,242,0.8);
+    box-shadow: 0 0 0 0.15rem rgba(155,79,242,0.12);
+    background: rgba(255,255,255,0.08);
+}
+
+.form-adopt .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.2rem;
+    margin-top: 2rem;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-soft) 80%);
+    color: #0c0713;
+    border: none;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.form-adopt .submit-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}

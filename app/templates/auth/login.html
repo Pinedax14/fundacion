@@ -3,13 +3,15 @@
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
 <div class="login-page-wrapper d-flex justify-content-center align-items-start">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
-                <div class="card shadow-lg border-0">
+                <div class="card shadow-lg border-0 login-card">
                     <div class="card-body p-4">
-                        <h1 class="card-title text-center mb-4" style="color: var(--primary-color); font-weight: 700;">
+                        <h1 class="card-title text-center mb-4" style="font-weight: 700;">
                             Iniciar Sesión
                         </h1>
 
@@ -40,8 +42,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-lg text-white"
-                                        style="background-color: var(--primary-color);">
+                                <button type="submit" class="btn btn-lg btn-login-primary">
                                     Acceder
                                 </button>
                             </div>

@@ -1,0 +1,152 @@
+{% extends "base/layout.html" %}
+{% block title %}Donaciones | Almas con Cola{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+<div class="page-panel content-shell container py-5">
+
+  <!-- ENCABEZADO DONACIONES -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg-8 text-center">
+      <h1 class="fw-bold text-donaciones-morado">Donaciones</h1>
+      <p class="lead" style="color: rgba(244, 243, 248, 0.90);">
+        Tu apoyo nos permite rescatar, cuidar y encontrar hogar a más peluditos.
+        Todo el dinero donado es destinado para alimento, vacunas y adecuaciones para mejorar la vida de los peludos.
+      </p>
+    </div>
+  </div>
+
+  <!-- BLOQUE: NEQUI Y DAVIPLATA (IMÁGENES) -->
+  <div class="panel-block mb-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-6 text-center">
+        <div class="pago-box d-flex justify-content-center align-items-center">
+          <img src="{{ url_for('static', filename='images/pagos/nequi.png') }}"
+               alt="Donación por Nequi"
+               class="img-fluid" style="max-height:80px;">
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="pago-box d-flex justify-content-center align-items-center">
+          <img src="{{ url_for('static', filename='images/pagos/daviplata.png') }}"
+               alt="Donación por Daviplata"
+               class="img-fluid" style="max-height:80px;">
+        </div>
+      </div>
+    </div>
+    <p class="mt-3 mb-0" style="color: rgba(244, 243, 248, 0.85);">Puedes hacer tu donación de forma rápida a través de estas billeteras digitales.</p>
+  </div>
+
+  <!-- BLOQUE: DONAR POR TRANSFERENCIA / PAYPAL -->
+  <div class="panel-block mb-4">
+    <div class="p-3 p-md-4">
+      <h2 class="h4 fw-bold mb-3">Donar por transferencia o PayPal</h2>
+      <p class="mb-3" style="color: rgba(244, 243, 248, 0.85);">Si prefieres hacer una donación directa a nuestras cuentas, puedes usar los siguientes datos.</p>
+
+      <div class="mb-3">
+        <p class="mb-1 fw-semibold">Banco Ejemplo</p>
+        <p class="mb-0 small" style="color: rgba(244, 243, 248, 0.80);">Cuenta de ahorros · 123456789 · Titular: Fundación Almas con Cola</p>
+      </div>
+
+      <div class="mb-3">
+        <p class="mb-1 fw-semibold">Banco Ejemplo 2</p>
+        <p class="mb-0 small" style="color: rgba(244, 243, 248, 0.80);">Cuenta corriente · 987654321 · Titular: Fundación Almas con Cola</p>
+      </div>
+
+      <div class="mt-4">
+        <p class="mb-1 fw-semibold">PayPal</p>
+        <a href="#" class="btn btn-accent btn-sm">Donar con PayPal</a>
+        <small class="d-block mt-1" style="color: rgba(244, 243, 248, 0.80);">Muy pronto podrás apoyar también a través de PayPal.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE: VOLUNTARIADO PARA AYUDAR A MASCOTAS -->
+  <div class="panel-block mb-4">
+    <div class="p-3 p-md-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div>
+        <h2 class="h4 fw-bold text-donaciones-morado mb-2">
+          Voluntariado para ayudar a mascotas
+        </h2>
+        <p class="mb-0" style="color: rgba(244, 243, 248, 0.85);">
+          Si no puedes donar dinero pero quieres ayudar, puedes unirte como voluntario
+          en jornadas, cuidados y actividades para nuestros peluditos.
+        </p>
+      </div>
+      <div>
+        <a href="{{ url_for('voluntariado') }}" class="btn btn-donaciones">Quiero ser voluntario</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE: IMPACTO DE TU DONACIÓN -->
+  <div class="panel-block mb-4">
+    <div class="card-body p-3 p-md-4">
+      <h3 class="fw-bold text-donaciones-morado mb-2">Impacto de tu donación</h3>
+      <p class="mb-4" style="color: rgba(244, 243, 248, 0.85);">
+        Cada aporte, por pequeño que parezca, se convierte en ayuda real para los peluditos rescatados.
+      </p>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="h-100 panel-inner p-3">
+            <p class="fw-semibold mb-2">Alimento</p>
+            <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">Con tus donaciones podemos cubrir la comida diaria de perros y gatos que aún esperan un hogar.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="h-100 panel-inner p-3">
+            <p class="fw-semibold mb-2">Vacunas y cuidados</p>
+            <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">Ayudas a pagar vacunas, desparasitaciones y controles veterinarios para mantenerlos sanos.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="h-100 panel-inner p-3">
+            <p class="fw-semibold mb-2">Adecuaciones</p>
+            <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">Mejoramos espacios, refugios y elementos de descanso para que estén cómodos y seguros.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE: PREGUNTAS FRECUENTES -->
+  <div class="panel-block mb-4">
+    <div class="card-body p-3 p-md-4">
+      <h2 class="h4 fw-bold text-donaciones-morado mb-3">
+        Preguntas frecuentes
+      </h2>
+
+      <div class="faq-item mb-3">
+        <p class="fw-semibold mb-1">¿Cómo se usan las donaciones?</p>
+        <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">Se destinan principalmente a alimento, atención veterinaria básica, medicamentos y mejoras en los espacios donde están los peluditos.</p>
+      </div>
+
+      <div class="faq-item mb-3">
+        <p class="fw-semibold mb-1">¿Puedo donar desde otra ciudad?</p>
+        <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">
+          Sí, puedes usar Nequi, Daviplata, transferencia bancaria o PayPal (cuando esté disponible) desde cualquier lugar.
+        </p>
+      </div>
+
+      <div class="faq-item mb-3">
+        <p class="fw-semibold mb-1">¿Puedo donar insumos en lugar de dinero?</p>
+        <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">
+          Claro, puedes donar alimento, arena, medicamentos básicos u otros insumos. Contáctanos por nuestras redes o WhatsApp para coordinar la entrega.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <p class="fw-semibold mb-1">¿Recibo confirmación de mi donación?</p>
+        <p class="mb-0" style="color: rgba(244, 243, 248, 0.80);">
+          Si nos envías el comprobante por WhatsApp o correo, podemos confirmarte la recepción y agradecerte personalmente.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

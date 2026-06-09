@@ -2,177 +2,328 @@
 {% block title %}Donaciones | Almas con Cola{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/donaciones_premium.css') }}">
 
-  <!-- ENCABEZADO DONACIONES -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-lg-8 text-center">
-      <h1 class="fw-bold text-donaciones-morado">Donaciones</h1>
-      <p class="lead text-muted">
-        Tu apoyo nos permite rescatar, cuidar y encontrar hogar a más peluditos.
-        Todo el dinero donado es destinado para alimento, vacunas y adecuaciones para mejorar la vida de los peludos.
-      </p>
-    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<div class="donaciones-container">
+  <!-- PRELOADER SEQUENCE -->
+  <div class="preloader" id="donacionesPreloader" style="display: none;">
+    <div class="preloader-bar"></div>
   </div>
 
-  <!-- BLOQUE: NEQUI Y DAVIPLATA (IMÁGENES) -->
-  <section class="card shadow-sm border-0 mb-4">
-    <div class="card-body p-3 p-md-4">
-      <div class="row g-4">
-        <!-- RECUADRO IZQUIERDO (Nequi) -->
-        <div class="col-md-6">
-          <div class="pago-box d-flex justify-content-center align-items-center">
-            <img src="{{ url_for('static', filename='images/pagos/nequi.png') }}"
-                 alt="Donación por Nequi"
-                 class="img-fluid">
-          </div>
-        </div>
-
-        <!-- RECUADRO DERECHO (Daviplata) -->
-        <div class="col-md-6">
-          <div class="pago-box d-flex justify-content-center align-items-center">
-            <img src="{{ url_for('static', filename='images/pagos/daviplata.png') }}"
-                 alt="Donación por Daviplata"
-                 class="img-fluid">
-          </div>
-        </div>
+  <!-- HERO SECTION - FULL VIEWPORT -->
+  <section class="hero-donaciones">
+    <div class="hero-content">
+      <div class="hero-text-wrapper">
+        <h1 class="hero-title">
+          <span class="hero-word">Ayuda</span>
+          <span class="hero-word">a Nuestros</span>
+          <span class="hero-word">Peluditos</span>
+        </h1>
       </div>
-      <p class="text-muted mt-3 mb-0">
-        Puedes hacer tu donación de forma rápida a través de estas billeteras digitales.
-      </p>
+      <p class="hero-subtitle">Tu donación salva vidas y transforma historias</p>
+      <div class="hero-cta">
+        <button class="btn-hero btn-primary-custom" data-magnetic>Donar Ahora</button>
+      </div>
+    </div>
+    <div class="hero-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-dot"></div>
     </div>
   </section>
 
-  <!-- BLOQUE: DONAR POR TRANSFERENCIA / PAYPAL -->
-  <section class="card shadow-sm border-0 mb-4">
-    <div class="card-body p-3 p-md-4">
-      <h2 class="h4 fw-bold text-donaciones-morado mb-3">
-        Donar por transferencia o PayPal
-      </h2>
-      <p class="text-muted mb-3">
-        Si prefieres hacer una donación directa a nuestras cuentas, puedes usar los siguientes datos.
-      </p>
-
-      <!-- LISTA DE CUENTAS (EJEMPLO, CAMBIA POR TUS DATOS REALES) -->
-      <div class="mb-3">
-        <p class="mb-1 fw-semibold">Banco Ejemplo</p>
-        <p class="mb-0 small text-muted">Cuenta de ahorros · 123456789 · Titular: Fundación Almas con Cola</p>
+  <!-- MAIN CONTENT -->
+  <div class="content-wrapper">
+    
+    <!-- FORMAS DE DONACIÓN RÁPIDAS -->
+    <section class="donation-methods">
+      <div class="section-header">
+        <h2 class="section-title">Formas de Donar</h2>
+        <div class="title-underline"></div>
       </div>
 
-      <div class="mb-3">
-        <p class="mb-1 fw-semibold">Banco Ejemplo 2</p>
-        <p class="mb-0 small text-muted">Cuenta corriente · 987654321 · Titular: Fundación Almas con Cola</p>
-      </div>
-
-      <!-- PAYPAL (SI AÚN NO TIENES ENLACE, DÉJALO COMO TEXTO O PON #) -->
-      <div class="mt-4">
-        <p class="mb-1 fw-semibold">PayPal</p>
-        <a href="#"
-           class="btn btn-donaciones btn-sm">
-          Donar con PayPal
-        </a>
-        <small class="d-block text-muted mt-1">
-          Muy pronto podrás apoyar también a través de PayPal.
-        </small>
-      </div>
-    </div>
-  </section>
-
-  <!-- BLOQUE: VOLUNTARIADO PARA AYUDAR A MASCOTAS -->
-  <section class="card shadow-sm border-0 mb-4">
-    <div class="card-body p-3 p-md-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-      <div>
-        <h2 class="h4 fw-bold text-donaciones-morado mb-2">
-          Voluntariado para ayudar a mascotas
-        </h2>
-        <p class="mb-0 text-muted">
-          Si no puedes donar dinero pero quieres ayudar, puedes unirte como voluntario
-          en jornadas, cuidados y actividades para nuestros peluditos.
-        </p>
-      </div>
-      <div>
-        <a href="{{ url_for('voluntariado') }}" class="btn btn-donaciones">
-          Quiero ser voluntario
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- BLOQUE: IMPACTO DE TU DONACIÓN -->
-  <section class="card shadow-sm border-0 mb-4">
-    <div class="card-body p-3 p-md-4">
-      <h3 class="fw-bold text-donaciones-morado mb-2">Impacto de tu donación</h3>
-      <p class="text-muted mb-4">
-        Cada aporte, por pequeño que parezca, se convierte en ayuda real para los peluditos rescatados.
-      </p>
-
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="h-100 border rounded-3 p-3 shadow-sm">
-            <p class="fw-semibold mb-2">Alimento</p>
-            <p class="mb-0 text-muted">
-              Con tus donaciones podemos cubrir la comida diaria de perros y gatos que aún esperan un hogar.
-            </p>
+      <div class="methods-grid">
+        <div class="method-card" data-method="nequi">
+          <div class="method-icon">
+            <img src="{{ url_for('static', filename='images/pagos/nequi.png') }}" alt="Nequi" loading="lazy">
           </div>
+          <h3 class="method-title">Nequi</h3>
+          <p class="method-desc">Donación instantánea desde tu móvil</p>
+          <button class="btn-method btn-accent" data-magnetic>💳 Donar Ahora</button>
         </div>
 
-        <div class="col-md-4">
-          <div class="h-100 border rounded-3 p-3 shadow-sm">
-            <p class="fw-semibold mb-2">Vacunas y cuidados</p>
-            <p class="mb-0 text-muted">
-              Ayudas a pagar vacunas, desparasitaciones y controles veterinarios para mantenerlos sanos.
-            </p>
+        <div class="method-card" data-method="daviplata">
+          <div class="method-icon">
+            <img src="{{ url_for('static', filename='images/pagos/daviplata.png') }}" alt="Daviplata" loading="lazy">
           </div>
+          <h3 class="method-title">Daviplata</h3>
+          <p class="method-desc">Billetera digital segura</p>
+          <button class="btn-method btn-accent" data-magnetic>💳 Donar Ahora</button>
         </div>
 
-        <div class="col-md-4">
-          <div class="h-100 border rounded-3 p-3 shadow-sm">
-            <p class="fw-semibold mb-2">Adecuaciones</p>
-            <p class="mb-0 text-muted">
-              Mejoramos espacios, refugios y elementos de descanso para que estén cómodos y seguros.
-            </p>
+        <div class="method-card" data-method="transfer">
+          <div class="method-icon">
+            <i class="bi bi-bank"></i>
           </div>
+          <h3 class="method-title">Transferencia</h3>
+          <p class="method-desc">Transferencia bancaria directa</p>
+          <button class="btn-method btn-secondary" data-magnetic>🏦 Ver Datos</button>
+        </div>
+
+        <div class="method-card" data-method="paypal">
+          <div class="method-icon">
+            <i class="bi bi-credit-card"></i>
+          </div>
+          <h3 class="method-title">PayPal</h3>
+          <p class="method-desc">Próximamente disponible</p>
+          <button class="btn-method btn-secondary" disabled>⏰ Pronto</button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- BLOQUE: PREGUNTAS FRECUENTES -->
-  <section class="card shadow-sm border-0 mb-4">
-    <div class="card-body p-3 p-md-4">
-      <h2 class="h4 fw-bold text-donaciones-morado mb-3">
-        Preguntas frecuentes
-      </h2>
+    <!-- IMPACTO VISUAL SCROLL-DRIVEN -->
+    <section class="impact-section">
+      <div class="impact-grid">
+        <div class="impact-card" data-impact="food">
+          <div class="impact-icon">🍖</div>
+          <h3>Alimentación</h3>
+          <p>Comida nutritiva para nuestros peluditos rescatados</p>
+          <div class="impact-meter"><div class="impact-fill"></div></div>
+        </div>
 
-      <div class="faq-item mb-3">
-        <p class="fw-semibold mb-1">¿Cómo se usan las donaciones?</p>
-        <p class="text-muted mb-0">
-          Se destinan principalmente a alimento, atención veterinaria básica, medicamentos y mejoras en los espacios donde están los peluditos.
-        </p>
+        <div class="impact-card" data-impact="health">
+          <div class="impact-icon">💊</div>
+          <h3>Cuidado Médico</h3>
+          <p>Vacunas, cirugías y tratamientos veterinarios</p>
+          <div class="impact-meter"><div class="impact-fill"></div></div>
+        </div>
+
+        <div class="impact-card" data-impact="shelter">
+          <div class="impact-icon">🏠</div>
+          <h3>Infraestructura</h3>
+          <p>Refugios cómodos y espacios de juego seguros</p>
+          <div class="impact-meter"><div class="impact-fill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOLUNTEERING CTA -->
+    <section class="volunteer-section">
+      <div class="volunteer-content">
+        <div class="volunteer-text">
+          <h2>¿No puedes donar dinero?</h2>
+          <p>Tu tiempo y dedicación valen tanto como cualquier donación económica. Únete a nosotros como voluntario.</p>
+          <a href="{{ url_for('voluntariado') }}" class="btn btn-primary-custom btn-lg" data-magnetic>
+            <i class="bi bi-hands me-2"></i>Sé Voluntario
+          </a>
+        </div>
+        <div class="volunteer-visual">
+          <div class="floating-heart">💜</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ INTERACTIVE -->
+    <section class="faq-section">
+      <div class="section-header">
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+        <div class="title-underline"></div>
       </div>
 
-      <div class="faq-item mb-3">
-        <p class="fw-semibold mb-1">¿Puedo donar desde otra ciudad?</p>
-        <p class="text-muted mb-0">
-          Sí, puedes usar Nequi, Daviplata, transferencia bancaria o PayPal (cuando esté disponible) desde cualquier lugar.
-        </p>
-      </div>
+      <div class="faq-container">
+        <details class="faq-item" open>
+          <summary>¿Puedo donar desde otro país?</summary>
+          <div class="faq-content">
+            <p>Sí, absolutamente. Puedes usar Nequi o Daviplata. Pronto habilitaremos PayPal para donaciones internacionales.</p>
+          </div>
+        </details>
 
-      <div class="faq-item mb-3">
-        <p class="fw-semibold mb-1">¿Puedo donar insumos en lugar de dinero?</p>
-        <p class="text-muted mb-0">
-          Claro, puedes donar alimento, arena, medicamentos básicos u otros insumos. Contáctanos por nuestras redes o WhatsApp para coordinar la entrega.
-        </p>
-      </div>
+        <details class="faq-item">
+          <summary>¿Hay monto mínimo?</summary>
+          <div class="faq-content">
+            <p>No. Cualquier cantidad ayuda. Desde $1 hasta lo que quieras aportar, todo es bienvenido y hará diferencia.</p>
+          </div>
+        </details>
 
-      <div class="faq-item">
-        <p class="fw-semibold mb-1">¿Recibo confirmación de mi donación?</p>
-        <p class="text-muted mb-0">
-          Si nos envías el comprobante por WhatsApp o correo, podemos confirmarte la recepción y agradecerte personalmente.
-        </p>
-      </div>
-    </div>
-  </section>
+        <details class="faq-item">
+          <summary>¿Puedo donar insumos?</summary>
+          <div class="faq-content">
+            <p>Claro. Alimento, arena, medicamentos y otros insumos son bienvenidos. Contáctanos por WhatsApp para coordinar.</p>
+          </div>
+        </details>
 
+        <details class="faq-item">
+          <summary>¿Recibo confirmación?</summary>
+          <div class="faq-content">
+            <p>Sí. Envíanos el comprobante por WhatsApp o correo y te confirmaremos. ¡Te agradeceremos personalmente!</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+      <h2>Tu donación importa</h2>
+      <p>Gracias por considerar ayudar a nuestros peluditos 💜</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-primary-custom btn-lg" data-magnetic>Donar Ahora</a>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-custom btn-lg" data-magnetic>Volver</a>
+      </div>
+    </section>
+
+  </div>
 </div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Preloader animation - hidden by default  
+  // document.getElementById('donacionesPreloader').style.display = 'none';
+
+  // Hero text stagger animation
+  gsap.utils.toArray('.hero-word').forEach((word, index) => {
+    gsap.from(word, {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      delay: 0.1 + index * 0.15,
+      ease: 'power3.out'
+    });
+  });
+
+  // Hero subtitle
+  gsap.from('.hero-subtitle', {
+    opacity: 0,
+    y: 30,
+    duration: 0.8,
+    delay: 0.5,
+    ease: 'power3.out'
+  });
+
+  // CTA button
+  gsap.from('.hero-cta', {
+    opacity: 0,
+    y: 30,
+    duration: 0.8,
+    delay: 0.7,
+    ease: 'power3.out'
+  });
+
+  // Scroll indicator animation
+  gsap.to('.scroll-dot', {
+    y: 20,
+    opacity: 0.3,
+    repeat: -1,
+    yoyo: true,
+    duration: 1.5,
+    ease: 'sine.inOut'
+  });
+
+  // Cards animation on scroll
+  gsap.utils.toArray('.method-card').forEach((card, index) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.6,
+      delay: index * 0.08,
+      ease: 'power2.out'
+    });
+  });
+
+  // Impact cards scroll animation
+  gsap.utils.toArray('.impact-card').forEach((card) => {
+    const fillBar = card.querySelector('.impact-fill');
+    if (fillBar) {
+      gsap.from(fillBar, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        },
+        width: '0%',
+        duration: 1.2,
+        ease: 'power2.out'
+      });
+    }
+  });
+
+  // Magnetic button effect
+  document.querySelectorAll('[data-magnetic]').forEach(button => {
+    button.addEventListener('mousemove', (e) => {
+      if (button.disabled) return;
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      gsap.to(button, {
+        x: x * 0.3,
+        y: y * 0.3,
+        duration: 0.3,
+        overwrite: 'auto'
+      });
+    });
+
+    button.addEventListener('mouseleave', () => {
+      gsap.to(button, {
+        x: 0,
+        y: 0,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+  });
+
+  // FAQ smooth open animation
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('toggle', (e) => {
+      if (e.target.open) {
+        const content = e.target.querySelector('.faq-content');
+        if (content) {
+          gsap.from(content, {
+            opacity: 0,
+            y: -10,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      }
+    });
+  });
+
+  // Floating heart animation
+  const floatingHeart = document.querySelector('.floating-heart');
+  if (floatingHeart) {
+    gsap.to(floatingHeart, {
+      y: -20,
+      opacity: 0.7,
+      repeat: -1,
+      yoyo: true,
+      duration: 2.5,
+      ease: 'sine.inOut'
+    });
+  }
+
+  // Gradient orbs animation
+  gsap.to('.gradient-orb', {
+    y: '+=30',
+    opacity: 0.6,
+    repeat: -1,
+    yoyo: true,
+    duration: 4,
+    ease: 'sine.inOut',
+    stagger: 0.5
+  });
+</script>
+
 {% endblock %}

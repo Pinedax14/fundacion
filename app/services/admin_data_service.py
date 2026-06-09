@@ -32,6 +32,7 @@ class AdminDataStructureService:
         lista = LinkedList()
         for row in result:
             lista.append(dict(row))
+            
         
         return lista
 

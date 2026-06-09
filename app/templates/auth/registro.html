@@ -21,7 +21,7 @@
         <div class="date-field">
           <label for="fecha_nacimiento">Fecha de Nacimiento</label>
           <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
-          <small id="date-error" style="color: #dc3545; display: none;"></small>
+          <small id="date-error" class="text-danger d-none"></small>
         </div>
 
         <div class="password-field">
@@ -99,7 +99,7 @@ passwordInput.addEventListener('input', function() {
       req.classList.remove('valid');
       icon.classList.remove('bi-check-circle-fill');
       icon.classList.add('bi-x-circle');
-      icon.style.color = '#dc3545';                      // rojo al fallar
+      icon.style.color = 'var(--error-color)';                      // rojo al fallar
     }
   }
 

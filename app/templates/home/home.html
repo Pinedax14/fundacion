@@ -6,37 +6,163 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 
-<div class="hero-section d-flex justify-content-center align-items-center text-center">
-  <div class="hero-content">
+<div class="home-page">
+    <section class="home-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-inner container-xl">
+            <div class="hero-copy reveal">
+                <span class="eyebrow">Adopta con propósito</span>
+                <h1>Historias reales, mascotas listas para amar tu hogar.</h1>
+                <p>Encuentra el compañero ideal con procesos transparentes, compromiso afectivo y espacios seguros para cada alma con cola.</p>
+                <div class="hero-buttons">
+                    {% if session.loggedin %}
+                        <a href="{{ url_for('mascotas') }}" class="btn btn-accent btn-lg rounded-pill">Ver Mascotas</a>
+                        <a href="{{ url_for('perfil') }}" class="btn btn-outline-custom btn-lg rounded-pill">Mi Perfil</a>
+                    {% else %}
+                        <a href="{{ url_for('registro') }}" class="btn btn-accent btn-lg rounded-pill">Comenzar Ahora</a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-custom btn-lg rounded-pill">Iniciar Sesión</a>
+                    {% endif %}
+                </div>
+                <div class="hero-trust reveal delay-1">
+                    <div class="trust-pill">
+                        <strong>320+</strong>
+                        <span>Adopciones felices</span>
+                    </div>
+                    <div class="trust-pill">
+                        <strong>98%</strong>
+                        <span>Familias satisfechas</span>
+                    </div>
+                    <div class="trust-pill">
+                        <strong>7 días</strong>
+                        <span>Respuesta promedio</span>
+                    </div>
+                </div>
+            </div>
 
-    {% if session.loggedin %}
-      <!-- Contenido para usuarios con sesión iniciada -->
-      <h2>¡Bienvenido de vuelta, {{ session.nombre }}!</h2>
-      <p>Gracias por seguir apoyando nuestra misión de encontrar un hogar para cada mascota.</p>
-      <div class="hero-buttons">
-        <a href="{{ url_for('mascotas') }}" 
-        class="btn btn-accent btn-lg rounded-pill">
-          Ver Mascotas
-        </a>
-      </div>
-    {% else %}
-      <!-- Contenido para visitantes -->
-      <h2>¡Bienvenido a Almas con Cola!</h2>
-      <p>
-        Gracias por tu interés en ayudar a nuestras mascotas.
-        Aquí podrás encontrar a tu próximo mejor amigo y apoyar con tus donaciones.
-      </p>
-      <div class="hero-buttons">
-        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg rounded-pill">
-          Iniciar Sesión
-        </a>
-        <a href="{{ url_for('registro') }}" class="btn btn-accent btn-lg rounded-pill">
-          Registrarse
-        </a>
-      </div>
-    {% endif %}
+            <div class="hero-media reveal delay-2">
+                <div class="media-grid">
+                    <a href="{% if luna_id %}{{ url_for('detalle_mascota', mascota_id=luna_id) }}{% else %}{{ url_for('mascotas') }}{% endif %}" class="media-card-link">
+                        <div class="media-card media-card-large">
+                            <img src="{{ url_for('static', filename='images/mascotas/Luna.jpg') }}" alt="Luna, mascota lista para adopción">
+                            <div class="media-caption">
+                                <h3>Luna</h3>
+                                <span>Tierna y curiosa</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="media-small-grid">
+                        <a href="{% if bruno_id %}{{ url_for('detalle_mascota', mascota_id=bruno_id) }}{% else %}{{ url_for('mascotas') }}{% endif %}" class="media-card-link">
+                            <div class="media-card media-card-small">
+                                <img src="{{ url_for('static', filename='images/mascotas/brunox.jpg') }}" alt="Bruno listo para compañía">
+                                <div class="media-caption">
+                                    <h3>Bruno</h3>
+                                    <span>Amigable y valiente</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{% if chicletera_id %}{{ url_for('detalle_mascota', mascota_id=chicletera_id) }}{% else %}{{ url_for('mascotas') }}{% endif %}" class="media-card-link">
+                            <div class="media-card media-card-small">
+                                <img src="{{ url_for('static', filename='images/mascotas/chicletera.jpg') }}" alt="Chicletera esperando un hogar">
+                                <div class="media-caption">
+                                    <h3>Chicletera</h3>
+                                    <span>Dulce y juguetona</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  </div>
+    <section class="feature-section container-xl reveal delay-3">
+        <div class="section-header">
+            <span class="eyebrow">Más que una adopción</span>
+            <h2>Experiencias diseñadas para ti y tu nueva mascota.</h2>
+        </div>
+        <div class="feature-grid">
+            <article class="feature-card">
+                <span class="feature-icon"><i class="bi bi-heart-fill"></i></span>
+                <h3>Cuidado responsable</h3>
+                <p>Recibe asesoría profesional sobre salud, alimentación y vínculo afectivo antes y después de la adopción.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-icon"><i class="bi bi-shield-lock-fill"></i></span>
+                <h3>Confianza total</h3>
+                <p>Proceso transparente con historial de cada mascota y seguimiento personalizado.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-icon"><i class="bi bi-people-fill"></i></span>
+                <h3>Comunidad viva</h3>
+                <p>Únete a voluntarios, adoptantes y donantes que impulsan una red de apoyo real.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="gallery-section container-xl reveal delay-4">
+        <div class="section-header split-header">
+            <div>
+                <span class="eyebrow">Nuestros amigos</span>
+                <h2>Algunas caras que están esperando por ti.</h2>
+            </div>
+            <a href="{{ url_for('mascotas') }}" class="link-button">Ver todas las mascotas</a>
+        </div>
+        <div class="gallery-grid">
+            <article class="gallery-card">
+                <img src="{{ url_for('static', filename='images/mascotas/Mia.jpg') }}" alt="Mia">
+                <div class="gallery-info">
+                    <h3>Mia</h3>
+                    <p>Busca un hogar tranquilo donde le lean cuentos cada noche.</p>
+                </div>
+            </article>
+            <article class="gallery-card">
+                <img src="{{ url_for('static', filename='images/mascotas/Tom.jpg') }}" alt="Tom">
+                <div class="gallery-info">
+                    <h3>Tom</h3>
+                    <p>Activo y cariñoso, ideal para una familia con energía.</p>
+                </div>
+            </article>
+            <article class="gallery-card">
+                <img src="{{ url_for('static', filename='images/mascotas/Kira.jpg') }}" alt="Kira">
+                <div class="gallery-info">
+                    <h3>Kira</h3>
+                    <p>Pequeña exploradora con una sonrisa contagiosa.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="story-section reveal delay-5">
+        <div class="story-panel container-xl">
+            <div>
+                <span class="eyebrow">Únete a la comunidad</span>
+                <h2>Transforma una vida con una decisión consciente.</h2>
+                <p>Tu apoyo construye hogares más seguros, búsquedas más rápidas y una red de amor ampliada para cada mascota.</p>
+            </div>
+            <a href="{{ url_for('donaciones') }}" class="btn btn-accent btn-lg rounded-pill">Apoyar ahora</a>
+        </div>
+    </section>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const items = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.18 });
+
+        items.forEach((item, index) => {
+            item.style.setProperty('--reveal-delay', `${index * 120}ms`);
+            observer.observe(item);
+        });
+    });
+</script>
 {% endblock %}

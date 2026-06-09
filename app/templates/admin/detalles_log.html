@@ -3,7 +3,35 @@
 {% block title %}Detalles del Log {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<style>
+    .admin-log-shell .card,
+    .admin-log-shell .bg-danger.bg-opacity-10 {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        box-shadow: 0 28px 80px rgba(0,0,0,0.18) !important;
+        color: var(--text-primary) !important;
+    }
+    .admin-log-shell .card-header {
+        background: rgba(255,255,255,0.06) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.10) !important;
+    }
+    .admin-log-shell p,
+    .admin-log-shell pre,
+    .admin-log-shell code,
+    .admin-log-shell small {
+        color: var(--text-primary) !important;
+    }
+    .admin-log-shell code {
+        background: rgba(255,255,255,0.04);
+        color: var(--text-primary);
+        padding: 0.35rem 0.55rem;
+        border-radius: 0.65rem;
+    }
+    .admin-log-shell pre {
+        margin-bottom: 0;
+    }
+</style>
+<div class="container mt-5 admin-log-shell">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1> Detalles del Log #{{ log.id }}</h1>
         <a href="/admin/auditoria/logs" class="btn btn-secondary">← Volver</a>
@@ -97,7 +125,7 @@
             <h5 class="mb-0"> Datos ANTES del cambio</h5>
         </div>
         <div class="card-body">
-            <div class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+            <div class="log-data-panel">
                 <pre><code>{{ log.datos_antes | tojson(indent=2) }}</code></pre>
             </div>
         </div>
@@ -111,7 +139,7 @@
             <h5 class="mb-0"> Datos DESPUÉS del cambio</h5>
         </div>
         <div class="card-body">
-            <div class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+            <div class="log-data-panel">
                 <pre><code>{{ log.datos_despues | tojson(indent=2) }}</code></pre>
             </div>
         </div>
@@ -163,7 +191,7 @@
     
     <!-- User Agent -->
     {% if log.user_agent %}
-    <div class="card mb-3 bg-light">
+    <div class="card mb-3 glass-panel">
         <div class="card-header">
             <h5 class="mb-0"> User Agent</h5>
         </div>
@@ -190,13 +218,24 @@
 
 <style>
     code {
-        background: #f4f4f4;
-        padding: 2px 6px;
-        border-radius: 3px;
+        background: rgba(255,255,255,0.04);
+        color: var(--text-primary);
+        padding: 0.35rem 0.55rem;
+        border-radius: 0.65rem;
         font-family: 'Courier New', monospace;
+        display: inline-block;
     }
     pre {
         margin-bottom: 0;
+        color: var(--text-primary);
+    }
+    .log-data-panel {
+        background: rgba(255,255,255,0.04);
+        padding: 1rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255,255,255,0.09);
+        max-height: 400px;
+        overflow-y: auto;
     }
 </style>
 {% endblock %}

@@ -3,21 +3,21 @@ Módulo de rutas para autenticación
 Contiene las rutas de registro, login, perfil y gestión de usuarios
 """
 
-import re
-import random
-import string
-import smtplib
-import os
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
-from flask import render_template, request, redirect, url_for, session, flash, g
-from sqlalchemy.exc import IntegrityError
-from app.rutas.decoradores import admin_required_factory
-from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota
-from app.services.postgres_user_service import PostgresUserService
-from app.services.admin_data_service import AdminDataStructureService
-from datetime import datetime, timedelta, date
+import re # Para validación de email y contraseña   
+import random # Para generación de códigos de verificación únicos
+import string   # Para generación de códigos de verificación únicos
+import smtplib  # Para envío de correos electrónicos
+import os   # Para manejo de rutas de archivos
+from email.mime.text import MIMEText        # Para construir el cuerpo del correo en HTML
+from email.mime.multipart import MIMEMultipart      # Para construir correos con texto e imágenes adjuntas
+from email.mime.image import MIMEImage       # Para adjuntar imágenes en el correo (logo de la fundación)
+from flask import render_template, request, redirect, url_for, session, flash, g    # Para manejo de rutas, sesiones y mensajes flash
+from sqlalchemy.exc import IntegrityError       # Para manejo de errores de integridad (como email duplicado)
+from app.rutas.decoradores import admin_required_factory  # Para proteger rutas administrativas
+from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota   # Importar modelos necesarios
+from app.services.postgres_user_service import PostgresUserService      # Servicio para manejar usuarios en PostgreSQL/Neon
+from app.services.admin_data_service import AdminDataStructureService       # Servicio para cargar datos en estructuras de nodos para el perfil de usuario
+from datetime import datetime, timedelta, date  # Para manejo de fechas, especialmente en validación de fecha de nacimiento y expiración de códigos de verificación
 
 
 class RutasAuth:
@@ -42,7 +42,7 @@ class RutasAuth:
         """
         self.app = app
         self.conexion = conexion
-        self.mysql = conexion.mysql
+        #self.mysql = conexion.mysql
         self.bcrypt = conexion.bcrypt
         self.postgres_user_service = PostgresUserService()
         self.admin_data_service = AdminDataStructureService()
