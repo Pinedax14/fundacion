@@ -1,329 +1,779 @@
 {% extends "base/layout.html" %}
 {% block title %}Donaciones | Almas con Cola{% endblock %}
 
-{% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/donaciones_premium.css') }}">
+{% endblock %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+{% block content %}
+<div class="don-page">
 
-<div class="donaciones-container">
-  <!-- PRELOADER SEQUENCE -->
-  <div class="preloader" id="donacionesPreloader" style="display: none;">
-    <div class="preloader-bar"></div>
-  </div>
+  <!-- ═══════════════════════════════════════════
+       1. HERO — split editorial
+       ═══════════════════════════════════════════ -->
+  <section class="don-hero" aria-label="Presentación donaciones">
 
-  <!-- HERO SECTION - FULL VIEWPORT -->
-  <section class="hero-donaciones">
-    <div class="hero-content">
-      <div class="hero-text-wrapper">
-        <h1 class="hero-title">
-          <span class="hero-word">Ayuda</span>
-          <span class="hero-word">a Nuestros</span>
-          <span class="hero-word">Peluditos</span>
-        </h1>
-      </div>
-      <p class="hero-subtitle">Tu donación salva vidas y transforma historias</p>
-      <div class="hero-cta">
-        <button class="btn-hero btn-primary-custom" data-magnetic>Donar Ahora</button>
+    <!-- Panel izquierdo: texto editorial -->
+    <div class="don-hero__left" style="position:relative;">
+
+      <!-- Perro — fondo panel izquierdo -->
+      <svg class="don-deco" style="width:240px;opacity:0.09;bottom:-1rem;right:-1rem;--deco-rot:5deg;" viewBox="0 0 110 130" fill="#1E1A14" aria-hidden="true">
+        <ellipse cx="55" cy="96" rx="36" ry="29"/>
+        <circle cx="55" cy="51" r="28"/>
+        <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+        <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+        <path d="M87 80 Q108 62 102 44" fill="none" stroke="#1E1A14" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Gato — esquina inferior izquierda -->
+      <svg class="don-deco don-deco--float-slow" style="width:110px;opacity:0.07;bottom:2rem;left:-0.5rem;--deco-rot:-12deg;" viewBox="0 0 100 120" fill="#5C7A62" aria-hidden="true">
+        <ellipse cx="50" cy="90" rx="32" ry="27"/>
+        <circle cx="50" cy="52" r="24"/>
+        <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+        <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+        <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#5C7A62" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Huellas — borde superior -->
+      <svg class="don-deco" style="width:34px;opacity:0.17;top:1.5rem;right:3rem;--deco-rot:-30deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+      <svg class="don-deco" style="width:24px;opacity:0.12;top:3.5rem;right:5.5rem;--deco-rot:10deg;" viewBox="0 0 100 100" fill="#C4794A" aria-hidden="true">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+      <svg class="don-deco" style="width:20px;opacity:0.10;top:6rem;right:4rem;--deco-rot:-18deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+
+      <span class="don-eyebrow">Almas con Cola · Donaciones</span>
+
+      <h1 class="don-hero__title">
+        Una vida<br>
+        rescatada<br>
+        <em>vale todo.</em>
+      </h1>
+
+      <p class="don-hero__sub">
+        Cada peso que donas llega directo al refugio —
+        alimentación, medicina, y el calor de un hogar temporal
+        para animales que más lo necesitan.
+      </p>
+
+      <div class="don-hero__actions">
+        <a href="#como-donar" class="don-btn don-btn--terra">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+          </svg>
+          Donar ahora
+        </a>
+        <a href="#impacto" class="don-btn don-btn--ghost">Ver el impacto</a>
       </div>
     </div>
-    <div class="hero-background">
-      <div class="gradient-orb orb-1"></div>
-      <div class="gradient-orb orb-2"></div>
-    </div>
-    <div class="scroll-indicator">
-      <div class="scroll-dot"></div>
+
+    <!-- Panel derecho: salvia, siluetas y huellas -->
+    <div class="don-hero__right" aria-hidden="true">
+      <div class="don-orb don-orb--1"></div>
+      <div class="don-orb don-orb--2"></div>
+      <span class="don-hero__bg-num" aria-hidden="true">150</span>
+
+      <!-- Gato grande — fondo inferior izquierdo -->
+      <svg class="don-deco don-deco--float-slow" style="width:190px;opacity:0.30;bottom:1.5rem;left:1rem;--deco-rot:-8deg;" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="#3E5A44">
+        <ellipse cx="50" cy="90" rx="32" ry="27"/>
+        <circle cx="50" cy="52" r="24"/>
+        <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+        <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+        <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#3E5A44" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Perro — esquina superior derecha -->
+      <svg class="don-deco don-deco--float" style="width:130px;opacity:0.22;top:1rem;right:0.5rem;--deco-rot:10deg;" viewBox="0 0 110 130" fill="#5C7A62">
+        <ellipse cx="55" cy="96" rx="36" ry="29"/>
+        <circle cx="55" cy="51" r="28"/>
+        <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+        <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+        <path d="M87 80 Q108 62 102 44" fill="none" stroke="#5C7A62" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Huella grande — esquina superior izquierda -->
+      <svg class="don-deco don-deco--float" style="width:85px;opacity:0.40;top:1.5rem;left:2rem;--deco-rot:18deg;" viewBox="0 0 100 100" fill="#C4794A">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/>
+        <ellipse cx="22" cy="52" rx="11" ry="14"/>
+        <ellipse cx="78" cy="52" rx="11" ry="14"/>
+        <ellipse cx="35" cy="35" rx="9" ry="12"/>
+        <ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+
+      <!-- Huella mediana — centro -->
+      <svg class="don-deco don-deco--float-alt" style="width:58px;opacity:0.32;top:42%;left:30%;--deco-rot:-22deg;" viewBox="0 0 100 100" fill="#3E5A44">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/>
+        <ellipse cx="22" cy="52" rx="11" ry="14"/>
+        <ellipse cx="78" cy="52" rx="11" ry="14"/>
+        <ellipse cx="35" cy="35" rx="9" ry="12"/>
+        <ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+
+      <!-- Huella pequeña — centro derecha -->
+      <svg class="don-deco don-deco--float-slow" style="width:40px;opacity:0.28;top:35%;right:2rem;--deco-rot:35deg;" viewBox="0 0 100 100" fill="#C4794A">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/>
+        <ellipse cx="22" cy="52" rx="11" ry="14"/>
+        <ellipse cx="78" cy="52" rx="11" ry="14"/>
+        <ellipse cx="35" cy="35" rx="9" ry="12"/>
+        <ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+
+      <!-- Huella pequeña extra — medio derecha baja -->
+      <svg class="don-deco" style="width:30px;opacity:0.20;bottom:35%;right:3.5rem;--deco-rot:-14deg;" viewBox="0 0 100 100" fill="#5C7A62">
+        <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+      </svg>
+
+      <!-- La huella terracota original — parte inferior derecha -->
+      <svg class="don-hero__paw" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="50" cy="75" rx="22" ry="18" fill="#C4794A"/>
+        <ellipse cx="22" cy="52" rx="11" ry="14" fill="#C4794A"/>
+        <ellipse cx="78" cy="52" rx="11" ry="14" fill="#C4794A"/>
+        <ellipse cx="35" cy="35" rx="9" ry="12" fill="#C4794A"/>
+        <ellipse cx="65" cy="35" rx="9" ry="12" fill="#C4794A"/>
+      </svg>
+
+      <div class="don-hero__float">
+        <span class="don-hero__float-num">150+</span>
+        <span class="don-hero__float-label">Animales rescatados</span>
+        <span class="don-hero__float-sub">gracias a personas como tú</span>
+      </div>
     </div>
   </section>
 
-  <!-- MAIN CONTENT -->
-  <div class="content-wrapper">
-    
-    <!-- FORMAS DE DONACIÓN RÁPIDAS -->
-    <section class="donation-methods">
-      <div class="section-header">
-        <h2 class="section-title">Formas de Donar</h2>
-        <div class="title-underline"></div>
-      </div>
+  <!-- ═══════════════════════════════════════════
+       2. TRUST STRIP — cifras clave
+       ═══════════════════════════════════════════ -->
+  <div class="don-trust" role="region" aria-label="Cifras de impacto">
 
-      <div class="methods-grid">
-        <div class="method-card" data-method="nequi">
-          <div class="method-icon">
-            <img src="{{ url_for('static', filename='images/pagos/nequi.png') }}" alt="Nequi" loading="lazy">
-          </div>
-          <h3 class="method-title">Nequi</h3>
-          <p class="method-desc">Donación instantánea desde tu móvil</p>
-          <button class="btn-method btn-accent" data-magnetic>💳 Donar Ahora</button>
-        </div>
+    <!-- Huellas decorativas en la banda oscura -->
+    <svg class="don-deco don-deco--float" style="width:52px;opacity:0.26;top:0.6rem;left:3%;--deco-rot:-15deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:38px;opacity:0.18;bottom:0.6rem;left:10%;--deco-rot:28deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco don-deco--float-alt" style="width:30px;opacity:0.14;top:0.8rem;left:22%;--deco-rot:-8deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco don-deco--float" style="width:46px;opacity:0.24;top:0.5rem;right:10%;--deco-rot:12deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:34px;opacity:0.16;bottom:0.6rem;right:4%;--deco-rot:-30deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco don-deco--float-slow" style="width:24px;opacity:0.12;bottom:0.8rem;right:22%;--deco-rot:42deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
 
-        <div class="method-card" data-method="daviplata">
-          <div class="method-icon">
-            <img src="{{ url_for('static', filename='images/pagos/daviplata.png') }}" alt="Daviplata" loading="lazy">
-          </div>
-          <h3 class="method-title">Daviplata</h3>
-          <p class="method-desc">Billetera digital segura</p>
-          <button class="btn-method btn-accent" data-magnetic>💳 Donar Ahora</button>
-        </div>
-
-        <div class="method-card" data-method="transfer">
-          <div class="method-icon">
-            <i class="bi bi-bank"></i>
-          </div>
-          <h3 class="method-title">Transferencia</h3>
-          <p class="method-desc">Transferencia bancaria directa</p>
-          <button class="btn-method btn-secondary" data-magnetic>🏦 Ver Datos</button>
-        </div>
-
-        <div class="method-card" data-method="paypal">
-          <div class="method-icon">
-            <i class="bi bi-credit-card"></i>
-          </div>
-          <h3 class="method-title">PayPal</h3>
-          <p class="method-desc">Próximamente disponible</p>
-          <button class="btn-method btn-secondary" disabled>⏰ Pronto</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- IMPACTO VISUAL SCROLL-DRIVEN -->
-    <section class="impact-section">
-      <div class="impact-grid">
-        <div class="impact-card" data-impact="food">
-          <div class="impact-icon">🍖</div>
-          <h3>Alimentación</h3>
-          <p>Comida nutritiva para nuestros peluditos rescatados</p>
-          <div class="impact-meter"><div class="impact-fill"></div></div>
-        </div>
-
-        <div class="impact-card" data-impact="health">
-          <div class="impact-icon">💊</div>
-          <h3>Cuidado Médico</h3>
-          <p>Vacunas, cirugías y tratamientos veterinarios</p>
-          <div class="impact-meter"><div class="impact-fill"></div></div>
-        </div>
-
-        <div class="impact-card" data-impact="shelter">
-          <div class="impact-icon">🏠</div>
-          <h3>Infraestructura</h3>
-          <p>Refugios cómodos y espacios de juego seguros</p>
-          <div class="impact-meter"><div class="impact-fill"></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VOLUNTEERING CTA -->
-    <section class="volunteer-section">
-      <div class="volunteer-content">
-        <div class="volunteer-text">
-          <h2>¿No puedes donar dinero?</h2>
-          <p>Tu tiempo y dedicación valen tanto como cualquier donación económica. Únete a nosotros como voluntario.</p>
-          <a href="{{ url_for('voluntariado') }}" class="btn btn-primary-custom btn-lg" data-magnetic>
-            <i class="bi bi-hands me-2"></i>Sé Voluntario
-          </a>
-        </div>
-        <div class="volunteer-visual">
-          <div class="floating-heart">💜</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ INTERACTIVE -->
-    <section class="faq-section">
-      <div class="section-header">
-        <h2 class="section-title">Preguntas Frecuentes</h2>
-        <div class="title-underline"></div>
-      </div>
-
-      <div class="faq-container">
-        <details class="faq-item" open>
-          <summary>¿Puedo donar desde otro país?</summary>
-          <div class="faq-content">
-            <p>Sí, absolutamente. Puedes usar Nequi o Daviplata. Pronto habilitaremos PayPal para donaciones internacionales.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>¿Hay monto mínimo?</summary>
-          <div class="faq-content">
-            <p>No. Cualquier cantidad ayuda. Desde $1 hasta lo que quieras aportar, todo es bienvenido y hará diferencia.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>¿Puedo donar insumos?</summary>
-          <div class="faq-content">
-            <p>Claro. Alimento, arena, medicamentos y otros insumos son bienvenidos. Contáctanos por WhatsApp para coordinar.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>¿Recibo confirmación?</summary>
-          <div class="faq-content">
-            <p>Sí. Envíanos el comprobante por WhatsApp o correo y te confirmaremos. ¡Te agradeceremos personalmente!</p>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="final-cta">
-      <h2>Tu donación importa</h2>
-      <p>Gracias por considerar ayudar a nuestros peluditos 💜</p>
-      <div class="cta-buttons">
-        <a href="#" class="btn btn-primary-custom btn-lg" data-magnetic>Donar Ahora</a>
-        <a href="{{ url_for('home') }}" class="btn btn-outline-custom btn-lg" data-magnetic>Volver</a>
-      </div>
-    </section>
-
+    <div class="don-trust__item">
+      <span class="don-trust__num don-js-count" data-target="150" data-suffix="+">150+</span>
+      <span class="don-trust__label">Animales rescatados</span>
+    </div>
+    <div class="don-trust__sep" aria-hidden="true"></div>
+    <div class="don-trust__item">
+      <span class="don-trust__num don-js-count" data-target="48">48</span>
+      <span class="don-trust__label">Adoptados este año</span>
+    </div>
+    <div class="don-trust__sep" aria-hidden="true"></div>
+    <div class="don-trust__item">
+      <span class="don-trust__num">100%</span>
+      <span class="don-trust__label">Donaciones al refugio directo</span>
+    </div>
   </div>
-</div>
 
+  <!-- ═══════════════════════════════════════════
+       3. RECETA MENSUAL — firma del diseño
+       ═══════════════════════════════════════════ -->
+  <section class="don-recipe" id="impacto" aria-labelledby="recipe-title">
+
+    <!-- Perro sentado — fondo superior derecho -->
+    <svg class="don-deco don-deco--float-slow" style="width:180px;opacity:0.22;top:-1rem;right:-0.5rem;--deco-rot:12deg;" viewBox="0 0 110 130" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="#5C7A62" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Gato — superior izquierdo -->
+    <svg class="don-deco don-deco--float-alt" style="width:110px;opacity:0.14;top:2rem;left:0rem;--deco-rot:-6deg;" viewBox="0 0 100 120" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#C4794A" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Huellas — esquina inferior izquierda -->
+    <svg class="don-deco don-deco--float" style="width:48px;opacity:0.24;bottom:2rem;left:0.5rem;--deco-rot:-20deg;" viewBox="0 0 100 100" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:34px;opacity:0.18;bottom:5rem;left:1.5rem;--deco-rot:-5deg;" viewBox="0 0 100 100" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:22px;opacity:0.12;bottom:8rem;left:3rem;--deco-rot:20deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+
+    <div class="don-recipe__header">
+      <span class="don-eyebrow">Transparencia total</span>
+      <h2 id="recipe-title">
+        Lo que cuesta cuidar<br>un animal rescatado al mes
+      </h2>
+    </div>
+
+    <div class="don-recipe__card" role="region" aria-label="Desglose de costos mensuales">
+      <div class="don-recipe__tag" aria-hidden="true">
+        Receta mensual · 1 animal rescatado
+      </div>
+
+      <table class="don-recipe__table" aria-label="Costos mensuales de cuidado">
+        <tbody>
+          <tr class="don-js-row">
+            <td class="don-recipe__item">Alimentación premium (30 kg)</td>
+            <td class="don-recipe__price" aria-label="$120.000 pesos">$120.000</td>
+          </tr>
+          <tr class="don-js-row">
+            <td class="don-recipe__item">Consulta veterinaria mensual</td>
+            <td class="don-recipe__price" aria-label="$45.000 pesos">$45.000</td>
+          </tr>
+          <tr class="don-js-row">
+            <td class="don-recipe__item">Antiparasitarios y vitaminas</td>
+            <td class="don-recipe__price" aria-label="$18.000 pesos">$18.000</td>
+          </tr>
+          <tr class="don-js-row">
+            <td class="don-recipe__item">Higiene y materiales de limpieza</td>
+            <td class="don-recipe__price" aria-label="$25.000 pesos">$25.000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="padding:0;"><hr class="don-recipe__perforation"></td>
+          </tr>
+          <tr class="don-recipe__total">
+            <td>Total por animal / mes</td>
+            <td class="don-recipe__price" aria-label="$208.000 pesos">$208.000</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <p class="don-recipe__note">
+        <strong>¿Qué significa tu donación?</strong>
+        Con $20.000 alimentas a un animal 3 días.
+        Con $50.000 cubres su desparasitación completa.
+        Cada aporte suma — no existe monto mínimo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       4. CÓMO DONAR — métodos con info real
+       ═══════════════════════════════════════════ -->
+  <section class="don-payment" id="como-donar" aria-labelledby="payment-title">
+
+    <!-- Gatico — esquina inferior derecha -->
+    <svg class="don-deco don-deco--float-slow" style="width:160px;opacity:0.20;bottom:0;right:1%;--deco-rot:6deg;" viewBox="0 0 100 120" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#C4794A" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Perro — esquina inferior izquierda -->
+    <svg class="don-deco don-deco--float" style="width:130px;opacity:0.14;bottom:0;left:0.5%;--deco-rot:-8deg;" viewBox="0 0 110 130" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="#5C7A62" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Huellas — esquina superior izquierda + derecha -->
+    <svg class="don-deco don-deco--float-alt" style="width:64px;opacity:0.22;top:2rem;left:1.5rem;--deco-rot:25deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco don-deco--float" style="width:44px;opacity:0.16;top:2.5rem;right:2rem;--deco-rot:-18deg;" viewBox="0 0 100 100" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:30px;opacity:0.12;top:5rem;left:4rem;--deco-rot:10deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+
+    <div class="don-payment__inner">
+      <div class="don-payment__header">
+        <span class="don-eyebrow">Paso a paso</span>
+        <h2 id="payment-title">Cómo donar</h2>
+      </div>
+
+      <div class="don-payment__grid">
+
+        <!-- Nequi -->
+        <div class="don-payment__card">
+          <div class="don-payment__brand">
+            <img src="{{ url_for('static', filename='images/pagos/nequi.png') }}"
+                 alt="Nequi" loading="lazy" onerror="this.style.display='none'">
+            <div>
+              <span class="don-payment__brand-name">Nequi</span>
+              <span class="don-payment__type">Transferencia móvil</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="don-payment__num-label">Número de celular</span>
+            <div class="don-payment__number" id="nequi-num">3XX XXX XXXX</div>
+          </div>
+
+          <button class="don-copy-btn"
+                  data-copy="3XXXXXXXXX"
+                  aria-label="Copiar número Nequi">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+              <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+            </svg>
+            Copiar número
+          </button>
+
+          <ol class="don-payment__steps" aria-label="Pasos para donar por Nequi">
+            <li>Abre Nequi y toca <strong>Enviar dinero</strong></li>
+            <li>Ingresa el número de arriba</li>
+            <li>Escribe el monto que deseas donar</li>
+            <li>Envíanos el comprobante por WhatsApp</li>
+          </ol>
+        </div>
+
+        <!-- Daviplata -->
+        <div class="don-payment__card don-payment__card--terra">
+          <div class="don-payment__brand">
+            <img src="{{ url_for('static', filename='images/pagos/daviplata.png') }}"
+                 alt="Daviplata" loading="lazy" onerror="this.style.display='none'">
+            <div>
+              <span class="don-payment__brand-name">Daviplata</span>
+              <span class="don-payment__type">Billetera digital</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="don-payment__num-label">Número de celular</span>
+            <div class="don-payment__number" id="daviplata-num">3XX XXX XXXX</div>
+          </div>
+
+          <button class="don-copy-btn"
+                  data-copy="3XXXXXXXXX"
+                  aria-label="Copiar número Daviplata">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+              <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+            </svg>
+            Copiar número
+          </button>
+
+          <ol class="don-payment__steps" aria-label="Pasos para donar por Daviplata">
+            <li>Abre Daviplata y selecciona <strong>Transferir</strong></li>
+            <li>Ingresa el número de arriba</li>
+            <li>Elige el monto que deseas donar</li>
+            <li>Envíanos el comprobante por WhatsApp</li>
+          </ol>
+        </div>
+
+        <!-- Transferencia bancaria -->
+        <div class="don-payment__card don-payment__card--bank">
+          <div class="don-payment__brand">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#3E5A44" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0a1 1 0 0 1 .5.13l7 4a1 1 0 0 1 .5.87v.5a.5.5 0 0 1-.5.5h-.5v7H15.5a.5.5 0 0 1 0 1h-15a.5.5 0 0 1 0-1H1V6H.5A.5.5 0 0 1 0 5.5V5a1 1 0 0 1 .5-.87l7-4A1 1 0 0 1 8 0zM2.5 6v7h2V6zm3 0v7h2V6zm3 0v7h2V6zM1 5h14L8 1.15 1 5z"/>
+            </svg>
+            <div>
+              <span class="don-payment__brand-name">Transferencia</span>
+              <span class="don-payment__type">Bancaria directa</span>
+            </div>
+          </div>
+
+          <div class="don-bank-fields">
+            <div class="don-bank-field">
+              <span class="don-bank-field__label">Banco</span>
+              <span class="don-bank-field__value">Bancolombia</span>
+            </div>
+            <div class="don-bank-field">
+              <span class="don-bank-field__label">Tipo de cuenta</span>
+              <span class="don-bank-field__value">Ahorros</span>
+            </div>
+            <div class="don-bank-field">
+              <span class="don-bank-field__label">Número de cuenta</span>
+              <span class="don-bank-field__value don-payment__number" style="font-size:1.4rem">
+                XXX XXX XXXX
+              </span>
+            </div>
+            <div class="don-bank-field">
+              <span class="don-bank-field__label">A nombre de</span>
+              <span class="don-bank-field__value">Fundación Almas con Cola</span>
+            </div>
+            <div class="don-bank-field">
+              <span class="don-bank-field__label">NIT / Cédula</span>
+              <span class="don-bank-field__value">X.XXX.XXX.XXX</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /don-payment__grid -->
+
+      <!-- WhatsApp CTA -->
+      <div class="don-whatsapp-row">
+        <p class="don-whatsapp-note">
+          Después de donar, envíanos el comprobante para confirmarte personalmente.
+        </p>
+        <a href="https://wa.me/57XXXXXXXXXX?text=Hola%2C%20acabo%20de%20hacer%20una%20donaci%C3%B3n%20a%20Almas%20con%20Cola%20%F0%9F%90%BE"
+           class="don-btn don-btn--whatsapp"
+           target="_blank" rel="noopener"
+           aria-label="Enviar comprobante de donación por WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+          </svg>
+          Enviar comprobante por WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       5. VOLUNTARIADO — panel editorial
+       ═══════════════════════════════════════════ -->
+  <section class="don-volunteer" aria-labelledby="volunteer-title">
+
+    <!-- Perro grande — protagonista derecha -->
+    <svg class="don-deco don-deco--float-slow" style="width:min(320px,42vw);opacity:0.36;right:-0.5rem;bottom:0;--deco-rot:5deg;" viewBox="0 0 110 130" fill="#3E5A44" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="#3E5A44" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Gatico — izquierda alta -->
+    <svg class="don-deco don-deco--float" style="width:100px;opacity:0.22;top:1.5rem;right:max(260px,40vw);--deco-rot:-10deg;" viewBox="0 0 100 120" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#5C7A62" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Gatico pequeño — esquina superior derecha -->
+    <svg class="don-deco don-deco--float-alt" style="width:70px;opacity:0.16;top:2rem;right:1rem;--deco-rot:15deg;" viewBox="0 0 100 120" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#5C7A62" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Huellas — inferior izquierda y superior -->
+    <svg class="don-deco don-deco--float" style="width:52px;opacity:0.28;bottom:2rem;left:2rem;--deco-rot:-18deg;" viewBox="0 0 100 100" fill="#3E5A44" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:36px;opacity:0.20;bottom:5.5rem;left:4rem;--deco-rot:8deg;" viewBox="0 0 100 100" fill="#3E5A44" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:24px;opacity:0.14;bottom:9rem;left:6rem;--deco-rot:-25deg;" viewBox="0 0 100 100" fill="#3E5A44" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+
+    <div class="don-volunteer__inner">
+      <span class="don-eyebrow" style="color: rgba(62,90,68,0.75);">Otras formas de ayudar</span>
+
+      <blockquote class="don-volunteer__quote">
+        Tu tiempo<br>
+        también<br>
+        <em>salva vidas.</em>
+      </blockquote>
+
+      <p class="don-volunteer__body">
+        Si no puedes donar dinero, tu presencia vale igual.
+        Una hora contigo puede ser el mejor día en la vida de un animal.
+        Únete como voluntario y sé parte del cambio.
+      </p>
+
+      <a href="{{ url_for('voluntariado') }}" class="don-btn don-btn--primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>
+        Ser voluntario
+      </a>
+    </div>
+    <div class="don-volunteer__bg-text" aria-hidden="true">tu</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       6. FAQ
+       ═══════════════════════════════════════════ -->
+  <section class="don-faq" style="position:relative;overflow:hidden;" aria-labelledby="faq-title">
+
+    <!-- Gatico curioso — esquina superior derecha -->
+    <svg class="don-deco don-deco--float-alt" style="width:140px;opacity:0.20;top:-0.5rem;right:1rem;--deco-rot:-8deg;" viewBox="0 0 100 120" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="#5C7A62" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Perro — esquina superior izquierda -->
+    <svg class="don-deco don-deco--float-slow" style="width:100px;opacity:0.13;top:0;left:0.5rem;--deco-rot:8deg;" viewBox="0 0 110 130" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="#C4794A" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Huellas — inferior izquierda -->
+    <svg class="don-deco don-deco--float" style="width:46px;opacity:0.20;bottom:2rem;left:1rem;--deco-rot:15deg;" viewBox="0 0 100 100" fill="#C4794A" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:30px;opacity:0.14;bottom:5rem;left:2.5rem;--deco-rot:-10deg;" viewBox="0 0 100 100" fill="#5C7A62" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+
+    <div class="don-faq__inner">
+      <div class="don-faq__header">
+        <span class="don-eyebrow">Resolvemos tus dudas</span>
+        <h2 id="faq-title">Preguntas frecuentes</h2>
+      </div>
+
+      <details class="don-faq__item" open>
+        <summary>
+          ¿Puedo donar desde otro país?
+          <span class="don-faq__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="don-faq__body">
+          Sí, absolutamente. Puedes usar Nequi o Daviplata desde cualquier parte.
+          Próximamente habilitaremos PayPal para donaciones internacionales más cómodas.
+        </div>
+      </details>
+
+      <details class="don-faq__item">
+        <summary>
+          ¿Hay un monto mínimo para donar?
+          <span class="don-faq__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="don-faq__body">
+          No existe monto mínimo. Desde $1.000 hasta lo que puedas aportar,
+          todo hace diferencia. Un pequeño gesto puede alimentar a un animal un día entero.
+        </div>
+      </details>
+
+      <details class="don-faq__item">
+        <summary>
+          ¿Puedo donar alimentos o insumos en vez de dinero?
+          <span class="don-faq__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="don-faq__body">
+          Con mucho gusto. Alimento concentrado, arena sanitaria, medicamentos y materiales
+          de higiene son siempre bienvenidos. Contáctanos por WhatsApp para coordinar la entrega.
+        </div>
+      </details>
+
+      <details class="don-faq__item">
+        <summary>
+          ¿Recibiré confirmación de mi donación?
+          <span class="don-faq__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="don-faq__body">
+          Sí. Envíanos el comprobante por WhatsApp o correo y te confirmaremos personalmente.
+          Valoramos cada aporte y queremos que sepas el impacto que tienes.
+        </div>
+      </details>
+
+      <details class="don-faq__item">
+        <summary>
+          ¿Cómo sé que mi dinero llega al refugio?
+          <span class="don-faq__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="don-faq__body">
+          Publicamos informes mensuales en nuestras redes sociales con fotos, gastos reales
+          y novedades del refugio. La transparencia es uno de nuestros valores fundamentales —
+          por eso también compartimos el desglose de costos en esta misma página.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       7. CTA FINAL — bosque oscuro
+       ═══════════════════════════════════════════ -->
+  <section class="don-final" aria-label="Llamado a la acción final">
+
+    <!-- Gato — borde izquierdo -->
+    <svg class="don-deco don-deco--float-slow" style="width:220px;opacity:0.32;left:-0.5rem;bottom:0;--deco-rot:-6deg;" viewBox="0 0 100 120" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Perro — borde derecho -->
+    <svg class="don-deco don-deco--float" style="width:230px;opacity:0.28;right:-0.5rem;bottom:0;--deco-rot:7deg;" viewBox="0 0 110 130" fill="white" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Gatico pequeño — medio izquierda arriba -->
+    <svg class="don-deco don-deco--float-alt" style="width:90px;opacity:0.18;top:1.5rem;left:14%;--deco-rot:12deg;" viewBox="0 0 100 120" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="90" rx="32" ry="27"/>
+      <circle cx="50" cy="52" r="24"/>
+      <path d="M 26 40 L 19 26 Q 30 18 46 34 Z"/>
+      <path d="M 74 40 L 81 26 Q 70 18 54 34 Z"/>
+      <path d="M76,105 Q96,88 91,66 Q87,50 98,40" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Perrito pequeño — medio derecha arriba -->
+    <svg class="don-deco don-deco--float-slow" style="width:80px;opacity:0.15;top:1rem;right:14%;--deco-rot:-10deg;" viewBox="0 0 110 130" fill="white" aria-hidden="true">
+      <ellipse cx="55" cy="96" rx="36" ry="29"/>
+      <circle cx="55" cy="51" r="28"/>
+      <ellipse cx="22" cy="61" rx="14" ry="25" transform="rotate(-14 22 61)"/>
+      <ellipse cx="88" cy="61" rx="14" ry="25" transform="rotate(14 88 61)"/>
+      <path d="M87 80 Q108 62 102 44" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Huellas — fila superior dispersa -->
+    <svg class="don-deco don-deco--float" style="width:42px;opacity:0.28;top:1.5rem;left:30%;--deco-rot:20deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:28px;opacity:0.18;top:3rem;left:42%;--deco-rot:-10deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco don-deco--float-alt" style="width:36px;opacity:0.24;top:1.5rem;right:30%;--deco-rot:35deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:22px;opacity:0.16;top:3.5rem;right:42%;--deco-rot:-25deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <!-- Huellas inferiores -->
+    <svg class="don-deco" style="width:32px;opacity:0.20;bottom:2rem;left:28%;--deco-rot:-15deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+    <svg class="don-deco" style="width:24px;opacity:0.14;bottom:3.5rem;right:28%;--deco-rot:30deg;" viewBox="0 0 100 100" fill="white" aria-hidden="true">
+      <ellipse cx="50" cy="75" rx="22" ry="18"/><ellipse cx="22" cy="52" rx="11" ry="14"/><ellipse cx="78" cy="52" rx="11" ry="14"/><ellipse cx="35" cy="35" rx="9" ry="12"/><ellipse cx="65" cy="35" rx="9" ry="12"/>
+    </svg>
+
+    <div class="don-final__inner">
+      <span class="don-final__eyebrow">Únete a nosotros</span>
+      <h2 class="don-final__title">
+        Cada donación<br>
+        es una historia<br>
+        de esperanza.
+      </h2>
+      <p class="don-final__sub">
+        Gracias por considerar ayudar a nuestros animales.
+        Juntos hacemos posible lo que solos sería imposible.
+      </p>
+      <div class="don-final__actions">
+        <a href="#como-donar" class="don-btn don-btn--terra">Donar ahora</a>
+        <a href="{{ url_for('home') }}" class="don-btn don-btn--ghost"
+           style="--don-green:#8FB395; border-color:rgba(248,244,240,0.25); color:rgba(248,244,240,0.80);">
+          Volver al inicio
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /don-page -->
+{% endblock %}
+
+{% block scripts %}
 <script>
-  gsap.registerPlugin(ScrollTrigger);
+(function () {
+  'use strict';
 
-  // Preloader animation - hidden by default  
-  // document.getElementById('donacionesPreloader').style.display = 'none';
+  /* ── Copy to clipboard ─────────────────────────────────── */
+  document.querySelectorAll('.don-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.dataset.copy;
+      if (!text) return;
 
-  // Hero text stagger animation
-  gsap.utils.toArray('.hero-word').forEach((word, index) => {
-    gsap.from(word, {
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-      delay: 0.1 + index * 0.15,
-      ease: 'power3.out'
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          const original = btn.innerHTML;
+          btn.textContent = '¡Copiado!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.innerHTML = original;
+            btn.classList.remove('copied');
+          }, 2200);
+        })
+        .catch(() => {
+          /* Fallback para navegadores sin clipboard API */
+          const el = document.createElement('textarea');
+          el.value = text;
+          el.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+          btn.textContent = '¡Copiado!';
+          setTimeout(() => btn.textContent = 'Copiar número', 2200);
+        });
     });
   });
 
-  // Hero subtitle
-  gsap.from('.hero-subtitle', {
-    opacity: 0,
-    y: 30,
-    duration: 0.8,
-    delay: 0.5,
-    ease: 'power3.out'
-  });
+  /* ── Count-up animation ────────────────────────────────── */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // CTA button
-  gsap.from('.hero-cta', {
-    opacity: 0,
-    y: 30,
-    duration: 0.8,
-    delay: 0.7,
-    ease: 'power3.out'
-  });
+  const countEls = document.querySelectorAll('.don-js-count');
+  if (!countEls.length) return;
 
-  // Scroll indicator animation
-  gsap.to('.scroll-dot', {
-    y: 20,
-    opacity: 0.3,
-    repeat: -1,
-    yoyo: true,
-    duration: 1.5,
-    ease: 'sine.inOut'
-  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1400;
+      const start = performance.now();
 
-  // Cards animation on scroll
-  gsap.utils.toArray('.method-card').forEach((card, index) => {
-    gsap.from(card, {
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      opacity: 0,
-      y: 40,
-      duration: 0.6,
-      delay: index * 0.08,
-      ease: 'power2.out'
-    });
-  });
-
-  // Impact cards scroll animation
-  gsap.utils.toArray('.impact-card').forEach((card) => {
-    const fillBar = card.querySelector('.impact-fill');
-    if (fillBar) {
-      gsap.from(fillBar, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 75%',
-          toggleActions: 'play none none none'
-        },
-        width: '0%',
-        duration: 1.2,
-        ease: 'power2.out'
-      });
-    }
-  });
-
-  // Magnetic button effect
-  document.querySelectorAll('[data-magnetic]').forEach(button => {
-    button.addEventListener('mousemove', (e) => {
-      if (button.disabled) return;
-      const rect = button.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      
-      gsap.to(button, {
-        x: x * 0.3,
-        y: y * 0.3,
-        duration: 0.3,
-        overwrite: 'auto'
-      });
-    });
-
-    button.addEventListener('mouseleave', () => {
-      gsap.to(button, {
-        x: 0,
-        y: 0,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    });
-  });
-
-  // FAQ smooth open animation
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('toggle', (e) => {
-      if (e.target.open) {
-        const content = e.target.querySelector('.faq-content');
-        if (content) {
-          gsap.from(content, {
-            opacity: 0,
-            y: -10,
-            duration: 0.3,
-            ease: 'power2.out'
-          });
-        }
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * ease) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
       }
+      requestAnimationFrame(step);
+      observer.unobserve(el);
     });
+  }, { threshold: 0.6 });
+
+  countEls.forEach(el => observer.observe(el));
+
+  /* ── Reveal rows en la receta ──────────────────────────── */
+  const rows = document.querySelectorAll('.don-js-row');
+  if (!rows.length) return;
+
+  const rowObserver = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, i * 80);
+      rowObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+  rows.forEach(row => {
+    row.style.opacity = '0';
+    row.style.transform = 'translateY(12px)';
+    row.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    rowObserver.observe(row);
   });
 
-  // Floating heart animation
-  const floatingHeart = document.querySelector('.floating-heart');
-  if (floatingHeart) {
-    gsap.to(floatingHeart, {
-      y: -20,
-      opacity: 0.7,
-      repeat: -1,
-      yoyo: true,
-      duration: 2.5,
-      ease: 'sine.inOut'
-    });
-  }
-
-  // Gradient orbs animation
-  gsap.to('.gradient-orb', {
-    y: '+=30',
-    opacity: 0.6,
-    repeat: -1,
-    yoyo: true,
-    duration: 4,
-    ease: 'sine.inOut',
-    stagger: 0.5
-  });
+})();
 </script>
-
 {% endblock %}

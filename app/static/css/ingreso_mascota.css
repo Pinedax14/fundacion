@@ -1,55 +1,66 @@
+/* Ingreso Mascota — Bosque Cálido: tema claro */
 .custom-card {
     border-radius: 2rem;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.06);
-    box-shadow: 0 28px 80px rgba(0,0,0,0.22);
+    border: 1px solid #E3DAD2;
+    background: #ffffff;
+    box-shadow: 0 8px 32px rgba(30, 20, 10, 0.08);
 }
 
 .custom-form label {
-    font-weight: 700;
-    color: var(--text-primary);
+    font-weight: 600;
+    color: #1E1A14;
+    font-size: 0.93rem;
 }
 
 .custom-form input,
 .custom-form select,
 .custom-form textarea {
     width: 100%;
-    border-radius: 1rem;
-    border: 1px solid rgba(255,255,255,0.14);
-    background: rgba(255,255,255,0.05);
-    color: var(--text-primary);
-    padding: 1rem 1.1rem;
+    border-radius: 0.9rem;
+    border: 1px solid #E3DAD2;
+    background: #fafaf8;
+    color: #1E1A14;
+    padding: 0.9rem 1.1rem;
     margin-bottom: 1rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .custom-form input:focus,
 .custom-form select:focus,
 .custom-form textarea:focus {
-    border-color: rgba(155,79,242,0.8);
-    box-shadow: 0 0 0 0.15rem rgba(155,79,242,0.16);
-    background: rgba(255,255,255,0.08);
+    border-color: #5C7A62;
+    box-shadow: 0 0 0 0.18rem rgba(92, 122, 98, 0.16);
+    background: #ffffff;
+    outline: none;
 }
 
-/* Botones personalizados */
 .custom-btn {
     border-radius: 999px;
     padding: 0.9rem 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-soft) 80%);
-    color: #0c0713;
+    font-weight: 600;
+    background: linear-gradient(135deg, #3E5A44 0%, #5C7A62 100%);
+    color: #ffffff;
     border: none;
-    box-shadow: 0 18px 50px rgba(0,0,0,0.22);
-    transition: transform 0.2s ease, filter 0.2s ease;
+    box-shadow: 0 6px 20px rgba(92, 122, 98, 0.22);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .custom-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(92, 122, 98, 0.28);
     filter: brightness(1.04);
+    color: #ffffff;
 }
 
 .btn-secondary.custom-btn {
-    background: rgba(255,255,255,0.05);
-    color: #f4f3f8;
-    border: 1px solid rgba(255,255,255,0.14);
+    background: #F2EDE5;
+    color: #786E65;
+    border: 1px solid #E3DAD2;
+    box-shadow: none;
+}
+
+.btn-secondary.custom-btn:hover {
+    background: #E3DAD2;
+    color: #1E1A14;
 }

@@ -2951,3 +2951,26 @@ WHERE verificaciones_email.codigo = %(codigo_1)s
 [2026-06-08 17:26:34,294] INFO en app: Testing: False
 [2026-06-08 17:26:34,461] INFO en app: Blueprint auditoría registrado
 [2026-06-08 17:26:36,843] INFO en app: Tablas de BD verificadas/creadas
+[2026-06-24 21:28:42,188] INFO en app: Logging configurado correctamente
+[2026-06-24 21:28:42,189] INFO en app: Nivel de log: INFO
+[2026-06-24 21:28:42,189] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-06-24 21:28:42,190] INFO en app: Aplicación creada con config: development
+[2026-06-24 21:28:42,190] INFO en app: Debug: True
+[2026-06-24 21:28:42,190] INFO en app: Testing: False
+[2026-06-24 21:28:43,071] INFO en app: Blueprint auditoría registrado
+[2026-06-24 21:29:17,289] INFO en app: Logging configurado correctamente
+[2026-06-24 21:29:17,289] INFO en app: Nivel de log: INFO
+[2026-06-24 21:29:17,289] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-06-24 21:29:17,289] INFO en app: Aplicación creada con config: development
+[2026-06-24 21:29:17,290] INFO en app: Debug: True
+[2026-06-24 21:29:17,290] INFO en app: Testing: False
+[2026-06-24 21:29:17,593] INFO en app: Blueprint auditoría registrado
+[2026-06-24 21:29:19,979] INFO en app: Tablas de BD verificadas/creadas
+[2026-06-24 21:29:20,779] INFO en app: Logging configurado correctamente
+[2026-06-24 21:29:20,779] INFO en app: Nivel de log: INFO
+[2026-06-24 21:29:20,780] INFO en app: Base de datos: postgresql://neondb_owner:npg_P7sqNSXFl5IG@ep-bitt...
+[2026-06-24 21:29:20,780] INFO en app: Aplicación creada con config: development
+[2026-06-24 21:29:20,780] INFO en app: Debug: True
+[2026-06-24 21:29:20,780] INFO en app: Testing: False
+[2026-06-24 21:29:20,965] INFO en app: Blueprint auditoría registrado
+[2026-06-24 21:29:23,312] INFO en app: Tablas de BD verificadas/creadas

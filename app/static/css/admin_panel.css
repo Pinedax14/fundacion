@@ -1,38 +1,42 @@
-/* --- ESTILOS VISUALES PARA LAS PESTAÑAS --- */
+/* Admin Panel — Bosque Cálido */
+
+/* Pestañas nav-pills */
 .nav-pills .nav-link {
-    color: var(--primary-color);
-    background-color: rgba(255,255,255,0.08);
-    border: 1px solid var(--primary-color);
+    color: #5C7A62;
+    background-color: #EDF3EE;
+    border: 1px solid #E3DAD2;
     margin-right: 6px;
     border-radius: 999px;
     padding-inline: 1.1rem;
     padding-block: 0.45rem;
     font-weight: 500;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    transition: background-color 0.2s ease, color 0.2s ease,
+                transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .nav-pills .nav-link:hover {
-    background-color: var(--primary-color);
+    background-color: #5C7A62;
     color: #ffffff;
     transform: translateY(-1px);
-    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.25);
+    box-shadow: 0 4px 12px rgba(92, 122, 98, 0.22);
 }
 
 .nav-pills .nav-link.active {
-    background-color: var(--primary-color);
+    background-color: #5C7A62;
     color: #ffffff !important;
     font-weight: 600;
-    box-shadow: 0 0.4rem 0.9rem rgba(118, 37, 159, 0.35);
+    box-shadow: 0 4px 14px rgba(92, 122, 98, 0.28);
 }
 
 /* Títulos dentro de tarjetas */
 .card h2 {
-    color: var(--primary-color);
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #5C7A62;
 }
 
 /* Encabezados de tablas */
 table th {
-    background-color: var(--primary-color);
+    background-color: #5C7A62;
     color: #ffffff;
 }
 
@@ -42,7 +46,7 @@ table th {
     vertical-align: middle;
 }
 
-/* Filas impares en tablas striped, usando el morado muy transparente */
+/* Filas alternas */
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(118, 37, 159, 0.03);
+    background-color: rgba(92, 122, 98, 0.04);
 }

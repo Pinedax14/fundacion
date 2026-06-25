@@ -1,8 +1,12 @@
    .btn-custom-back {
-        background-color: var(--secondary-color);
-        color: #0c0713;
+        background-color: #C4794A;
+        color: #ffffff;
+        border-radius: 999px;
+        font-weight: 600;
+        transition: filter 0.2s ease, transform 0.2s ease;
     }
     .btn-custom-back:hover {
-        background-color: var(--hover-color);
-        color: #0c0713;
+        background-color: #A05A2D;
+        color: #ffffff;
+        transform: translateY(-1px);
     }

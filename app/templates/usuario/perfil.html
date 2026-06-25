@@ -2,8 +2,38 @@
 
 {% block title %}Mi Perfil{% endblock %}
 
-{% block content %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+<style>
+  .modal-content {
+    background: #ffffff;
+    border: 1px solid #E3DAD2;
+    color: #1E1A14;
+  }
+  .modal-header { border-bottom: 1px solid #E3DAD2; }
+  .modal-footer { border-top: 1px solid #E3DAD2; }
+  .card { background: #ffffff; border: 1px solid #E3DAD2; border-radius: 12px; color: #1E1A14; }
+  .card-header { border-bottom: 1px solid #E3DAD2; background: #F2EDE5; }
+  .card-header.bg-danger { background: rgba(185,64,64,0.12) !important; color: #B94040 !important; }
+  .profile-avatar-placeholder {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: #EDF3EE;
+    border: 2px solid rgba(92,122,98,0.30);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 700; color: #3E5A44;
+    margin-bottom: 0.75rem;
+  }
+  .empty-state-card {
+    background: #FAFAF6;
+    border: 1px solid #E3DAD2;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 
 <div class="page-panel profile-page-container container">
     <div class="row g-4">
@@ -13,19 +43,21 @@
                 <div class="card user-info-card p-4 mb-4">
                     <h3 class="mb-2">Hola, {{ session.nombre.split()[0] }}</h3>
 
-                    {% if usuario.foto_perfil %}
-                        <div class="mb-3">
+                    <div class="mb-3">
+                        {% if usuario.foto_perfil %}
                             <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
-                                 alt="Foto de perfil"
+                                 alt="Foto de perfil de {{ session.nombre }}"
                                  class="profile-avatar">
-                        </div>
-                    {% else %}
-                        <div class="mb-3">
+                        {% elif g.usuario and g.usuario.foto_perfil %}
                             <img src="{{ url_for('static', filename='uploads/perfiles/' ~ g.usuario.foto_perfil) }}"
-                                 alt="Foto por defecto"
+                                 alt="Foto de perfil de {{ session.nombre }}"
                                  class="profile-avatar">
-                        </div>
-                    {% endif %}
+                        {% else %}
+                            <div class="profile-avatar-placeholder" aria-hidden="true">
+                                {{ session.nombre[0] | upper if session.nombre else '?' }}
+                            </div>
+                        {% endif %}
+                    </div>
 
                     <p><strong>Nombre:</strong> {{ session.nombre }}</p>
                     <p class="text-muted">{{ session.email }}</p>
@@ -139,14 +171,13 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="card text-center p-5">
-                            <h5>Aún no has realizado ninguna solicitud de adopción.</h5>
-                            <p class="text-muted">¡Anímate a conocer a nuestras mascotas!</p>
-                            <div class="mt-3">
-                                <a href="{{ url_for('mascotas') }}" class="btn btn-primary-custom">
-                                    Ver Mascotas
-                                </a>
-                            </div>
+                        <div class="empty-state-card">
+                            <i class="bi bi-search-heart" style="font-size:2.5rem; color:var(--text-muted); display:block; margin-bottom:1rem;" aria-hidden="true"></i>
+                            <h5 style="color:var(--text-primary);">Aún no has enviado ninguna solicitud</h5>
+                            <p style="color:var(--text-muted);">¡Explora las mascotas disponibles y da el primer paso!</p>
+                            <a href="{{ url_for('mascotas') }}" class="btn btn-primary-custom mt-2">
+                                Ver mascotas
+                            </a>
                         </div>
                     {% endfor %}
                 </div>
@@ -206,21 +237,24 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
 <script>
   var modalBorrar = document.getElementById('modalBorrarSolicitud');
-  modalBorrar.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var solicitudId = button.getAttribute('data-solicitud-id');
-    var confirmarBtn = document.getElementById('confirmarEliminarSolicitud');
-    confirmarBtn.href = "/eliminar_solicitud/" + solicitudId;
-  });
+  if (modalBorrar) {
+    modalBorrar.addEventListener('show.bs.modal', function (event) {
+      var solicitudId = event.relatedTarget.getAttribute('data-solicitud-id');
+      document.getElementById('confirmarEliminarSolicitud').href = "/eliminar_solicitud/" + solicitudId;
+    });
+  }
 
   var modalCancelar = document.getElementById('modalCancelarSolicitud');
-  modalCancelar.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var solicitudId = button.getAttribute('data-solicitud-id');
-    var confirmarBtn = document.getElementById('confirmarCancelarSolicitud');
-    confirmarBtn.href = "/cancelar_solicitud/" + solicitudId;
-  });
+  if (modalCancelar) {
+    modalCancelar.addEventListener('show.bs.modal', function (event) {
+      var solicitudId = event.relatedTarget.getAttribute('data-solicitud-id');
+      document.getElementById('confirmarCancelarSolicitud').href = "/cancelar_solicitud/" + solicitudId;
+    });
+  }
 </script>
 {% endblock %}

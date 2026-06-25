@@ -1,38 +1,40 @@
-/* Perfil: adaptado al tema oscuro / glass del home */
+/* Perfil — Bosque Cálido: tema claro */
 .profile-page-container {
     max-width: 1200px;
     margin: 1.6rem auto;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 .profile-sidebar .card,
 .user-info-card,
 .profile-page-container .card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #E3DAD2;
     border-radius: 1.25rem;
-    box-shadow: 0 28px 80px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 20px rgba(30, 20, 10, 0.07);
 }
 
 .user-info-card h3 {
-    color: var(--text-primary);
-    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #1E1A14;
+    font-weight: 600;
 }
 
 .profile-content h2 {
-    color: var(--text-primary);
-    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #1E1A14;
+    font-weight: 600;
 }
 
 .solicitud-card {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(255,255,255,0.03);
+    background: #FAFAF6;
     padding: 1rem;
     border-radius: 1rem;
-    box-shadow: 0 18px 48px rgba(0,0,0,0.16);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid #E3DAD2;
+    box-shadow: 0 2px 8px rgba(30, 20, 10, 0.05);
 }
 
 .solicitud-card img {
@@ -44,7 +46,7 @@
 
 .solicitud-info {
     flex-grow: 1;
-    color: rgba(244,243,248,0.9);
+    color: #786E65;
 }
 
 .profile-avatar {
@@ -52,7 +54,7 @@
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(255,255,255,0.10);
+    border: 3px solid #E3DAD2;
 }
 
 .profile-sidebar .btn-primary-custom {

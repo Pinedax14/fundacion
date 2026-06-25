@@ -1,63 +1,120 @@
 {% extends "base/layout.html" %}
 
-{% block title %}Detalles de {{ mascota.nombre }}{% endblock %}
+{% block title %}{{ mascota.nombre }} | Almas con Cola{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<style>
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+  }
+  .status-disponible  { background: rgba(92,122,98,0.12);  color: #3E5A44; border: 1px solid rgba(92,122,98,0.28);  }
+  .status-adoptado    { background: rgba(196,121,74,0.12); color: #A05A2D; border: 1px solid rgba(196,121,74,0.28); }
+  .status-en-proceso  { background: rgba(196,165,74,0.12); color: #8B6914; border: 1px solid rgba(196,165,74,0.28); }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text-primary); }
+  .spec-list li { overflow-wrap: break-word; }
+</style>
+{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-
 <div class="page-panel container mt-4">
 
-    <!-- ======================= INICIO DE CAMBIOS ======================= -->
-
-    <!-- 1. Alertas de Bootstrap para los mensajes flash -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show text-center" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <!-- 2. Rejilla de Bootstrap para un diseño responsivo -->
-    <!-- En pantallas pequeñas (<768px), la información se apilará debajo de la imagen. -->
-
-    <div class="row g-4 p-4 align-items-start">
-        
-        <!-- Columna de la Imagen -->
-        <div class="col-md-6">
-            <!-- imagen responsiva -->
-            <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto ampliada de {{ mascota.nombre }}" class="img-fluid rounded-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show text-center" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-        <!-- Columna de la Información -->
-        <div class="col-md-6 d-flex flex-column">
-            <h2 class="display-4 pet-title">{{ mascota.nombre }}</h2>
-            <p class="lead pet-lead">{{ mascota.descripcion }}</p>
-            
-            <!-- 4. Lista de Bootstrap para las especificaciones -->
-            <ul class="spec-list list-unstyled my-4">
-                <li><strong>Especie:</strong> {{ mascota.especie }}</li>
-                <li><strong>Raza:</strong> {{ mascota.raza }}</li>
-                <li><strong>Edad:</strong> {{ mascota.edad }} años</li>
-                <li><strong>Sexo:</strong> {{ mascota.sexo }}</li>
-                <li>
-                    <strong>Estado:</strong>
-                    <span class="fw-bold">{{ mascota.estado }}</span>
-                </li>
-            </ul>
-            
-            <!-- 6. Botón de Bootstrap grande -->
-            <div class="mt-auto">
-                <a href="{{ url_for('solicitar_adopcion', mascota_id=mascota.id) }}"
-                class="btn btn-primary-custom btn-lg w-100">
-                ¡Quiero adoptar a {{ mascota.nombre }}!
-</a>
-            </div>
-        </div>
+  <a href="{{ url_for('mascotas') }}" class="back-link">
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> Ver todas las mascotas
+  </a>
+
+  <div class="row g-4 p-4 align-items-start">
+
+    <div class="col-md-6">
+      <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}"
+           alt="Foto de {{ mascota.nombre }}"
+           class="img-fluid"
+           style="border-radius: 12px; width: 100%; object-fit: cover;">
     </div>
+
+    <div class="col-md-6 d-flex flex-column">
+      <h2 class="pet-title" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;">
+        {{ mascota.nombre }}
+      </h2>
+
+      {% set estado_lower = mascota.estado | lower | replace(' ', '-') %}
+      <span class="status-badge status-{{ estado_lower }} mb-3">
+        {% if mascota.estado == 'Disponible' %}
+          <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+        {% elif mascota.estado == 'Adoptado' %}
+          <i class="bi bi-house-heart-fill" aria-hidden="true"></i>
+        {% else %}
+          <i class="bi bi-clock-fill" aria-hidden="true"></i>
+        {% endif %}
+        {{ mascota.estado }}
+      </span>
+
+      <p class="lead pet-lead">{{ mascota.descripcion }}</p>
+
+      <ul class="spec-list list-unstyled my-4">
+        <li><strong>Especie:</strong> {{ mascota.especie or '—' }}</li>
+        <li><strong>Raza:</strong> {{ mascota.raza or '—' }}</li>
+        <li><strong>Edad:</strong> {% if mascota.edad %}{{ mascota.edad }} año{{ 's' if mascota.edad != 1 else '' }}{% else %}—{% endif %}</li>
+        <li><strong>Sexo:</strong> {{ mascota.sexo or '—' }}</li>
+      </ul>
+
+      <div class="mt-auto">
+        {% if mascota.estado == 'Disponible' %}
+          <a href="{{ url_for('solicitar_adopcion', mascota_id=mascota.id) }}"
+             class="btn btn-primary-custom btn-lg w-100">
+            ¡Quiero adoptar a {{ mascota.nombre }}!
+          </a>
+        {% elif mascota.estado == 'Adoptado' %}
+          <div class="text-center py-3" style="border: 1px solid rgba(196,121,74,0.25); border-radius: 12px; background: rgba(196,121,74,0.07);">
+            <p style="color: var(--text-muted); margin: 0 0 0.75rem;">
+              <i class="bi bi-house-heart-fill me-1" style="color: #C4794A;"></i>
+              {{ mascota.nombre }} ya encontró su hogar. ¡Felicidades!
+            </p>
+            <a href="{{ url_for('mascotas') }}" class="btn btn-outline-custom">
+              Ver mascotas disponibles
+            </a>
+          </div>
+        {% else %}
+          <div class="text-center py-3" style="border: 1px solid rgba(251,191,36,0.2); border-radius: 12px; background: rgba(251,191,36,0.05);">
+            <p style="color: var(--text-muted); margin: 0 0 0.75rem;">
+              <i class="bi bi-clock-fill me-1" style="color: #fbbf24;"></i>
+              Alguien ya está conociendo a {{ mascota.nombre }}.
+            </p>
+            <a href="{{ url_for('mascotas') }}" class="btn btn-outline-custom">
+              Ver mascotas disponibles
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
-<!-- ======================== FIN DE CAMBIOS ========================= -->
 {% endblock %}

@@ -2,8 +2,11 @@
 
 {% block title %}Nuestras Mascotas{% endblock %}
 
-{% block content %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mascotas.css') }}">
+{% endblock %}
+
+{% block content %}
 
 <div class="page-panel container">
     <h1 class="text-center mt-4">Conoce a nuestros peludos</h1>
@@ -80,9 +83,13 @@
     <div class="pet-gallery">
         {% for mascota in mascotas %}
             <div class="pet-card">
-                <a href="{{ url_for('detalle_mascota', mascota_id=mascota.id) if mascota.estado == 'Disponible' else '#' }}" class="stretched-link">
-                    <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto de {{ mascota.nombre }}" class="pet-card-image">
-                </a>
+                {% if mascota.estado == 'Disponible' %}
+                <a href="{{ url_for('detalle_mascota', mascota_id=mascota.id) }}" class="stretched-link" aria-label="Ver perfil de {{ mascota.nombre }}">
+                {% else %}
+                <span class="stretched-link" aria-hidden="true">
+                {% endif %}
+                    <img src="{{ url_for('static', filename='images/mascotas/' ~ mascota.nombre ~ '.jpg') }}" alt="Foto de {{ mascota.nombre }}" class="pet-card-image" loading="lazy">
+                {% if mascota.estado == 'Disponible' %}</a>{% else %}</span>{% endif %}
                 <div class="pet-card-body">
                     <h4>{{ mascota.nombre }}</h4>
                     <p class="ingreso-date">En la fundación desde: {{ mascota.fecha_ingreso.strftime('%d de %b, %Y') }}</p>
@@ -101,19 +108,19 @@
                 {% endif %}
             </div>
         {% else %}
-            <div class="col-12">
-                <div class="alert alert-info text-center" role="alert">
-                    <i class="bi bi-search me-2"></i>No se encontraron mascotas con los filtros seleccionados.
-                </div>
+            <div class="col-12 text-center py-5">
+                <i class="bi bi-search" style="font-size: 2.5rem; color: var(--text-muted); display: block; margin-bottom: 1rem;" aria-hidden="true"></i>
+                <p style="color: var(--text-muted); font-size: 1.05rem; margin: 0;">No encontramos mascotas con esos filtros. <a href="{{ url_for('mascotas') }}" style="color: var(--accent-soft);">Ver todas</a></p>
             </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+        new bootstrap.Tooltip(el);
+    });
 </script>
 {% endblock %}

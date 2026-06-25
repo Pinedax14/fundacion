@@ -2,9 +2,11 @@
 
 {% block title %}Editar Perfil{% endblock %}
 
-{% block content %}
-
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_perfil.css') }}">
+{% endblock %}
+
+{% block content %}
 
 <div class="profile-page-container">
     <!-- Mensajes Flash -->

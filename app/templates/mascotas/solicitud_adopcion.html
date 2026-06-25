@@ -1,50 +1,75 @@
 {% extends "base/layout.html" %}
 
-{% block title %}Solicitud de Adopción para {{ mascota.nombre }}{% endblock %}
+{% block title %}Solicitud de Adopción — {{ mascota.nombre }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/solicitud_adopcion.css') }}">
+{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/solicitud_adopcion.css') }}">
 <div class="form-wrapper">
-    <form class="form-adopt" method="POST">
-        <h2>Solicitud para adoptar a {{ mascota.nombre }}</h2>
-        <p class="subtitle">Por favor, completa la siguiente información para continuar con el proceso.</p>
+  <form class="form-adopt" method="POST" novalidate>
 
-        <label for="direccion">Dirección de Residencia</label>
-        <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle 5 # 10-15, Apto 201" required>
+    <a href="{{ url_for('detalle_mascota', mascota_id=mascota.id) }}" class="form-back">
+      <i class="bi bi-arrow-left" aria-hidden="true"></i> Volver a {{ mascota.nombre }}
+    </a>
 
-        <label for="telefono">Teléfono de Contacto</label>
-        <input type="text" id="telefono" name="telefono" placeholder="Ej: 3001234567" required>
+    <h2>Adoptar a {{ mascota.nombre }}</h2>
+    <p class="subtitle">Completa la información para iniciar el proceso. Te contactaremos en máximo 7 días.</p>
 
-        <label for="ingresos">Ingresos Mensuales (en Pesos)</label>
-        <select id="ingresos" name="ingresos" required>
-            <option value="" disabled selected>Selecciona tu rango de ingresos</option>
-            <option value="1000000-2000000">$1.000.000 - $2.000.000</option>
-            <option value="2000000-3000000">$2.000.000 - $3.000.000</option>
-            <option value="3000000-4000000">$3.000.000 - $4.000.000</option>
-            <option value="4000000-5000000">$4.000.000 - $5.000.000</option>
-            <option value="5000000-6000000">$5.000.000 - $6.000.000</option>
-            <option value="6000000-7000000">$6.000.000 - $7.000.000</option>
-            <option value="7000000-8000000">$7.000.000 - $8.000.000</option>
-            <option value="8000000-9000000">$8.000.000 - $9.000.000</option>
-            <option value="9000000-10000000">$9.000.000 - $10.000.000</option>
-            <option value="10000000+">Más de $10.000.000</option>
-        </select>
+    <label for="direccion">Dirección de residencia <span class="req" aria-hidden="true">*</span></label>
+    <input type="text" id="direccion" name="direccion"
+           placeholder="Ej: Calle 5 # 10-15, Apto 201"
+           autocomplete="street-address"
+           required>
 
-        <label for="estrato">Estrato Social</label>
-        <select id="estrato" name="estrato" required>
-            <option value="" disabled selected>Selecciona tu estrato</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-        </select>
+    <label for="telefono">Teléfono de contacto <span class="req" aria-hidden="true">*</span></label>
+    <input type="tel" id="telefono" name="telefono"
+           placeholder="Ej: 3001234567"
+           autocomplete="tel"
+           pattern="[0-9\s\-\+\(\)]{7,15}"
+           required>
 
-        <label for="mensaje">¿Por qué quieres adoptar a {{ mascota.nombre }}?</label>
-        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre el hogar que le darías..." required></textarea>
+    <label for="ingresos">Ingresos mensuales aproximados <span class="req" aria-hidden="true">*</span></label>
+    <select id="ingresos" name="ingresos" required>
+      <option value="" disabled selected>Selecciona un rango</option>
+      <option value="menos-2m">Menos de $2.000.000</option>
+      <option value="2m-4m">$2.000.000 – $4.000.000</option>
+      <option value="4m-7m">$4.000.000 – $7.000.000</option>
+      <option value="mas-7m">Más de $7.000.000</option>
+    </select>
 
-        <button type="submit" class="submit-btn">Enviar Solicitud</button>
-    </form>
+    <label for="estrato">Estrato social <span class="req" aria-hidden="true">*</span></label>
+    <select id="estrato" name="estrato" required>
+      <option value="" disabled selected>Selecciona tu estrato</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+
+    <label for="mensaje">¿Por qué quieres adoptar a {{ mascota.nombre }}? <span class="req" aria-hidden="true">*</span></label>
+    <textarea id="mensaje" name="mensaje" rows="5"
+              placeholder="Cuéntanos sobre el hogar que le darías…"
+              maxlength="1000"
+              required></textarea>
+    <small class="char-hint"><span id="charCount">0</span>/1000 caracteres</small>
+
+    <p class="req-note"><span class="req" aria-hidden="true">*</span> Campos obligatorios</p>
+
+    <button type="submit" class="submit-btn">Enviar solicitud</button>
+  </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const textarea = document.getElementById('mensaje');
+  const counter  = document.getElementById('charCount');
+  if (textarea && counter) {
+    textarea.addEventListener('input', () => { counter.textContent = textarea.value.length; });
+  }
+</script>
 {% endblock %}

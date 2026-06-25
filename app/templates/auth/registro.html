@@ -2,8 +2,11 @@
 
 {% block title %}Registro{% endblock %}
 
-{% block content %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+{% endblock %}
+
+{% block content %}
 
 <div class="registro-page-wrapper d-flex justify-content-center align-items-start">
   <div class="content-wrapper">
@@ -14,7 +17,7 @@
         <div class="msg">{{ msg }}</div>
       {% endif %}
 
-      <form action="{{ url_for('registro') }}" method="post" autocomplete="off">
+      <form action="{{ url_for('registro') }}" method="post">
         <input type="text" name="nombre" placeholder="Nombre completo" id="nombre" required>
         <input type="email" name="email" placeholder="Correo electrónico" id="email" required>
         
@@ -26,12 +29,12 @@
 
         <div class="password-field">
           <input type="password" name="password" placeholder="Contraseña" id="password" required>
-          <i class="fas fa-eye-slash toggle-password" data-target="password"></i>
+          <i class="bi bi-eye-slash toggle-password" data-target="password"></i>
         </div>
 
         <div class="password-field">
           <input type="password" name="confirmar_password" placeholder="Confirmar Contraseña" id="confirmarpassword" required>
-          <i class="fas fa-eye-slash toggle-password" data-target="confirmarpassword"></i>
+          <i class="bi bi-eye-slash toggle-password" data-target="confirmarpassword"></i>
         </div>
 
         <!-- Requisitos de contraseña -->
@@ -53,6 +56,9 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
 <!-- Script mostrar/ocultar contraseña -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -62,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const passwordField = document.getElementById(targetId);
       if (passwordField.type === 'password') {
         passwordField.type = 'text';
-        this.classList.remove('fa-eye-slash');
-        this.classList.add('fa-eye');
+        this.classList.remove('bi-eye-slash');
+        this.classList.add('bi-eye');
       } else {
         passwordField.type = 'password';
-        this.classList.remove('fa-eye');
-        this.classList.add('fa-eye-slash');
+        this.classList.remove('bi-eye');
+        this.classList.add('bi-eye-slash');
       }
     });
   });
@@ -187,7 +193,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
   const hoy = new Date().toISOString().split('T')[0];
   fechaNacimientoInput.setAttribute('max', hoy);
-  
+
   // Establecer fecha mínima a 150 años atrás
   const hace150Años = new Date();
   hace150Años.setFullYear(hace150Años.getFullYear() - 150);

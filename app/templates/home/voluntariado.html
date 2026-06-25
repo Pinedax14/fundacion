@@ -1,6 +1,52 @@
 {% extends "base/layout.html" %}
 {% block title %}Voluntariado | Almas con Cola{% endblock %}
 
+{% block head %}
+<style>
+  .text-vol { color: var(--primary-color); }
+  .card-vol {
+    background: #ffffff;
+    border: 1px solid #E3DAD2;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(30,20,10,0.07);
+  }
+  .card-vol .form-control,
+  .card-vol .form-select {
+    background: #fafaf8;
+    border: 1px solid #E3DAD2;
+    color: #1E1A14;
+    border-radius: 0.75rem;
+  }
+  .card-vol .form-control:focus,
+  .card-vol .form-select:focus {
+    border-color: #5C7A62;
+    box-shadow: 0 0 0 0.18rem rgba(92,122,98,0.16);
+    background: #ffffff;
+    color: #1E1A14;
+  }
+  .card-vol .form-control::placeholder { color: #ADA59D; }
+  .card-vol .form-label,
+  .card-vol .form-check-label,
+  .card-vol p,
+  .card-vol small { color: var(--text-muted); }
+  .card-vol .fw-semibold,
+  .card-vol .fw-bold { color: var(--text-primary); }
+  .card-vol .form-check-input { background-color: #fafaf8; border-color: #CFC4BA; }
+  .card-vol .form-check-input:checked { background-color: #5C7A62; border-color: #5C7A62; }
+  .card-vol hr { border-color: #E3DAD2; }
+  .btn-vol {
+    background: linear-gradient(135deg, #3E5A44 0%, #5C7A62 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.65rem 1.8rem;
+    font-weight: 600;
+    transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-vol:hover { filter: brightness(1.04); transform: translateY(-1px); color: #ffffff; box-shadow: 0 8px 24px rgba(92,122,98,0.24); }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
 
@@ -17,7 +63,7 @@
   <!-- Card principal -->
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <div class="card shadow-sm border-0">
+      <div class="card card-vol">
         <div class="card-body p-4 p-md-5">
 
           <h2 class="h4 fw-bold text-vol morado mb-3">
@@ -153,27 +199,9 @@
   </div>
 </div>
 
-<!-- Estilos específicos -->
-<style>
-  .text-vol.morado {
-    color: #6f2dbd; /* morado principal */
-  }
-  .btn-vol {
-    background: linear-gradient(90deg, #6f2dbd, #ff6a00); /* morado → naranja */
-    color: #ffffff;
-    border: none;
-    border-radius: 999px;
-    padding: 0.6rem 1.8rem;
-    font-weight: 600;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  }
-  .btn-vol:hover {
-    filter: brightness(1.05);
-    color: #ffffff;
-  }
-</style>
+{% endblock %}
 
-<!-- JS simple para mostrar/ocultar días entre semana -->
+{% block scripts %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const diasSemanaGroup = document.getElementById('diasSemanaGroup');

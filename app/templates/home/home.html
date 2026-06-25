@@ -2,9 +2,11 @@
 
 {% block title %}Página de Inicio{% endblock %}
 
-{% block content %}
-
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
 
 <div class="home-page">
     <section class="home-hero">
@@ -23,20 +25,10 @@
                         <a href="{{ url_for('login') }}" class="btn btn-outline-custom btn-lg rounded-pill">Iniciar Sesión</a>
                     {% endif %}
                 </div>
-                <div class="hero-trust reveal delay-1">
-                    <div class="trust-pill">
-                        <strong>320+</strong>
-                        <span>Adopciones felices</span>
-                    </div>
-                    <div class="trust-pill">
-                        <strong>98%</strong>
-                        <span>Familias satisfechas</span>
-                    </div>
-                    <div class="trust-pill">
-                        <strong>7 días</strong>
-                        <span>Respuesta promedio</span>
-                    </div>
-                </div>
+                <p class="hero-social-proof reveal delay-1">
+                    <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                    Más de 320 familias ya encontraron a su compañero — la tuya podría ser la siguiente.
+                </p>
             </div>
 
             <div class="hero-media reveal delay-2">
@@ -77,24 +69,23 @@
 
     <section class="feature-section container-xl reveal delay-3">
         <div class="section-header">
-            <span class="eyebrow">Más que una adopción</span>
             <h2>Experiencias diseñadas para ti y tu nueva mascota.</h2>
         </div>
         <div class="feature-grid">
             <article class="feature-card">
                 <span class="feature-icon"><i class="bi bi-heart-fill"></i></span>
                 <h3>Cuidado responsable</h3>
-                <p>Recibe asesoría profesional sobre salud, alimentación y vínculo afectivo antes y después de la adopción.</p>
+                <p>Asesoría veterinaria incluida antes y después de la adopción — salud, alimentación, vínculo. Acompañamos los primeros 6 meses.</p>
             </article>
             <article class="feature-card">
                 <span class="feature-icon"><i class="bi bi-shield-lock-fill"></i></span>
                 <h3>Confianza total</h3>
-                <p>Proceso transparente con historial de cada mascota y seguimiento personalizado.</p>
+                <p>Cada mascota llega con historial médico, vacunas al día y registro de comportamiento. Sin sorpresas ocultas.</p>
             </article>
             <article class="feature-card">
                 <span class="feature-icon"><i class="bi bi-people-fill"></i></span>
                 <h3>Comunidad viva</h3>
-                <p>Únete a voluntarios, adoptantes y donantes que impulsan una red de apoyo real.</p>
+                <p>Más de 85 voluntarios activos y una red de adoptantes donde puedes preguntar, compartir y celebrar. Nada de esto se hace solo.</p>
             </article>
         </div>
     </section>
@@ -102,29 +93,34 @@
     <section class="gallery-section container-xl reveal delay-4">
         <div class="section-header split-header">
             <div>
-                <span class="eyebrow">Nuestros amigos</span>
                 <h2>Algunas caras que están esperando por ti.</h2>
             </div>
             <a href="{{ url_for('mascotas') }}" class="link-button">Ver todas las mascotas</a>
         </div>
         <div class="gallery-grid">
             <article class="gallery-card">
-                <img src="{{ url_for('static', filename='images/mascotas/Mia.jpg') }}" alt="Mia">
+                <span class="gallery-card-overlay" aria-hidden="true">♡</span>
+                <img src="{{ url_for('static', filename='images/mascotas/Mia.jpg') }}" alt="Mia, gata buscando un hogar tranquilo" loading="lazy">
                 <div class="gallery-info">
+                    <span class="gallery-badge"><i class="bi bi-check-circle-fill"></i> Disponible</span>
                     <h3>Mia</h3>
                     <p>Busca un hogar tranquilo donde le lean cuentos cada noche.</p>
                 </div>
             </article>
             <article class="gallery-card">
-                <img src="{{ url_for('static', filename='images/mascotas/Tom.jpg') }}" alt="Tom">
+                <span class="gallery-card-overlay" aria-hidden="true">♡</span>
+                <img src="{{ url_for('static', filename='images/mascotas/Tom.jpg') }}" alt="Tom, perro activo y cariñoso ideal para familias" loading="lazy">
                 <div class="gallery-info">
+                    <span class="gallery-badge"><i class="bi bi-check-circle-fill"></i> Disponible</span>
                     <h3>Tom</h3>
                     <p>Activo y cariñoso, ideal para una familia con energía.</p>
                 </div>
             </article>
             <article class="gallery-card">
-                <img src="{{ url_for('static', filename='images/mascotas/Kira.jpg') }}" alt="Kira">
+                <span class="gallery-card-overlay" aria-hidden="true">♡</span>
+                <img src="{{ url_for('static', filename='images/mascotas/Kira.jpg') }}" alt="Kira, pequeña exploradora con mucha energía" loading="lazy">
                 <div class="gallery-info">
+                    <span class="gallery-badge"><i class="bi bi-check-circle-fill"></i> Disponible</span>
                     <h3>Kira</h3>
                     <p>Pequeña exploradora con una sonrisa contagiosa.</p>
                 </div>
@@ -132,16 +128,61 @@
         </div>
     </section>
 
-    <section class="story-section reveal delay-5">
+    <section class="process-section container-xl reveal">
+        <h2 class="process-title">Así funciona la adopción</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-num" aria-hidden="true">01</div>
+                <div class="step-icon"><i class="bi bi-binoculars-fill"></i></div>
+                <h3>Explora</h3>
+                <p>Navega los perfiles disponibles. Cada tarjeta tiene la historia, personalidad y necesidades de la mascota.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num" aria-hidden="true">02</div>
+                <div class="step-icon"><i class="bi bi-clipboard-check-fill"></i></div>
+                <h3>Postula</h3>
+                <p>Completa un formulario sencillo. Lo revisamos en máximo 7 días y te contactamos para coordinar el siguiente paso.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num" aria-hidden="true">03</div>
+                <div class="step-icon"><i class="bi bi-house-heart-fill"></i></div>
+                <h3>Dale un hogar</h3>
+                <p>Conoce a tu mascota, formaliza la adopción y recibe apoyo de nuestro equipo durante los primeros meses.</p>
+            </div>
+        </div>
+        <div class="process-cta">
+            <a href="{{ url_for('mascotas') }}" class="btn btn-accent btn-lg rounded-pill">Explorar mascotas</a>
+        </div>
+    </section>
+
+    <section class="story-section reveal">
         <div class="story-panel container-xl">
             <div>
-                <span class="eyebrow">Únete a la comunidad</span>
                 <h2>Transforma una vida con una decisión consciente.</h2>
                 <p>Tu apoyo construye hogares más seguros, búsquedas más rápidas y una red de amor ampliada para cada mascota.</p>
+                <div class="testimonial-block">
+                    <blockquote class="testimonial-quote">
+                        "En menos de dos semanas, Kira ya dormía en mi cama. No imaginé que adoptar fuera tan sencillo y tan hermoso."
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" aria-hidden="true">LP</div>
+                        <div>
+                            <strong>Laura P.</strong>
+                            <span>Adoptó a Kira — marzo 2025</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <a href="{{ url_for('donaciones') }}" class="btn btn-accent btn-lg rounded-pill">Apoyar ahora</a>
         </div>
     </section>
+</div>
+
+<div class="mobile-sticky-cta" aria-hidden="true">
+    <a href="{{ url_for('mascotas') if session.loggedin else url_for('registro') }}"
+       class="btn btn-accent btn-lg rounded-pill w-100">
+        {% if session.loggedin %}Ver Mascotas{% else %}Quiero adoptar{% endif %}
+    </a>
 </div>
 
 {% endblock %}
@@ -149,20 +190,67 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Reveal animation
         const items = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
+                    revealObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.18 });
+        }, { threshold: 0.15 });
 
         items.forEach((item, index) => {
-            item.style.setProperty('--reveal-delay', `${index * 120}ms`);
-            observer.observe(item);
+            item.style.setProperty('--reveal-delay', `${index * 100}ms`);
+            revealObserver.observe(item);
         });
+
+        // Sticky CTA mobile: show when hero leaves viewport
+        const stickyCta = document.querySelector('.mobile-sticky-cta');
+        const hero = document.querySelector('.home-hero');
+        if (stickyCta && hero) {
+            const heroObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        stickyCta.classList.add('visible');
+                        stickyCta.removeAttribute('aria-hidden');
+                    } else {
+                        stickyCta.classList.remove('visible');
+                        stickyCta.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            }, { threshold: 0.25 });
+            heroObserver.observe(hero);
+        }
+
+        // Count-up animation on social proof number
+        const proofEl = document.querySelector('.hero-social-proof');
+        if (proofEl && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            const countObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = 320;
+                        const start = 285;
+                        const duration = 900;
+                        const startTime = performance.now();
+                        const originalHTML = proofEl.innerHTML;
+
+                        const tick = (now) => {
+                            const elapsed = now - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = Math.round(start + (target - start) * eased);
+                            proofEl.innerHTML = originalHTML.replace('320', current);
+                            if (progress < 1) requestAnimationFrame(tick);
+                        };
+                        requestAnimationFrame(tick);
+                        countObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.8 });
+            countObserver.observe(proofEl);
+        }
     });
 </script>
 {% endblock %}
