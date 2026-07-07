@@ -801,3 +801,467 @@ WHERE usuarios.id = %(pk_1)s
 127.0.0.1 - - [24/Jun/2026 22:15:26] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
 127.0.0.1 - - [24/Jun/2026 22:15:26] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
 127.0.0.1 - - [24/Jun/2026 22:15:26] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+2026-06-24 22:31:56,339 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:31:56,339 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:31:56,339 INFO sqlalchemy.engine.Engine [cached since 990.3s ago] {'pk_1': 4}
+2026-06-24 22:31:56,340 INFO sqlalchemy.pool.impl.QueuePool Invalidate connection <connection object at 0x00000242A6F12DF0; dsn: 'user=neondb_owner password=xxx channel_binding=require dbname=neondb host=ep-bitter-hall-ahop99sx-pooler.c-3.us-east-1.aws.neon.tech sslmode=require', closed: 2> (reason: OperationalError:SSL connection has been closed unexpectedly
+)
+Error al cargar usuario: (psycopg2.OperationalError) SSL connection has been closed unexpectedly
+
+[SQL: SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s]
+[parameters: {'pk_1': 4}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-06-24 22:31:56,340 INFO sqlalchemy.pool.impl.QueuePool Connection <connection object at 0x00000242A6F13010; dsn: 'user=neondb_owner password=xxx channel_binding=require dbname=neondb host=ep-bitter-hall-ahop99sx-pooler.c-3.us-east-1.aws.neon.tech sslmode=require', closed: 0> invalidated due to pool invalidation; recycling
+2026-06-24 22:31:57,734 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:31:57,734 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:31:57,734 INFO sqlalchemy.engine.Engine [cached since 3748s ago] {}
+2026-06-24 22:31:57,964 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/css/layout.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/css/home.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:31:58] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+2026-06-24 22:32:07,743 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:32:07,744 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:32:07,744 INFO sqlalchemy.engine.Engine [cached since 1002s ago] {'pk_1': 4}
+2026-06-24 22:32:07,959 INFO sqlalchemy.engine.Engine 
+            SELECT s.id,
+                   s.fecha_solicitud,
+                   s.estado_solicitud AS estado_solicitud,
+                   m.nombre AS mascota_nombre,
+                   m.foto_url AS mascota_foto
+            FROM solicitudes_adopcion s
+            JOIN mascotas m ON s.id_mascota = m.id
+            WHERE s.id_usuario = %(usuario_id)s
+            ORDER BY s.fecha_solicitud DESC
+        
+2026-06-24 22:32:07,959 INFO sqlalchemy.engine.Engine [generated in 0.00019s] {'usuario_id': 4}
+2026-06-24 22:32:08,064 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /perfil HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/images/mascotas/Lucas.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/css/perfil.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/images/mascotas/Roman.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:08] "GET /static/images/mascotas/Karuma.jpg HTTP/1.1" 304 -
+2026-06-24 22:32:13,562 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:32:13,562 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:32:13,562 INFO sqlalchemy.engine.Engine [cached since 1008s ago] {'pk_1': 4}
+2026-06-24 22:32:13,733 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:32:13,733 INFO sqlalchemy.engine.Engine [cached since 3764s ago] {}
+2026-06-24 22:32:13,818 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:32:13] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:13] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:14] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+2026-06-24 22:32:15,524 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:32:15,524 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:32:15,524 INFO sqlalchemy.engine.Engine [cached since 1010s ago] {'pk_1': 4}
+2026-06-24 22:32:15,699 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:32:15,700 INFO sqlalchemy.engine.Engine [cached since 3766s ago] {}
+DEBUG: Cargadas 17 mascotas en LinkedList
+2026-06-24 22:32:15,793 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:32:15] "GET /mascotas HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:15] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Roman.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/css/mascotas.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Lucas.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Max.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Karuma.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Federico.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Santiago.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/si.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Mona.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Cloe.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Sony.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:16] "GET /static/images/mascotas/Negra.jpg HTTP/1.1" 304 -
+2026-06-24 22:32:17,150 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:32:17,150 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:32:17,150 INFO sqlalchemy.engine.Engine [cached since 1011s ago] {'pk_1': 4}
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/images/mascotas/Mora.jpg HTTP/1.1" 304 -
+2026-06-24 22:32:17,320 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/images/mascotas/Iby.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:17] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:18] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+2026-06-24 22:32:24,833 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:32:24,833 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:32:24,833 INFO sqlalchemy.engine.Engine [cached since 1019s ago] {'pk_1': 4}
+2026-06-24 22:32:25,008 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:32:25] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+2026-06-24 22:33:31,237 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:33:31,237 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:33:31,237 INFO sqlalchemy.engine.Engine [cached since 1085s ago] {'pk_1': 4}
+2026-06-24 22:33:31,414 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:31] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:32] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+2026-06-24 22:33:33,394 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:33:33,394 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:33:33,394 INFO sqlalchemy.engine.Engine [cached since 1087s ago] {'pk_1': 4}
+2026-06-24 22:33:33,605 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:33:33] "GET /reporte HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:33:34] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:34] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:34] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+2026-06-24 22:33:43,450 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:33:43,450 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:33:43,451 INFO sqlalchemy.engine.Engine [cached since 1097s ago] {'pk_1': 4}
+2026-06-24 22:33:43,621 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:33:43,621 INFO sqlalchemy.engine.Engine [cached since 3854s ago] {}
+2026-06-24 22:33:43,708 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:33:43] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:33:44] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+2026-06-24 22:34:05,811 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:34:05,811 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:34:05,811 INFO sqlalchemy.engine.Engine [cached since 1120s ago] {'pk_1': 4}
+2026-06-24 22:34:05,992 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:06] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+2026-06-24 22:34:27,841 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:34:27,841 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:34:27,841 INFO sqlalchemy.engine.Engine [cached since 1142s ago] {'pk_1': 4}
+2026-06-24 22:34:28,012 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:34:28,013 INFO sqlalchemy.engine.Engine [cached since 3899s ago] {}
+DEBUG: Cargadas 17 mascotas en LinkedList
+2026-06-24 22:34:28,100 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /mascotas HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Federico.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/css/mascotas.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Santiago.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/si.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Lucas.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Roman.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Max.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:28] "GET /static/images/mascotas/Mona.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Sony.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Cloe.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Negra.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Iby.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Mora.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:34:29] "GET /static/images/mascotas/Karuma.jpg HTTP/1.1" 304 -
+2026-06-24 22:36:59,495 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:36:59,495 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:36:59,495 INFO sqlalchemy.engine.Engine [cached since 1294s ago] {'pk_1': 4}
+2026-06-24 22:36:59,676 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:36:59,676 INFO sqlalchemy.engine.Engine [cached since 4050s ago] {}
+DEBUG: Cargadas 17 mascotas en LinkedList
+2026-06-24 22:36:59,770 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:36:59] "GET /mascotas HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:36:59] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/css/mascotas.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Federico.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Santiago.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/si.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Roman.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Lucas.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Max.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Mona.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Mora.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Sony.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Cloe.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:00] "GET /static/images/mascotas/Negra.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:01] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:01] "GET /static/images/mascotas/Iby.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:01] "GET /static/images/mascotas/Karuma.jpg HTTP/1.1" 304 -
+2026-06-24 22:37:01,899 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:37:01,899 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:37:01,899 INFO sqlalchemy.engine.Engine [cached since 1296s ago] {'pk_1': 4}
+2026-06-24 22:37:02,070 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:37:02] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+2026-06-24 22:39:53,832 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:39:53,833 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:39:53,833 INFO sqlalchemy.engine.Engine [cached since 1468s ago] {'pk_1': 4}
+2026-06-24 22:39:54,009 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:39:54,010 INFO sqlalchemy.engine.Engine [cached since 4225s ago] {}
+2026-06-24 22:39:54,184 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:54] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
+2026-06-24 22:39:57,480 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:39:57,480 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:39:57,480 INFO sqlalchemy.engine.Engine [cached since 1471s ago] {'pk_1': 4}
+2026-06-24 22:39:57,652 INFO sqlalchemy.engine.Engine SELECT * FROM mascotas WHERE id = %(param_0)s
+2026-06-24 22:39:57,652 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {'param_0': 1}
+2026-06-24 22:39:57,751 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:39:57] "GET /mascota/1 HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:39:57] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:58] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:58] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:58] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:39:58] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+2026-06-24 22:40:03,507 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:40:03,508 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:40:03,508 INFO sqlalchemy.engine.Engine [cached since 1478s ago] {'pk_1': 4}
+2026-06-24 22:40:03,681 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:40:03,682 INFO sqlalchemy.engine.Engine [cached since 4234s ago] {}
+DEBUG: Cargadas 17 mascotas en LinkedList
+2026-06-24 22:40:03,770 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:40:03] "GET /mascotas HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:40:03] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/css/mascotas.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Federico.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Santiago.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/si.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Lucas.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Roman.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Max.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Mona.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Cloe.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Sony.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Negra.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:04] "GET /static/images/mascotas/Mora.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:05] "GET /static/images/mascotas/Iby.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:05] "GET /static/images/mascotas/Karuma.jpg HTTP/1.1" 304 -
+2026-06-24 22:40:07,130 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:40:07,130 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:40:07,130 INFO sqlalchemy.engine.Engine [cached since 1481s ago] {'pk_1': 4}
+2026-06-24 22:40:07,301 INFO sqlalchemy.engine.Engine SELECT * FROM mascotas WHERE id = %(param_0)s
+2026-06-24 22:40:07,301 INFO sqlalchemy.engine.Engine [cached since 9.649s ago] {'param_0': 47}
+2026-06-24 22:40:07,387 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /mascota/47 HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:40:07] "GET /static/images/mascotas/Federico.jpg HTTP/1.1" 304 -
+2026-06-24 22:42:32,442 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:42:32,443 INFO sqlalchemy.engine.Engine SELECT usuarios.id AS usuarios_id, usuarios.nombre AS usuarios_nombre, usuarios.email AS usuarios_email, usuarios.password AS usuarios_password, usuarios.fecha_nacimiento AS usuarios_fecha_nacimiento, usuarios.rol AS usuarios_rol, usuarios.verified AS usuarios_verified, usuarios.foto_perfil AS usuarios_foto_perfil, usuarios.fecha_registro AS usuarios_fecha_registro, usuarios.fecha_actualizacion AS usuarios_fecha_actualizacion 
+FROM usuarios 
+WHERE usuarios.id = %(pk_1)s
+2026-06-24 22:42:32,443 INFO sqlalchemy.engine.Engine [cached since 1626s ago] {'pk_1': 4}
+2026-06-24 22:42:32,619 INFO sqlalchemy.engine.Engine ROLLBACK
+127.0.0.1 - - [24/Jun/2026 22:42:32] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:42:32] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/uploads/perfiles/bd9ffa3324a04bb585be855748fc94f3.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:42:33] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:46:02] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+2026-06-24 22:48:16,873 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-24 22:48:16,873 INFO sqlalchemy.engine.Engine 
+            SELECT id, nombre, especie, raza, edad, sexo, descripcion,
+                   foto_url, estado, fecha_ingreso
+            FROM mascotas
+            ORDER BY fecha_ingreso DESC
+        
+2026-06-24 22:48:16,873 INFO sqlalchemy.engine.Engine [cached since 4728s ago] {}
+2026-06-24 22:48:16,874 INFO sqlalchemy.pool.impl.QueuePool Invalidate connection <connection object at 0x00000242A6F13010; dsn: 'user=neondb_owner password=xxx channel_binding=require dbname=neondb host=ep-bitter-hall-ahop99sx-pooler.c-3.us-east-1.aws.neon.tech sslmode=require', closed: 2> (reason: OperationalError:SSL connection has been closed unexpectedly
+)
+127.0.0.1 - - [24/Jun/2026 22:48:16] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/css/home.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/Luna.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/brunox.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/chicletera.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/Mia.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/Tom.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:17] "GET /static/images/mascotas/Kira.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:48:19] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 22:54:56] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:00:52] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:00:53] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/css/donaciones_premium.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:01:32] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:06:06] "GET /donaciones HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/css/layout.css HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/css/donaciones_premium.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/images/pagos/nequi.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/images/pagos/daviplata.png HTTP/1.1" 304 -
+127.0.0.1 - - [24/Jun/2026 23:06:07] "GET /static/images/logos/logo.jpg HTTP/1.1" 304 -

@@ -23,6 +23,12 @@ Juguetona, alegre, accesible.
 
 Tono cálido y cercano — como alguien que ama los animales y te lo contagia. No evangeliza, no culpa: invita. Las mascotas son las protagonistas; la UI las enmarca sin competir con ellas. El humor suave y la emoción honesta son bienvenidos.
 
+## Visual Identity
+
+- **Paleta**: verde salvia (`#5C7A62`, oscuro `#3E5A44`, claro `#8FB395`) + terracota (`#C4794A`, suave `#DDA87E`, oscuro `#A05A2D`) sobre fondos marfil (`#FAFAF6`) y lino cálido (`#F2EDE5`). Reemplaza la paleta oscura anterior.
+- **Logo**: huella de mascota cuyos dos dedos superiores forman los lóbulos de un corazón (`app/static/images/logos/logo.jpg`, versión con fondo transparente en `logo_navbar.png`). Sin marco ni fondo — el símbolo flota libre sobre el navbar y sobresale ligeramente de su borde inferior.
+- **Navbar**: delgado, fondo oscuro translúcido; el logo se renderiza a mayor tamaño que su caja reservada (vía posicionamiento absoluto) para que sobresalga del borde sin inflar la altura de la barra.
+
 ## Anti-references
 
 - Webs de fundaciones frías e institucionales: formularios sin alma, paletas apagadas, estructura de gobierno. Esta fundación tiene vida y personalidad; el diseño debe reflejarlo.

@@ -60,7 +60,7 @@ body {
     color: var(--text-primary);
     background-color: var(--bg-dark);
     background-attachment: scroll;
-    padding-top: 94px;
+    padding-top: 76px;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6,
 
 .navbar {
     padding: 0;
-    min-height: 88px;
+    min-height: 68px;
 }
 
 .navbar-brand {
@@ -114,20 +114,22 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .brand-avatar {
-    width: 54px;
-    height: 54px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    display: grid;
-    place-items: center;
+    width: 128px;
+    height: 58px;
+    flex-shrink: 0;
+    position: relative;
 }
 
 .brand-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 128px;
+    height: 128px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(20, 20, 15, 0.35));
+    pointer-events: none;
+    z-index: 2;
 }
 
 .brand-copy {
@@ -710,7 +712,7 @@ footer p {
     background-color: var(--primary-color) !important;
 }
 
-.navbar .navbar-brand img {
+.navbar .navbar-brand > img {
     max-height: 32px !important;
     max-width: 32px !important;
     width: 32px !important;
