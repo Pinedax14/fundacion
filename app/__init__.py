@@ -4,10 +4,11 @@ Permite crear instancias con diferentes configuraciones
 """
 
 import os
-from flask import Flask
+from flask import Flask, flash, redirect, request
 from config import config_by_name
 from app.models import db
 from app.logger import setup_logger
+from app.extensions import limiter
 
 
 def create_app(config_name=None):
@@ -43,6 +44,7 @@ def create_app(config_name=None):
     
     # Inicializar extensiones
     db.init_app(app)
+    limiter.init_app(app)
     
     # Setup logging
     setup_logger(app)
@@ -58,7 +60,18 @@ def create_app(config_name=None):
 
     conexion = Conexion(app)
     registrar_todas_las_rutas(app, conexion)
-    
+
+    @app.errorhandler(429)
+    def demasiados_intentos(e):
+        """Respuesta amigable cuando Flask-Limiter bloquea por exceso de intentos.
+
+        Se redirige (302) en vez de devolver el 429 crudo para que el navegador
+        siga la redirección y el usuario vea el mensaje flash.
+        """
+        flash('Demasiados intentos. Espera un minuto antes de volver a intentarlo.', 'danger')
+        return redirect(request.path)
+
+
     # Contexto de aplicación para migraciones
     with app.app_context():
         # Crear tablas si no existen

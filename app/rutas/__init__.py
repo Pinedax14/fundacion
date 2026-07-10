@@ -14,6 +14,7 @@ from app.rutas.admin import RutasAdmin
 from app.rutas.pdf import RutasPDF
 from app.rutas.idioma import RutasIdioma
 from app.rutas.auditoria import auditoria_bp
+from app.rutas.api import api_bp
 
 
 def registrar_todas_las_rutas(app, conexion):
@@ -45,6 +46,10 @@ def registrar_todas_las_rutas(app, conexion):
     # Registrar blueprint de auditoría
     app.register_blueprint(auditoria_bp)
     app.logger.info("Blueprint auditoría registrado")
+
+    # Registrar blueprint de API JSON
+    app.register_blueprint(api_bp)
+    app.logger.info("Blueprint API registrado")
 
     return {
         'home': rutas_home,

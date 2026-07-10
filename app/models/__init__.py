@@ -45,8 +45,7 @@ class Mascota(db.Model):
     foto_url = db.Column(db.String(255))
     estado = db.Column(db.String(50), default='Disponible', nullable=False)  # Disponible, En proceso, Adoptado
     fecha_ingreso = db.Column(db.DateTime, default=datetime.utcnow)
-    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relaciones
     solicitudes_adopcion = db.relationship('SolicitudAdopcion', back_populates='mascota', cascade='all, delete-orphan')
     
@@ -68,9 +67,8 @@ class SolicitudAdopcion(db.Model):
     estrato_social = db.Column(db.Integer)  # 1-6
     estado = db.Column('estado_solicitud', db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
     fecha_solicitud = db.Column(db.DateTime, default=datetime.utcnow)
-    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    nombre_mascota = db.Column(db.String(120))  # Denormalizado para queries
-    
+    mensaje_respuesta = db.Column(db.Text)  # Respuesta del admin al aprobar/rechazar
+
     # Relaciones
     usuario = db.relationship('Usuario', back_populates='solicitudes_adopcion')
     mascota = db.relationship('Mascota', back_populates='solicitudes_adopcion')
@@ -89,8 +87,7 @@ class Reporte(db.Model):
     foto_evidencia_url = db.Column(db.String(255))
     estado = db.Column('estado_reporte', db.String(50), default='recibido', nullable=False)  # recibido, en_proceso, resuelto
     fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)
-    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     def __repr__(self):
         return f'<Reporte {self.ubicacion}>'
 
@@ -160,31 +157,31 @@ class SolicitudVoluntariado(db.Model):
     motivo_voluntariado = db.Column(db.Text, nullable=False)
     estado = db.Column(db.String(50), default='pendiente', nullable=False)  # pendiente, aprobada, rechazada
     fecha_solicitud = db.Column(db.DateTime, default=datetime.utcnow)
-    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     def __repr__(self):
         return f'<SolicitudVoluntariado {self.nombre_completo}>'
 
 
 class Item_Donacion(db.Model):
     """Modelo de Items de Donación
-    
-    Describe los artículos específicos donados en una donación.
+
+    Describe los artículos específicos donados dentro de una donación
+    (relación 1 donación -> N items).
     """
     __tablename__ = 'donaciones_items'
-    
+
     id = db.Column(db.Integer, primary_key=True)
-    nombre_donante = db.Column(db.String(120), nullable=False)
-    contacto_email = db.Column(db.String(120))
-    tipo_donacion = db.Column(db.String(100), nullable=False)  # alimento, juguete, medicinas, etc
-    descripcion_donacion = db.Column(db.Text)
-    fecha_donacion = db.Column(db.DateTime, default=datetime.utcnow)
-    estado_entrega = db.Column(db.String(50), default='pendiente')  # pendiente, entregado, cancelado
+    donacion_id = db.Column('id_donacion', db.Integer, db.ForeignKey('donaciones.id'), nullable=False)
+    tipo_item = db.Column(db.String(100), nullable=False)  # alimento, juguete, medicinas, etc
+    descripcion = db.Column(db.Text)
     cantidad = db.Column(db.Integer, nullable=False, default=1)
     valor_unitario = db.Column(db.Float)
-    
+    fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
+
+    donacion = db.relationship('Donacion', backref='items')
+
     def __repr__(self):
-        return f'<Item_Donacion {self.tipo_donacion}>'
+        return f'<Item_Donacion {self.tipo_item}>'
 
 
 class AuditLog(db.Model):

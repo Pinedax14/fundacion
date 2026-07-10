@@ -30,6 +30,8 @@ Aplicado sobre: **Fundación Almas con Cola** (Flask + PostgreSQL/Neon).
 
 Esta materia depende en parte de que el **MVP funcional** (Materia 1) y el **EDA** (Materia 3) ya existan, porque la investigación de usuarios y el estudio de impacto se hacen *sobre* el producto real y sus datos.
 
+**Actualización**: el EDA de la Materia 3 ya está completo (`notebooks/eda_fundacion.ipynb`) y la API JSON + dashboard de la Materia 1 también — el bloqueador ya no es técnico. Esta materia puede empezar ya: el punto 4 (estudio de impacto, opción B) puede usar directamente los hallazgos del notebook (ej. tasa de conversión de solicitudes de adopción, distribución de mascotas por especie) en vez de esperar más datos.
+
 ## 3. Plan de acción
 
 1. **Documento de objetivos** — partir de los objetivos ya implícitos en `PRODUCT.md` y formalizarlos como preguntas de investigación, por ejemplo:

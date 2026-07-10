@@ -1,1 +1,11 @@
-__pycache__/ 
+__pycache__/
+*.pyc
+venv/
+.env
+logs/*.log
+
+# Datos extraídos de la BD real: contienen PII (dirección, teléfono de
+# solicitantes de adopción, evidencia de reportes). No deben subirse a git.
+data/raw/
+data/processed/*.csv
+.ipynb_checkpoints/

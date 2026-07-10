@@ -13,3 +13,4 @@ MarkupSafe==3.0.3
 itsdangerous==2.2.0
 marshmallow==3.20.1
 pytest==7.4.3
+Flask-Limiter==4.1.1

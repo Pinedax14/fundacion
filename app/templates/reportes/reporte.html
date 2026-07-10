@@ -1,97 +1,151 @@
 {% extends "base/layout.html" %}
 
-{% block title %}Reportar Incidente{% endblock %}
+{% block title %}Reportar un incidente{% endblock %}
 
-{% block content %}
-<style>
-    .report-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 80vh;
-        padding: 2rem 1rem;
-    }
-    .report-card {
-        width: 100%;
-        max-width: 700px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        box-shadow: 0 28px 80px rgba(0,0,0,0.18);
-        border-radius: 1.5rem;
-    }
-    .report-card .card-body {
-        padding: 2.5rem;
-    }
-    .report-textarea {
-        min-height: 150px;
-    }
-</style>
-
-<div class="report-container">
-    <div class="card shadow-lg mx-auto report-card">
-        <div class="card-body p-4 p-md-5">
-
-            <div class="text-center mb-4">
-                <!-- Icono de Bootstrap que representa una alerta o reporte -->
-                <i class="bi bi-exclamation-octagon-fill fs-1" style="color: var(--report-color);"></i>
-                <h2 class="card-title fw-bold mt-2" style="color: var(--primary-color);">Reportar Incidente de Maltrato</h2>
-                <p class="text-muted">Tu reporte es anónimo y crucial para ayudar a un animal en riesgo.</p>
-            </div>
-
-            <!-- Formulario con validación y preparado para subir archivos -->
-            <form action="{{ url_for('procesar_reporte') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                
-                <!-- Campo Ubicación con Etiqueta Flotante -->
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ej: Parque del Sol, cerca de la fuente" required>
-                    <label for="ubicacion">Ubicación del Incidente</label>
-                    <div class="invalid-feedback">
-                        Por favor, proporciona una ubicación lo más exacta posible.
-                    </div>
-                </div>
-                
-                <!-- Campo Descripción con Etiqueta Flotante -->
-                <div class="form-floating mb-3">
-                    <textarea class="form-control report-textarea" id="descripcion_incidente" name="descripcion_incidente" placeholder="Describe lo que observaste" required></textarea>
-                    <label for="descripcion_incidente">Descripción del Incidente</label>
-                    <div class="invalid-feedback">
-                        Es importante que describas con detalle lo que sucedió.
-                    </div>
-                </div>
-
-                <!-- Campo para Subir Foto -->
-                <div class="mb-4">
-                    <label for="foto_evidencia" class="form-label">Foto como Evidencia (Opcional)</label>
-                    <input class="form-control" type="file" id="foto_evidencia" name="foto_evidencia" accept="image/*">
-                </div>
-
-                <!-- Botón de Envío -->
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-danger btn-lg">
-                        <i class="bi bi-shield-fill-exclamation me-2"></i>Enviar Reporte Urgente
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Script estándar de Bootstrap para activar la validación de formularios
-    (function () {
-      'use strict'
-      var forms = document.querySelectorAll('.needs-validation')
-      Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-          form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-          }, false)
-        })
-    })();
-</script>
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reporte.css') }}">
 {% endblock %}
 
+{% block content %}
+<div class="report-page">
+    <a href="{{ url_for('home') }}" class="report-back">
+        <i class="bi bi-arrow-left" aria-hidden="true"></i> Volver
+    </a>
+
+    <div class="report-grid">
+        <form class="report-form" method="POST" action="{{ url_for('procesar_reporte') }}" enctype="multipart/form-data" novalidate>
+            <p class="report-eyebrow">Reporte confidencial</p>
+            <h2>Cuéntanos qué viste</h2>
+            <p class="subtitle">Es anónimo y llega directo a nuestro equipo. Cuanta más ubicación y detalle nos des, más rápido podemos actuar.</p>
+
+            <label for="ubicacion">Ubicación del incidente <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="ubicacion" name="ubicacion"
+                   placeholder="Ej: Parque del Sol, cerca de la fuente"
+                   autocomplete="off" required>
+
+            <label for="descripcion_incidente">¿Qué observaste? <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="descripcion_incidente" name="descripcion_incidente" rows="5" maxlength="1000"
+                      placeholder="Describe el estado del animal, hace cuánto lo ves ahí, y cualquier detalle que ayude a identificarlo."
+                      required></textarea>
+            <small class="char-hint"><span id="charCount">0</span>/1000 caracteres</small>
+
+            <label for="foto_evidencia">Foto de evidencia <span class="optional">(opcional, máx. 2 MB)</span></label>
+            <div class="dropzone" id="dropzone">
+                <input type="file" id="foto_evidencia" name="foto_evidencia"
+                       accept="image/png,image/jpeg,image/gif" class="dropzone-input">
+                <div class="dropzone-empty" id="dropzoneEmpty">
+                    <i class="bi bi-camera" aria-hidden="true"></i>
+                    <p>Arrastra una foto o <span class="dropzone-link">elige un archivo</span></p>
+                    <small>PNG, JPG o GIF</small>
+                </div>
+                <div class="dropzone-preview d-none" id="dropzonePreview">
+                    <img id="previewImg" alt="Vista previa de la foto seleccionada">
+                    <div class="preview-info">
+                        <span id="previewName"></span>
+                        <button type="button" class="preview-remove" id="previewRemove" aria-label="Quitar foto seleccionada">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="req-note"><span class="req" aria-hidden="true">*</span> Campos obligatorios</p>
+
+            <button type="submit" class="submit-btn">
+                <i class="bi bi-send-fill me-2" aria-hidden="true"></i>Enviar reporte
+            </button>
+        </form>
+
+        <aside class="report-next" aria-label="Qué pasa después de enviar tu reporte">
+            <h3>Qué pasa con tu reporte</h3>
+            <ol class="next-steps">
+                <li>
+                    <span class="next-icon"><i class="bi bi-inbox-fill" aria-hidden="true"></i></span>
+                    <div>
+                        <h4>Lo recibimos al instante</h4>
+                        <p>Llega directo a nuestro equipo, sin pasar por nadie más.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="next-icon"><i class="bi bi-search" aria-hidden="true"></i></span>
+                    <div>
+                        <h4>Lo revisamos en menos de 24&nbsp;h</h4>
+                        <p>Confirmamos la ubicación y la gravedad del caso.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="next-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                    <div>
+                        <h4>Actuamos</h4>
+                        <p>Coordinamos rescate o autoridades locales según el caso.</p>
+                    </div>
+                </li>
+            </ol>
+        </aside>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    'use strict';
+
+    const textarea = document.getElementById('descripcion_incidente');
+    const counter = document.getElementById('charCount');
+    if (textarea && counter) {
+        counter.textContent = textarea.value.length;
+        textarea.addEventListener('input', () => { counter.textContent = textarea.value.length; });
+    }
+
+    const dropzone = document.getElementById('dropzone');
+    const input = document.getElementById('foto_evidencia');
+    const empty = document.getElementById('dropzoneEmpty');
+    const preview = document.getElementById('dropzonePreview');
+    const previewImg = document.getElementById('previewImg');
+    const previewName = document.getElementById('previewName');
+    const removeBtn = document.getElementById('previewRemove');
+
+    function mostrarPreview(file) {
+        const lector = new FileReader();
+        lector.onload = (e) => {
+            previewImg.src = e.target.result;
+            previewName.textContent = file.name;
+            empty.classList.add('d-none');
+            preview.classList.remove('d-none');
+        };
+        lector.readAsDataURL(file);
+    }
+
+    if (input) {
+        input.addEventListener('change', () => {
+            if (input.files && input.files[0]) {
+                mostrarPreview(input.files[0]);
+            }
+        });
+    }
+
+    if (removeBtn) {
+        removeBtn.addEventListener('click', () => {
+            input.value = '';
+            preview.classList.add('d-none');
+            empty.classList.remove('d-none');
+        });
+    }
+
+    ['dragenter', 'dragover'].forEach((evento) => {
+        dropzone.addEventListener(evento, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dropzone--active');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach((evento) => {
+        dropzone.addEventListener(evento, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dropzone--active');
+        });
+    });
+})();
+</script>
+{% endblock %}

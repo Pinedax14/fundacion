@@ -77,6 +77,7 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
     SESSION_COOKIE_SECURE = False
+    RATELIMIT_ENABLED = False
 
 
 class ProductionConfig(Config):

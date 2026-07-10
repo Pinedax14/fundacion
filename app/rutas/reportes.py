@@ -57,16 +57,16 @@ class RutasReportes:
                 descripcion = request.form.get('descripcion_incidente')
                 foto_evidencia = request.files.get('foto_evidencia')
 
-                # Validar y guardar la imagen si se subió
+                # Validar y guardar la imagen solo si el usuario adjuntó una
                 foto_evidencia_url = None
-                if foto_evidencia and self.conexion.allowed_file(foto_evidencia.filename):
-                    # Asegurar que el nombre de archivo sea seguro
-                    filename = secure_filename(foto_evidencia.filename)
-                    filepath = os.path.join(self.app.config['UPLOAD_FOLDER'], filename)
-                    foto_evidencia.save(filepath)
-                    foto_evidencia_url = filename
-                else:
-                    flash('El archivo de imagen no es válido o no se ha subido. Se creará el reporte sin foto.', 'warning')
+                if foto_evidencia and foto_evidencia.filename:
+                    if self.conexion.allowed_file(foto_evidencia.filename):
+                        filename = secure_filename(foto_evidencia.filename)
+                        filepath = os.path.join(self.app.config['UPLOAD_FOLDER'], filename)
+                        foto_evidencia.save(filepath)
+                        foto_evidencia_url = filename
+                    else:
+                        flash('Ese tipo de archivo no es válido. El reporte se envió sin foto.', 'warning')
 
                 try:
                     # Guardar reporte en BD (anónimo, sin usuario_id)

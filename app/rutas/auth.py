@@ -17,6 +17,7 @@ from app.rutas.decoradores import admin_required_factory  # Para proteger rutas 
 from app.models import db, Usuario, VerificacionEmail, SolicitudAdopcion, Mascota   # Importar modelos necesarios
 from app.services.postgres_user_service import PostgresUserService      # Servicio para manejar usuarios en PostgreSQL/Neon
 from app.services.admin_data_service import AdminDataStructureService       # Servicio para cargar datos en estructuras de nodos para el perfil de usuario
+from app.extensions import limiter    # Rate limiting para mitigar fuerza bruta en login
 from datetime import datetime, timedelta, date  # Para manejo de fechas, especialmente en validación de fecha de nacimiento y expiración de códigos de verificación
 
 
@@ -47,9 +48,9 @@ class RutasAuth:
         self.postgres_user_service = PostgresUserService()
         self.admin_data_service = AdminDataStructureService()
         self.admin_required = admin_required_factory(app)
-        # Credenciales de correo desde variables de entorno
-        self.REMITENTE = "almasconcola@gmail.com"
-        self.CONTRASENA_APP = "bdtz hpjl ugpf spzs"
+        # Credenciales de correo desde variables de entorno (ver config.py / .env)
+        self.REMITENTE = app.config['MAIL_DEFAULT_SENDER']
+        self.CONTRASENA_APP = app.config['MAIL_PASSWORD']
         self.registrar_rutas()
 
     def registrar_rutas(self):
@@ -208,6 +209,7 @@ class RutasAuth:
             return render_template('auth/verificar_email.html', msg=msg)
 
         @self.app.route('/login', methods=['GET', 'POST'])
+        @limiter.limit('5 per minute', methods=['POST'])
         def login():
             """
             GET: Muestra formulario de login

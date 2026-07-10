@@ -26,7 +26,7 @@ Aplicado sobre: **Fundación Almas con Cola** (Flask + PostgreSQL/Neon).
 | Ciclo de vida ágil (elegido y justificado) | ❌ No existe | Sin backlog, sin sprints, sin user stories documentadas |
 | Planificación y cronograma | ❌ No existe | Ningún `.xlsx`/Gantt/plan de fechas en el repo |
 | Arquitectura (documentada) | 🟡 Existe en código, no documentada | Patrón factory (`app/__init__.py`), capas `rutas → services → models → validators/utils`, esquema en `sql/fundacion.sql` (dump crudo, no diagrama) |
-| Aseguramiento de calidad | 🟡 Parcial | Hay tests (`tests/test_auth_service.py`, `test_fecha_nacimiento.py`, `test_exhaustivo.py`) pero sin informe formal de resultados ni cobertura, sin `pytest.ini` |
+| Aseguramiento de calidad | 🟡 Parcial | Hay tests (`tests/test_auth_service.py`, `tests/test_api.py`, `test_fecha_nacimiento.py`, `test_exhaustivo.py`) pero sin informe formal de resultados ni cobertura, sin `pytest.ini`. Se encontraron y corrigieron defectos reales durante el trabajo de API: 4 modelos ORM desincronizados con el esquema real de la BD, credenciales hardcodeadas, y un `.env` con secretos commiteado en git desde el primer commit — buen material real para el "informe de pruebas de calidad" (punto 5 del plan) |
 | README / documentación general | ❌ No existe | No hay `README.md` en la raíz del repo |
 
 ## 3. Plan de acción
@@ -48,8 +48,12 @@ Aplicado sobre: **Fundación Almas con Cola** (Flask + PostgreSQL/Neon).
    - Justificar decisiones clave: por qué Flask monolítico, por qué Postgres/Neon, por qué SQLAlchemy.
 
 5. **Informe de pruebas de calidad**:
-   - Correr la suite de pytest existente (`tests/`) y registrar resultados (cuántos pasan, cuántos fallan, qué cubren).
-   - Ampliar cobertura donde haya huecos evidentes (ej. rutas de donaciones/reportes no tienen test).
-   - Redactar un informe corto: alcance de las pruebas, resultados, defectos encontrados y corregidos (por ejemplo, los hallazgos de seguridad de la materia de Móviles pueden documentarse aquí como "defectos encontrados en QA").
+   - Correr la suite de pytest existente (`tests/`) y registrar resultados (cuántos pasan, cuántos fallan, qué cubren). Estado actual: 20/20 tests pasan (`tests/test_auth_service.py` + `tests/test_api.py`, nuevo).
+   - Ampliar cobertura donde haya huecos evidentes (ej. rutas de donaciones/reportes no tienen test más allá de la API).
+   - Redactar un informe corto con los defectos reales encontrados y corregidos durante este trabajo, que ya están documentados y son reales (no hay que inventarlos):
+     - 4 modelos ORM (`Mascota`, `SolicitudAdopcion`, `Reporte`, `SolicitudVoluntariado`) declaraban columnas que no existen en la BD de producción, y `Item_Donacion` tenía el esquema completo desincronizado — nadie lo notó porque ninguna ruta los consultaba vía ORM antes de esta sesión.
+     - Contraseña de Gmail hardcodeada en `app/rutas/auth.py` (movida a variables de entorno).
+     - `.env` con la contraseña real de la BD Neon commiteado en git desde el primer commit y expuesto en GitHub (sacado del tracking, contraseña rotada en Neon).
+     - Falta de rate limiting en `/login` (corregido con Flask-Limiter).
 
 6. **README del proyecto** — aunque no lo pide explícitamente la rúbrica, sirve como base común para los manuales de instalación/usuario de la materia de Móviles y como carta de presentación del repo.

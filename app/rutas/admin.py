@@ -75,11 +75,11 @@ class RutasAdmin:
                 print(f"DEBUG: Cargados {len(reportes)} reportes en Queue")
                 print(f"DEBUG: Cargadas {len(solicitudes_voluntariado)} solicitudes de voluntariado en LinkedList")
                 
-                return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes, solicitudes_voluntariado=solicitudes_voluntariado)
+                return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes, solicitudes_voluntariado=solicitudes_voluntariado, mostrar_link_notebook=self.app.debug)
             except Exception as e:
                 print(f"ERROR en admin_panel: {e}")  # Debug
                 flash(f'Error al cargar panel: {e}', 'danger')
-                return render_template('admin/admin_panel.html', solicitudes=[], reportes=[], solicitudes_voluntariado=[])
+                return render_template('admin/admin_panel.html', solicitudes=[], reportes=[], solicitudes_voluntariado=[], mostrar_link_notebook=self.app.debug)
 
         @self.app.route('/admin/detalle_solicitud/<int:solicitud_id>')
         @self.admin_required

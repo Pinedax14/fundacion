@@ -5,39 +5,39 @@
 {% block content %}
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>⚠️ Detección de Anomalías</h1>
-        <a href="/admin/auditoria/logs" class="btn btn-secondary">← Volver a Logs</a>
+        <h1><i class="bi bi-exclamation-triangle-fill me-1"></i>Detección de Anomalías</h1>
+        <a href="/admin/auditoria/logs" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i>Volver a Logs</a>
     </div>
     <hr>
-    
+
     <!-- Configuración de ventana -->
     <div class="card mb-4">
         <div class="card-header">
-            <h5>⏱️ Configuración</h5>
+            <h5><i class="bi bi-stopwatch me-1"></i>Configuración</h5>
         </div>
         <div class="card-body">
             <form method="get" class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">Ventana de tiempo (minutos):</label>
-                    <input type="number" name="ventana" class="form-control" 
+                    <input type="number" name="ventana" class="form-control"
                            value="{{ ventana }}" min="1" max="1440">
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">🔍 Analizar</button>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Analizar</button>
                 </div>
             </form>
         </div>
     </div>
-    
+
     <!-- Resultados -->
     {% if anomalias %}
     <div class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">🚨 {{ anomalias|length }} ANOMALÍA(S) DETECTADA(S)</h4>
+        <h4 class="alert-heading"><i class="bi bi-exclamation-octagon-fill me-1"></i>{{ anomalias|length }} ANOMALÍA(S) DETECTADA(S)</h4>
         <p>Se encontraron actividades sospechosas en los últimos {{ ventana }} minutos.</p>
     </div>
     {% else %}
     <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">✅ Sin anomalías detectadas</h4>
+        <h4 class="alert-heading"><i class="bi bi-check-circle-fill me-1"></i>Sin anomalías detectadas</h4>
         <p>No se encontraron actividades sospechosas en los últimos {{ ventana }} minutos.</p>
     </div>
     {% endif %}
@@ -48,11 +48,11 @@
         <div class="card-header bg-danger text-white">
             <h5 class="mb-0">
                 {% if anomalia.tipo == 'MULTIPLE_DELETES' %}
-                    🗑️ Múltiples eliminaciones ({{ anomalia.cantidad }})
+                    <i class="bi bi-trash-fill me-1"></i>Múltiples eliminaciones ({{ anomalia.cantidad }})
                 {% elif anomalia.tipo == 'ACTIVIDAD_SOSPECHOSA' %}
-                    🔥 Actividad sospechosa desde {{ anomalia.ip }}
+                    <i class="bi bi-fire me-1"></i>Actividad sospechosa desde {{ anomalia.ip }}
                 {% else %}
-                    ⚠️ {{ anomalia.tipo }}
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ anomalia.tipo }}
                 {% endif %}
             </h5>
         </div>
@@ -85,7 +85,7 @@
     
     
     
-    <a href="/admin/auditoria/logs" class="btn btn-secondary mt-4">← Volver a Logs</a>
+    <a href="/admin/auditoria/logs" class="btn btn-secondary mt-4"><i class="bi bi-arrow-left me-1"></i>Volver a Logs</a>
 </div>
 
 <style>
