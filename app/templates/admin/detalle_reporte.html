@@ -57,7 +57,7 @@
 
             <hr>
             <div class="d-flex justify-content-between mt-4">
-                <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary"><i class="bi bi-arrow-left me-2"></i>Volver al Panel</a>
+                <a href="{{ url_for('admin_panel', tab='reportes') }}" class="btn btn-secondary"><i class="bi bi-arrow-left me-2"></i>Volver al Panel</a>
                 <div>
                     {% if reporte.estado_reporte != 'resuelto' %}
                     <form action="{{ url_for('marcar_reporte_resuelto', reporte_id=reporte.id) }}" method="POST" class="d-inline">

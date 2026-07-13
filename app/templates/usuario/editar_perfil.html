@@ -3,104 +3,115 @@
 {% block title %}Editar Perfil{% endblock %}
 
 {% block head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_perfil.css') }}">
 {% endblock %}
 
 {% block content %}
 
-<div class="profile-page-container">
-    <!-- Mensajes Flash -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, msg in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ msg }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+<div class="profile-passport container">
 
-    <div class="row g-4">
-        <!-- Sidebar -->
+    <header class="passport-header">
+        <span class="passport-eyebrow">Mi cuenta</span>
+        <h1>Editar mi ficha</h1>
+        <p>Actualiza tus datos de contacto, tu foto y la contraseña de tu cuenta.</p>
+    </header>
+
+    <div class="row g-4 passport-grid">
+        <!-- Ficha de socio (resumen) -->
         <div class="col-lg-4">
-            <aside class="profile-sidebar">
-                <div class="card user-info-card p-4 mb-4">
-                    <h3 class="mb-3">Hola, {{ usuario.nombre.split(' ')[0] }}</h3>
-                    <p><strong>Nombre</strong>: {{ usuario.nombre }}</p>
-                    <p class="text-muted">{{ usuario.email }}</p>
+            <aside class="id-card">
+                <div class="id-card__avatar-wrap">
+                    {% if usuario.foto_perfil %}
+                        <img id="avatarPreview" src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
+                             alt="Foto de perfil" class="profile-avatar">
+                    {% else %}
+                        <div id="avatarPreview" class="id-card__avatar-placeholder" aria-hidden="true">
+                            {{ usuario.nombre[0] | upper if usuario.nombre else '?' }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <div class="id-card__body">
+                    <h3 class="id-card__name">{{ usuario.nombre }}</h3>
+                    <p class="id-card__email">{{ usuario.email }}</p>
+                </div>
+
+                <hr class="id-card__perforation">
+
+                <div class="id-card__ledger">
+                    <span>Ficha</span>
+                    <strong>N.&ordm; {{ '%04d'|format(usuario.id) }}</strong>
+                </div>
+                {% if usuario.fecha_registro %}
+                <div class="id-card__ledger">
+                    <span>Socio desde</span>
+                    <strong>{{ usuario.fecha_registro.strftime('%d.%m.%Y') }}</strong>
+                </div>
+                {% endif %}
+
+                <a href="{{ url_for('perfil') }}" class="btn btn-outline-custom" style="width:100%; margin-top:1.4rem;">
+                    <i class="bi bi-arrow-left me-1"></i>Volver a mi perfil
+                </a>
             </aside>
         </div>
 
-        <!-- Formulario de Edición -->
+        <!-- Formulario -->
         <div class="col-lg-8">
-            <main class="profile-content">
-                <h2 class="mb-3" style="color: var(--primary-color);">Editar Perfil</h2>
-
+            <main class="record-sheet">
                 <form method="POST"
                       action="{{ url_for('editar_perfil') }}"
                       enctype="multipart/form-data">
 
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" name="nombre"
-                               value="{{ usuario.nombre }}" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" id="email" name="email"
-                               value="{{ usuario.email }}" class="form-control" required>
-                    </div>
-
-                    <!-- NUEVO: Foto de perfil -->
-                    <div class="mb-3">
-                        <label for="foto_perfil" class="form-label">Foto de perfil</label>
-                        <input type="file" id="foto_perfil" name="foto_perfil"
-                               class="form-control" accept="image/*">
-                        {% if usuario.foto_perfil %}
+                    <div class="requests-group__label">Datos de la ficha</div>
+                    <div class="row g-3 mb-2">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" name="nombre"
+                                   value="{{ usuario.nombre }}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" id="email" name="email"
+                                   value="{{ usuario.email }}" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="foto_perfil" class="form-label">Foto de perfil</label>
+                            <input type="file" id="foto_perfil" name="foto_perfil"
+                                   class="form-control" accept="image/*">
                             <small class="form-text text-muted">
-                                Imagen actual:
-                                <img src="{{ url_for('static',
-                                         filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
-                                     alt="Foto de perfil"
-                                     style="height: 60px; border-radius: 50%; margin-left: 8px;">
+                                PNG, JPG o GIF. La ficha de la izquierda se actualiza al elegir una imagen.
                             </small>
-                        {% endif %}
+                        </div>
                     </div>
 
-                    <hr>
-
-                    <h4 class="mt-4" style="color: var(--primary-color);">Cambiar Contraseña</h4>
-
-                    <div class="mb-3">
-                        <label for="password_actual" class="form-label">Contraseña Actual</label>
-                        <input type="password" id="password_actual" name="password_actual"
-                               class="form-control" placeholder="Escribe tu contraseña actual">
+                    <div class="requests-group__label mt-4">Seguridad de la cuenta</div>
+                    <p class="record-sheet__hint">Rellena estos campos solo si quieres cambiar tu contraseña.</p>
+                    <div class="row g-3 mb-2">
+                        <div class="col-md-4">
+                            <label for="password_actual" class="form-label">Contraseña actual</label>
+                            <input type="password" id="password_actual" name="password_actual"
+                                   class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password_nueva" class="form-label">Nueva contraseña</label>
+                            <input type="password" id="password_nueva" name="password_nueva"
+                                   class="form-control" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password_confirm" class="form-label">Confirmar nueva contraseña</label>
+                            <input type="password" id="password_confirm" name="password_confirm"
+                                   class="form-control" placeholder="Repite la contraseña">
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password_nueva" class="form-label">Nueva Contraseña</label>
-                        <input type="password" id="password_nueva" name="password_nueva"
-                               class="form-control" placeholder="Nueva contraseña (mínimo 8 caracteres)">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password_confirm" class="form-label">Confirmar Nueva Contraseña</label>
-                        <input type="password" id="password_confirm" name="password_confirm"
-                               class="form-control" placeholder="Repite la nueva contraseña">
-                    </div>
-
-                    <small class="form-text text-muted mb-3">
-                        Solo rellena los campos de contraseña si deseas cambiarla.
-                    </small>
-
-                    <div class="mt-3">
+                    <div class="record-sheet__actions">
                         <button type="submit" class="btn btn-primary-custom">
-                            Guardar Cambios
+                            Guardar cambios
                         </button>
-                        <a href="{{ url_for('perfil') }}" class="btn btn-secondary">
+                        <a href="{{ url_for('perfil') }}" class="btn btn-outline-custom">
                             Cancelar
                         </a>
                     </div>
@@ -109,4 +120,34 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  var fileInput = document.getElementById('foto_perfil');
+  var preview = document.getElementById('avatarPreview');
+
+  if (fileInput && preview) {
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files[0];
+      if (!file) return;
+
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        if (preview.tagName === 'IMG') {
+          preview.src = e.target.result;
+        } else {
+          var img = document.createElement('img');
+          img.id = 'avatarPreview';
+          img.className = 'profile-avatar';
+          img.alt = 'Foto de perfil';
+          img.src = e.target.result;
+          preview.replaceWith(img);
+          preview = img;
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
 {% endblock %}

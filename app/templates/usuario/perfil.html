@@ -3,184 +3,221 @@
 {% block title %}Mi Perfil{% endblock %}
 
 {% block head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 <style>
-  .modal-content {
-    background: #ffffff;
-    border: 1px solid #E3DAD2;
-    color: #1E1A14;
-  }
+  .modal-content { background: #ffffff; border: 1px solid #E3DAD2; color: #1E1A14; }
   .modal-header { border-bottom: 1px solid #E3DAD2; }
   .modal-footer { border-top: 1px solid #E3DAD2; }
-  .card { background: #ffffff; border: 1px solid #E3DAD2; border-radius: 12px; color: #1E1A14; }
-  .card-header { border-bottom: 1px solid #E3DAD2; background: #F2EDE5; }
-  .card-header.bg-danger { background: rgba(185,64,64,0.12) !important; color: #B94040 !important; }
-  .profile-avatar-placeholder {
-    width: 80px; height: 80px; border-radius: 50%;
-    background: #EDF3EE;
-    border: 2px solid rgba(92,122,98,0.30);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2rem; font-weight: 700; color: #3E5A44;
-    margin-bottom: 0.75rem;
-  }
-  .empty-state-card {
-    background: #FAFAF6;
-    border: 1px solid #E3DAD2;
-    border-radius: 12px;
-    padding: 3rem 2rem;
-    text-align: center;
-  }
 </style>
 {% endblock %}
 
 {% block content %}
 
-<div class="page-panel profile-page-container container">
-    <div class="row g-4">
-        <!-- Columna Izquierda (Barra Lateral) -->
+{% macro ficha(solicitud, idx) %}
+{% set estado = solicitud.estado_solicitud|lower %}
+<div class="ficha reveal" style="--reveal-delay: {{ idx * 80 }}ms;">
+    <img class="ficha__photo"
+         src="{{ url_for('static', filename='images/mascotas/' ~ solicitud.mascota_nombre ~ '.jpg') }}"
+         alt="{{ solicitud.mascota_nombre }}">
+    <div class="ficha__body">
+        <span class="ficha__pet-name">{{ solicitud.mascota_nombre }}</span>
+        <span class="ficha__date">Solicitado &middot; {{ solicitud.fecha_solicitud.strftime('%d.%m.%Y') }}</span>
+    </div>
+    <div class="ficha__aside">
+        <span class="stamp stamp-{{ estado }}">
+            {% if estado == 'aprobada' %}<i class="bi bi-check-circle-fill"></i>
+            {% elif estado == 'rechazada' %}<i class="bi bi-x-circle-fill"></i>
+            {% else %}<i class="bi bi-hourglass-split"></i>{% endif %}
+            {{ solicitud.estado_solicitud }}
+        </span>
+        {% if estado == 'rechazada' %}
+            <button type="button" class="btn btn-outline-danger ficha__action"
+                    data-bs-toggle="modal" data-bs-target="#modalBorrarSolicitud"
+                    data-solicitud-id="{{ solicitud.id }}"
+                    data-mascota-nombre="{{ solicitud.mascota_nombre }}"
+                    data-mascota-foto="{{ url_for('static', filename='images/mascotas/' ~ solicitud.mascota_nombre ~ '.jpg') }}">
+                Eliminar
+            </button>
+        {% elif estado == 'pendiente' %}
+            <button type="button" class="btn btn-outline-warning ficha__action"
+                    data-bs-toggle="modal" data-bs-target="#modalCancelarSolicitud"
+                    data-solicitud-id="{{ solicitud.id }}"
+                    data-mascota-nombre="{{ solicitud.mascota_nombre }}"
+                    data-mascota-foto="{{ url_for('static', filename='images/mascotas/' ~ solicitud.mascota_nombre ~ '.jpg') }}">
+                Cancelar
+            </button>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+<div class="profile-passport container">
+
+    <header class="passport-header reveal">
+        <span class="passport-eyebrow">Mi cuenta</span>
+        <h1>Hola, {{ session.nombre.split()[0] }}</h1>
+        <p>Aquí puedes revisar el estado de tus solicitudes de adopción y gestionar los datos de tu cuenta.</p>
+    </header>
+
+    <div class="row g-4 passport-grid">
+        <!-- Ficha de socio -->
         <div class="col-lg-4">
-            <aside class="profile-sidebar">
-                <div class="card user-info-card p-4 mb-4">
-                    <h3 class="mb-2">Hola, {{ session.nombre.split()[0] }}</h3>
-
-                    <div class="mb-3">
-                        {% if usuario.foto_perfil %}
-                            <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
-                                 alt="Foto de perfil de {{ session.nombre }}"
-                                 class="profile-avatar">
-                        {% elif g.usuario and g.usuario.foto_perfil %}
-                            <img src="{{ url_for('static', filename='uploads/perfiles/' ~ g.usuario.foto_perfil) }}"
-                                 alt="Foto de perfil de {{ session.nombre }}"
-                                 class="profile-avatar">
-                        {% else %}
-                            <div class="profile-avatar-placeholder" aria-hidden="true">
-                                {{ session.nombre[0] | upper if session.nombre else '?' }}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <p><strong>Nombre:</strong> {{ session.nombre }}</p>
-                    <p class="text-muted">{{ session.email }}</p>
-                    <p><strong>Miembro desde:</strong> {{ usuario.fecha_registro.strftime('%d de %b, %Y') }}</p>
-                    <a href="{{ url_for('editar_perfil') }}" class="btn btn-primary-custom mt-3">
-                        Editar Perfil
-                    </a>
-                </div>
-
-                <!-- Zona de Peligro -->
-                <div class="card mt-4">
-                    <div class="card-header bg-danger text-white">
-                        Zona de Peligro
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-3">
-                            Esta acción eliminará tu cuenta y todos tus datos de forma permanente.
-                        </p>
-                        <button type="button" class="btn btn-danger"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteAccountModal">
-                            Eliminar mi cuenta
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Modal eliminar cuenta -->
-                <div class="modal fade" id="deleteAccountModal" tabindex="-1"
-                     aria-labelledby="deleteAccountLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-danger">
-                            <div class="modal-header bg-danger text-white">
-                                <h5 class="modal-title" id="deleteAccountLabel">
-                                    Confirmar eliminación de cuenta
-                                </h5>
-                                <button type="button" class="btn-close btn-close-white"
-                                        data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    ¿Estás seguro de que quieres eliminar tu cuenta?<br>
-                                    <strong class="text-danger">
-                                        ¡Esta acción no se puede deshacer y perderás todos tus datos y adopciones!
-                                    </strong>
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">
-                                    Cancelar
-                                </button>
-                                <a href="{{ url_for('eliminar_cuenta') }}" class="btn btn-danger">
-                                    Eliminar permanentemente
-                                </a>
-                            </div>
+            <aside class="id-card reveal">
+                <div class="id-card__avatar-wrap">
+                    {% if usuario.foto_perfil %}
+                        <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario.foto_perfil) }}"
+                             alt="Foto de perfil de {{ session.nombre }}"
+                             class="profile-avatar">
+                    {% else %}
+                        <div class="id-card__avatar-placeholder" aria-hidden="true">
+                            {{ session.nombre[0] | upper if session.nombre else '?' }}
                         </div>
+                    {% endif %}
+                    {% if solicitudes_aprobadas|length > 0 %}
+                        <span class="id-card__seal" title="Adoptante en Almas con Cola" aria-hidden="true">
+                            <i class="bi bi-heart-fill"></i>
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="id-card__body">
+                    <h3 class="id-card__name">{{ session.nombre }}</h3>
+                    <p class="id-card__email">{{ session.email }}</p>
+                </div>
+
+                <hr class="id-card__perforation">
+
+                <div class="id-card__ledger">
+                    <span>Ficha</span>
+                    <strong>N.&ordm; {{ '%04d'|format(usuario.id) }}</strong>
+                </div>
+                <div class="id-card__ledger">
+                    <span>Socio desde</span>
+                    <strong>{{ usuario.fecha_registro.strftime('%d.%m.%Y') }}</strong>
+                </div>
+
+                <div class="id-card__stats">
+                    <div class="id-card__stat">
+                        <strong>{{ solicitudes|length }}</strong>
+                        <span>Solicitudes</span>
                     </div>
+                    <div class="id-card__stat">
+                        <strong>{{ solicitudes_aprobadas|length }}</strong>
+                        <span>Aprobadas</span>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('editar_perfil') }}" class="btn btn-primary-custom">
+                    Editar perfil
+                </a>
+
+                <div class="id-card__danger">
+                    <p>Eliminar tu cuenta borra todos tus datos de forma permanente.</p>
+                    <button type="button" class="id-card__danger-link"
+                            data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                        Eliminar mi cuenta
+                    </button>
                 </div>
             </aside>
-        </div>
 
-        <!-- Columna Derecha (Solicitudes) -->
-        <div class="col-lg-8">
-            <main class="profile-content">
-                <h2 class="mb-3">
-                    Mis Solicitudes de Adopción
-                </h2>
-
-                <div class="d-flex flex-column gap-3 mt-3">
-                    {% for solicitud in solicitudes %}
-                        <div class="solicitud-card">
-                            <img src="{{ url_for('static', filename='images/mascotas/' ~ solicitud.mascota_nombre ~ '.jpg') }}"
-                                 alt="{{ solicitud.mascota_nombre }}">
-                            <div class="solicitud-info">
-                                <strong class="fs-5">{{ solicitud.mascota_nombre }}</strong>
-                                <small class="text-muted">
-                                    Solicitado el: {{ solicitud.fecha_solicitud.strftime('%d de %b, %Y') }}
-                                </small>
-                            </div>
-                            <div class="text-center">
-                                {% set status_class = 'bg-warning text-dark' %}
-                                {% if solicitud.estado_solicitud.lower() == 'aprobada' %}
-                                    {% set status_class = 'bg-success' %}
-                                {% endif %}
-                                {% if solicitud.estado_solicitud.lower() == 'rechazada' %}
-                                    {% set status_class = 'bg-danger' %}
-                                {% endif %}
-                                <span class="badge rounded-pill {{ status_class }}">
-                                    {{ solicitud.estado_solicitud | capitalize }}
-                                </span>
-
-                                {% if solicitud.estado_solicitud.lower() == 'rechazada' %}
-                                    <button type="button"
-                                            class="btn btn-outline-danger btn-sm mt-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalBorrarSolicitud"
-                                            data-solicitud-id="{{ solicitud.id }}">
-                                        Eliminar
-                                    </button>
-                                {% endif %}
-
-                                {% if solicitud.estado_solicitud.lower() in ['pendiente', 'en proceso'] %}
-                                    <button type="button"
-                                            class="btn btn-outline-warning btn-sm mt-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalCancelarSolicitud"
-                                            data-solicitud-id="{{ solicitud.id }}">
-                                        Cancelar
-                                    </button>
-                                {% endif %}
-                            </div>
+            <!-- Modal eliminar cuenta -->
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1"
+                 aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content confirm-modal confirm-modal--danger">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                    {% else %}
-                        <div class="empty-state-card">
-                            <i class="bi bi-search-heart" style="font-size:2.5rem; color:var(--text-muted); display:block; margin-bottom:1rem;" aria-hidden="true"></i>
-                            <h5 style="color:var(--text-primary);">Aún no has enviado ninguna solicitud</h5>
-                            <p style="color:var(--text-muted);">¡Explora las mascotas disponibles y da el primer paso!</p>
-                            <a href="{{ url_for('mascotas') }}" class="btn btn-primary-custom mt-2">
-                                Ver mascotas
+                        <div class="modal-body">
+                            <div class="confirm-modal__icon" aria-hidden="true">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                            </div>
+                            <h5 class="confirm-modal__title" id="deleteAccountLabel">
+                                ¿Eliminar tu cuenta?
+                            </h5>
+                            <p class="confirm-modal__body">
+                                Vas a perder tu cuenta, tus datos y todas tus solicitudes de adopción.
+                                No hay forma de deshacer esto.
+                            </p>
+                            <hr class="confirm-modal__divider">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-custom"
+                                    data-bs-dismiss="modal">
+                                Volver
+                            </button>
+                            <a href="{{ url_for('eliminar_cuenta') }}" class="btn btn-danger">
+                                Eliminar cuenta
                             </a>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Solicitudes -->
+        <div class="col-lg-8">
+            <main class="requests-section">
+                <div class="requests-header reveal">
+                    <h2>Mis solicitudes de adopción</h2>
+                    <span class="requests-header__count">{{ solicitudes|length }} en total</span>
+                </div>
+
+                {% if solicitudes_pendientes or solicitudes_aprobadas or solicitudes_rechazadas %}
+
+                    {% if solicitudes_pendientes %}
+                        <div>
+                            <div class="requests-group__label requests-group__label--pendiente">
+                                Pendientes ({{ solicitudes_pendientes|length }})
+                            </div>
+                            <div class="requests-list">
+                                {% for solicitud in solicitudes_pendientes %}
+                                    {{ ficha(solicitud, loop.index0) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if solicitudes_aprobadas %}
+                        <div>
+                            <div class="requests-group__label requests-group__label--aprobada">
+                                Aprobadas ({{ solicitudes_aprobadas|length }})
+                            </div>
+                            <div class="requests-list">
+                                {% for solicitud in solicitudes_aprobadas %}
+                                    {{ ficha(solicitud, solicitudes_pendientes|length + loop.index0) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if solicitudes_rechazadas %}
+                        <details class="rechazadas-toggle">
+                            <summary>
+                                <i class="bi bi-chevron-right"></i>
+                                Ver solicitudes rechazadas ({{ solicitudes_rechazadas|length }})
+                            </summary>
+                            <div class="rechazadas-panel">
+                                {% for solicitud in solicitudes_rechazadas %}
+                                    {{ ficha(solicitud, loop.index0) }}
+                                {% endfor %}
+                            </div>
+                        </details>
+                    {% endif %}
+
+                {% else %}
+                    <div class="empty-state-card reveal">
+                        <i class="bi bi-search-heart" aria-hidden="true"></i>
+                        <h5>Aún no has enviado ninguna solicitud</h5>
+                        <p>¡Explora las mascotas disponibles y da el primer paso!</p>
+                        <a href="{{ url_for('mascotas') }}" class="btn btn-primary-custom mt-2">
+                            Ver mascotas
+                        </a>
+                    </div>
+                {% endif %}
             </main>
         </div>
     </div>
@@ -190,44 +227,68 @@
 <div class="modal fade" id="modalBorrarSolicitud" tabindex="-1"
      aria-labelledby="modalBorrarSolicitudLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="modalBorrarSolicitudLabel">¿Eliminar solicitud?</h5>
-        <button type="button" class="btn-close btn-close-white"
+    <div class="modal-content confirm-modal confirm-modal--danger">
+      <div class="modal-header">
+        <button type="button" class="btn-close"
                 data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <p>¿Estás seguro de que deseas eliminar esta solicitud de adopción rechazada?</p>
-        <strong class="text-danger">Esta acción no se puede deshacer.</strong>
+        <div class="confirm-modal__record">
+            <img id="borrarPetPhoto" src="" alt="">
+            <div class="confirm-modal__record-info">
+                <strong id="borrarPetName"></strong>
+                <span>Solicitud de adopción</span>
+            </div>
+            <span class="stamp stamp-rechazada">
+                <i class="bi bi-x-circle-fill"></i>Anular
+            </span>
+        </div>
+        <h5 class="confirm-modal__title" id="modalBorrarSolicitudLabel">¿Eliminar esta solicitud?</h5>
+        <p class="confirm-modal__body">
+            No vas a poder recuperarla. Si cambias de opinión, vas a tener que enviar una solicitud nueva.
+        </p>
+        <hr class="confirm-modal__divider">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-outline-custom"
+                data-bs-dismiss="modal">Volver</button>
         <a href="#" id="confirmarEliminarSolicitud" class="btn btn-danger">
-            Eliminar permanentemente
+            Eliminar solicitud
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal para cancelar solicitud pendiente/en proceso -->
+<!-- Modal para cancelar solicitud pendiente -->
 <div class="modal fade" id="modalCancelarSolicitud" tabindex="-1"
      aria-labelledby="modalCancelarSolicitudLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-warning">
-      <div class="modal-header bg-warning text-dark">
-        <h5 class="modal-title" id="modalCancelarSolicitudLabel">¿Cancelar solicitud?</h5>
+    <div class="modal-content confirm-modal confirm-modal--warning">
+      <div class="modal-header">
         <button type="button" class="btn-close"
                 data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <p>¿Estás seguro de que deseas cancelar esta solicitud de adopción?</p>
-        <strong class="text-danger">Esta acción no se puede deshacer.</strong>
+        <div class="confirm-modal__record">
+            <img id="cancelarPetPhoto" src="" alt="">
+            <div class="confirm-modal__record-info">
+                <strong id="cancelarPetName"></strong>
+                <span>Solicitud de adopción</span>
+            </div>
+            <span class="stamp stamp-pendiente">
+                <i class="bi bi-slash-circle-fill"></i>Cancelar
+            </span>
+        </div>
+        <h5 class="confirm-modal__title" id="modalCancelarSolicitudLabel">¿Cancelar esta solicitud?</h5>
+        <p class="confirm-modal__body">
+            Vas a tener que enviarla de nuevo si más adelante cambias de opinión.
+        </p>
+        <hr class="confirm-modal__divider">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">No cancelar</button>
+        <button type="button" class="btn btn-outline-custom"
+                data-bs-dismiss="modal">Volver</button>
         <a href="#" id="confirmarCancelarSolicitud"
            class="btn btn-warning text-dark">
             Cancelar solicitud
@@ -244,17 +305,35 @@
   var modalBorrar = document.getElementById('modalBorrarSolicitud');
   if (modalBorrar) {
     modalBorrar.addEventListener('show.bs.modal', function (event) {
-      var solicitudId = event.relatedTarget.getAttribute('data-solicitud-id');
+      var btn = event.relatedTarget;
+      var solicitudId = btn.getAttribute('data-solicitud-id');
+      var nombre = btn.getAttribute('data-mascota-nombre');
       document.getElementById('confirmarEliminarSolicitud').href = "/eliminar_solicitud/" + solicitudId;
+      document.getElementById('borrarPetName').textContent = nombre;
+      document.getElementById('borrarPetPhoto').src = btn.getAttribute('data-mascota-foto');
+      document.getElementById('borrarPetPhoto').alt = nombre;
     });
   }
 
   var modalCancelar = document.getElementById('modalCancelarSolicitud');
   if (modalCancelar) {
     modalCancelar.addEventListener('show.bs.modal', function (event) {
-      var solicitudId = event.relatedTarget.getAttribute('data-solicitud-id');
+      var btn = event.relatedTarget;
+      var solicitudId = btn.getAttribute('data-solicitud-id');
+      var nombre = btn.getAttribute('data-mascota-nombre');
       document.getElementById('confirmarCancelarSolicitud').href = "/cancelar_solicitud/" + solicitudId;
+      document.getElementById('cancelarPetName').textContent = nombre;
+      document.getElementById('cancelarPetPhoto').src = btn.getAttribute('data-mascota-foto');
+      document.getElementById('cancelarPetPhoto').alt = nombre;
     });
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    requestAnimationFrame(function () {
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('revealed');
+      });
+    });
+  });
 </script>
 {% endblock %}

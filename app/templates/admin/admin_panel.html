@@ -2,445 +2,472 @@
 
 {% block title %}Panel de Administración{% endblock %}
 
+{% block head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_panel.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <h1 class="mb-0" style="color: var(--primary-color);">
-            Panel de Administración
-        </h1>
-        <a href="{{ url_for('ingresar_mascota') }}" class="btn btn-primary-custom btn-lg">
-            <i class="bi bi-plus-circle me-1"></i> Ingresar Mascota
-        </a>
-    </div>
 
-    <!-- Tabs principales -->
-    <ul class="nav nav-pills mb-3 flex-wrap" id="adminTab" role="tablist">
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link active"
-                    id="solicitudes-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#solicitudes"
-                    type="button"
-                    role="tab">
-                Gestión de Solicitudes
-            </button>
-        </li>
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link"
-                    id="reportes-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#reportes"
-                    type="button"
-                    role="tab">
-                Gestión de Reportes
-            </button>
-        </li>
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link"
-                    id="donaciones-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#donaciones"
-                    type="button"
-                    role="tab">
-                Voluntariado
-            </button>
-        </li>
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link"
-                    id="reportespdf-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#reportespdf"
-                    type="button"
-                    role="tab">
-                Reportes PDF
-            </button>
-        </li>
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link"
-                    id="auditoria-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#auditoria"
-                    type="button"
-                    role="tab">
-                <i class="bi bi-clipboard-check me-1"></i>Auditoría
-            </button>
-        </li>
-        <li class="nav-item mb-2" role="presentation">
-            <button class="nav-link"
-                    id="estadisticas-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#estadisticas"
-                    type="button"
-                    role="tab">
-                <i class="bi bi-graph-up-arrow me-1"></i>Estadísticas
-            </button>
-        </li>
-    </ul>
+{% macro stamp(estado) %}
+{% set e = estado|lower %}
+<span class="stamp stamp-{{ e }}">
+    {% if e in ['aprobada', 'resuelto'] %}<i class="bi bi-check-circle-fill"></i>
+    {% elif e == 'rechazada' %}<i class="bi bi-x-circle-fill"></i>
+    {% elif e == 'recibido' %}<i class="bi bi-exclamation-circle-fill"></i>
+    {% else %}<i class="bi bi-hourglass-split"></i>{% endif %}
+    {{ estado }}
+</span>
+{% endmacro %}
 
-    <div class="tab-content" id="adminTabContent">
-        <!-- TAB SOLICITUDES -->
-        <div class="tab-pane fade show active" id="solicitudes" role="tabpanel" aria-labelledby="solicitudes-tab">
-            <div class="card card-body">
-                <h2 class="mt-3">Solicitudes de Adopción</h2>
-                <div class="table-responsive mt-3">
-                    <table class="table table-striped align-middle">
+<div class="ops-desk container-fluid">
+    <div class="ops-desk__grid">
+
+        <!-- ══════════════ BARRA LATERAL ══════════════ -->
+        <nav class="ops-nav" aria-label="Secciones del panel de gestión">
+            <div class="ops-nav__brand">
+                <span class="ops-nav__eyebrow">Mesa de operaciones</span>
+                <h1 class="ops-nav__title">Panel de gestión</h1>
+            </div>
+
+            <div class="ops-nav__list" role="tablist">
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'hoy' }}"
+                        id="nav-hoy" data-bs-toggle="tab" data-bs-target="#tab-hoy"
+                        type="button" role="tab" aria-controls="tab-hoy"
+                        aria-selected="{{ 'true' if tab_activo == 'hoy' else 'false' }}">
+                    <i class="bi bi-sunrise"></i><span class="ops-nav__label">Hoy</span>
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'solicitudes' }}"
+                        id="nav-solicitudes" data-bs-toggle="tab" data-bs-target="#tab-solicitudes"
+                        type="button" role="tab" aria-controls="tab-solicitudes"
+                        aria-selected="{{ 'true' if tab_activo == 'solicitudes' else 'false' }}">
+                    <i class="bi bi-clipboard2-heart"></i><span class="ops-nav__label">Solicitudes</span>
+                    {% if pendientes_count > 0 %}<span class="ops-nav__badge">{{ pendientes_count }}</span>{% endif %}
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'reportes' }}"
+                        id="nav-reportes" data-bs-toggle="tab" data-bs-target="#tab-reportes"
+                        type="button" role="tab" aria-controls="tab-reportes"
+                        aria-selected="{{ 'true' if tab_activo == 'reportes' else 'false' }}">
+                    <i class="bi bi-shield-exclamation"></i><span class="ops-nav__label">Reportes</span>
+                    {% if reportes_sin_resolver_count > 0 %}<span class="ops-nav__badge">{{ reportes_sin_resolver_count }}</span>{% endif %}
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'voluntariado' }}"
+                        id="nav-voluntariado" data-bs-toggle="tab" data-bs-target="#tab-voluntariado"
+                        type="button" role="tab" aria-controls="tab-voluntariado"
+                        aria-selected="{{ 'true' if tab_activo == 'voluntariado' else 'false' }}">
+                    <i class="bi bi-people-fill"></i><span class="ops-nav__label">Voluntariado</span>
+                    {% if voluntariado_pendiente_count > 0 %}<span class="ops-nav__badge">{{ voluntariado_pendiente_count }}</span>{% endif %}
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'reportes-pdf' }}"
+                        id="nav-reportes-pdf" data-bs-toggle="tab" data-bs-target="#tab-reportes-pdf"
+                        type="button" role="tab" aria-controls="tab-reportes-pdf"
+                        aria-selected="{{ 'true' if tab_activo == 'reportes-pdf' else 'false' }}">
+                    <i class="bi bi-file-earmark-bar-graph"></i><span class="ops-nav__label">Reportes PDF</span>
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'auditoria' }}"
+                        id="nav-auditoria" data-bs-toggle="tab" data-bs-target="#tab-auditoria"
+                        type="button" role="tab" aria-controls="tab-auditoria"
+                        aria-selected="{{ 'true' if tab_activo == 'auditoria' else 'false' }}">
+                    <i class="bi bi-clock-history"></i><span class="ops-nav__label">Auditoría</span>
+                </button>
+                <button class="ops-nav__item {{ 'active' if tab_activo == 'estadisticas' }}"
+                        id="nav-estadisticas" data-bs-toggle="tab" data-bs-target="#tab-estadisticas"
+                        type="button" role="tab" aria-controls="tab-estadisticas"
+                        aria-selected="{{ 'true' if tab_activo == 'estadisticas' else 'false' }}">
+                    <i class="bi bi-graph-up-arrow"></i><span class="ops-nav__label">Estadísticas</span>
+                </button>
+            </div>
+
+            <a href="{{ url_for('ingresar_mascota') }}" class="ops-nav__cta">
+                <i class="bi bi-plus-circle"></i> Ingresar mascota
+            </a>
+        </nav>
+
+        <!-- ══════════════ CONTENIDO ══════════════ -->
+        <div class="ops-content tab-content">
+
+            <!-- ─────────── HOY ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'hoy' }}"
+                      id="tab-hoy" role="tabpanel" aria-labelledby="nav-hoy">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Mesa de operaciones</span>
+                        <h2>Hoy en el refugio</h2>
+                    </div>
+                </header>
+                <p class="ops-section-sub">Esto es lo que necesita tu atención ahora mismo.</p>
+
+                <div class="ops-kpis">
+                    <a href="{{ url_for('admin_panel', tab='solicitudes') }}" class="ops-kpi">
+                        <strong>{{ pendientes_count }}</strong>
+                        <span>Solicitudes pendientes</span>
+                    </a>
+                    <a href="{{ url_for('admin_panel', tab='reportes') }}" class="ops-kpi">
+                        <strong>{{ reportes_sin_resolver_count }}</strong>
+                        <span>Reportes sin resolver</span>
+                    </a>
+                    <a href="{{ url_for('admin_panel', tab='voluntariado') }}" class="ops-kpi">
+                        <strong>{{ voluntariado_pendiente_count }}</strong>
+                        <span>Voluntariado por revisar</span>
+                    </a>
+                </div>
+
+                <h3 class="ops-urgent__title">Lo más urgente</h3>
+                {% if solicitud_urgente or reporte_urgente %}
+                    <div class="ops-urgent__list">
+                        {% if solicitud_urgente %}
+                            <div class="ops-urgent__item">
+                                <div class="ops-urgent__icon"><i class="bi bi-clipboard2-heart"></i></div>
+                                <div class="ops-urgent__body">
+                                    <strong>Solicitud para {{ solicitud_urgente.mascota_nombre }}</strong>
+                                    <span>De {{ solicitud_urgente.usuario_nombre }} &middot; esperando desde el {{ solicitud_urgente.fecha_solicitud.strftime('%d.%m.%Y') }}</span>
+                                </div>
+                                <a href="{{ url_for('detalle_solicitud', solicitud_id=solicitud_urgente.id) }}" class="btn btn-outline-custom btn-sm">Revisar</a>
+                            </div>
+                        {% endif %}
+                        {% if reporte_urgente %}
+                            <div class="ops-urgent__item">
+                                <div class="ops-urgent__icon"><i class="bi bi-shield-exclamation"></i></div>
+                                <div class="ops-urgent__body">
+                                    <strong>Reporte en {{ reporte_urgente.ubicacion|truncate(40) }}</strong>
+                                    <span>Sin resolver desde el {{ reporte_urgente.fecha_reporte.strftime('%d.%m.%Y') }}</span>
+                                </div>
+                                <a href="{{ url_for('detalle_reporte', reporte_id=reporte_urgente.id) }}" class="btn btn-outline-custom btn-sm">Revisar</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="ops-empty">
+                        <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                        <p>Todo al día. No hay solicitudes ni reportes esperando revisión.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- ─────────── SOLICITUDES ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'solicitudes' }}"
+                      id="tab-solicitudes" role="tabpanel" aria-labelledby="nav-solicitudes">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Casos</span>
+                        <h2>{{ 'Solicitudes rechazadas' if estado_filtro == 'rechazada' else 'Solicitudes de adopción' }}</h2>
+                    </div>
+                    {% if estado_filtro == 'rechazada' %}
+                        <a href="{{ url_for('admin_panel', tab='solicitudes') }}" class="btn btn-outline-custom btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>Volver a pendientes/aprobadas
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('admin_panel', estado='rechazada') }}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-x-circle me-1"></i>Ver rechazadas
+                        </a>
+                    {% endif %}
+                </header>
+
+                <div class="ops-table-wrap">
+                    <table class="ops-table">
                         <thead>
                             <tr>
-                                <th>ID Solicitud</th>
-                                <th>Adoptante</th>
                                 <th>Mascota</th>
+                                <th>Adoptante</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>
+                                <th class="text-end">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for solicitud in solicitudes %}
+                            {% set e = solicitud.estado_solicitud|lower %}
                             <tr>
-                                <td>{{ solicitud.id }}</td>
-                                <td>{{ solicitud.usuario_nombre }}</td>
-                                <td>{{ solicitud.mascota_nombre }}</td>
-                                <td>{{ solicitud.fecha_solicitud.strftime('%Y-%m-%d') }}</td>
                                 <td>
-                                    <span class="badge bg-info text-dark">
-                                        {{ solicitud.estado_solicitud|capitalize }}
-                                    </span>
+                                    <div class="ops-cell-pet">
+                                        <img src="{{ url_for('static', filename='images/mascotas/' ~ solicitud.mascota_nombre ~ '.jpg') }}" alt="">
+                                        <div>
+                                            <strong>{{ solicitud.mascota_nombre }}</strong>
+                                            <span>Solicitud #{{ solicitud.id }}</span>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>
-                                    <a href="{{ url_for('detalle_solicitud', solicitud_id=solicitud.id) }}"
-                                       class="btn btn-primary-custom btn-sm">
-                                        Ver Detalles
-                                    </a>
+                                <td>{{ solicitud.usuario_nombre }}</td>
+                                <td class="ops-cell-mono">{{ solicitud.fecha_solicitud.strftime('%d.%m.%Y') }}</td>
+                                <td>{{ stamp(solicitud.estado_solicitud) }}</td>
+                                <td class="text-end">
+                                    <div class="ops-actions">
+                                        {% if e == 'pendiente' %}
+                                            <form method="POST" action="{{ url_for('respuesta_solicitud', solicitud_id=solicitud.id) }}" class="d-inline"
+                                                  onsubmit="return confirm('¿Aprobar la solicitud para {{ solicitud.mascota_nombre }}?');">
+                                                <input type="hidden" name="respuesta" value="aprobada">
+                                                <button type="submit" class="ops-icon-btn ops-icon-btn--ok" title="Aprobar" aria-label="Aprobar solicitud">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="{{ url_for('respuesta_solicitud', solicitud_id=solicitud.id) }}" class="d-inline"
+                                                  onsubmit="return confirm('¿Rechazar la solicitud para {{ solicitud.mascota_nombre }}?');">
+                                                <input type="hidden" name="respuesta" value="rechazada">
+                                                <button type="submit" class="ops-icon-btn ops-icon-btn--no" title="Rechazar" aria-label="Rechazar solicitud">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        <a href="{{ url_for('detalle_solicitud', solicitud_id=solicitud.id) }}" class="btn btn-outline-custom btn-sm">
+                                            Ver detalles
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="6" class="text-center p-4">
-                                    No hay solicitudes de adopción pendientes.
+                                <td colspan="5" class="ops-empty-row">
+                                    {% if estado_filtro == 'rechazada' %}
+                                        No hay solicitudes rechazadas.
+                                    {% else %}
+                                        No hay solicitudes de adopción pendientes o aprobadas.
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- TAB REPORTES -->
-        <div class="tab-pane fade" id="reportes" role="tabpanel" aria-labelledby="reportes-tab">
-            <div class="card card-body">
-                <h2 class="mt-3 mb-3">Reportes de Incidentes</h2>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
+            <!-- ─────────── REPORTES ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'reportes' }}"
+                      id="tab-reportes" role="tabpanel" aria-labelledby="nav-reportes">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Casos</span>
+                        <h2>Reportes de maltrato</h2>
+                    </div>
+                </header>
+
+                <div class="ops-table-wrap">
+                    <table class="ops-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Reporte</th>
                                 <th>Ubicación</th>
-                                <th>Estado</th>
                                 <th>Fecha</th>
-                                <th class="text-center">Acciones</th>
+                                <th>Estado</th>
+                                <th class="text-end">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for reporte in reportes %}
                             <tr>
-                                <td>#{{ reporte.id }}</td>
+                                <td class="ops-cell-mono">#{{ reporte.id }}</td>
                                 <td>{{ reporte.ubicacion|truncate(40) }}</td>
-                                <td>
-                                    <span class="badge {{ 'bg-success' if reporte.estado_reporte|lower == 'resuelto' else 'bg-warning text-dark' }}">
-                                        {{ reporte.estado_reporte|capitalize }}
-                                    </span>
-                                </td>
-                                <td>{{ reporte.fecha_reporte.strftime('%Y-%m-%d') }}</td>
-                                <td class="text-center">
-                                    <a href="{{ url_for('detalle_reporte', reporte_id=reporte.id) }}"
-                                       class="btn btn-primary-custom btn-sm">
-                                        Ver Detalles
-                                    </a>
+                                <td class="ops-cell-mono">{{ reporte.fecha_reporte.strftime('%d.%m.%Y') }}</td>
+                                <td>{{ stamp(reporte.estado_reporte) }}</td>
+                                <td class="text-end">
+                                    <div class="ops-actions">
+                                        {% if reporte.estado_reporte|lower != 'resuelto' %}
+                                            <form method="POST" action="{{ url_for('marcar_reporte_resuelto', reporte_id=reporte.id) }}" class="d-inline"
+                                                  onsubmit="return confirm('¿Marcar este reporte como resuelto?');">
+                                                <button type="submit" class="ops-icon-btn ops-icon-btn--ok" title="Marcar resuelto" aria-label="Marcar como resuelto">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        <a href="{{ url_for('detalle_reporte', reporte_id=reporte.id) }}" class="btn btn-outline-custom btn-sm">
+                                            Ver detalles
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="5" class="text-center p-4">
-                                    No hay reportes para mostrar.
-                                </td>
+                                <td colspan="5" class="ops-empty-row">No hay reportes para mostrar.</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- TAB DONACIONES -->
-        <div class="tab-pane fade" id="donaciones" role="tabpanel" aria-labelledby="donaciones-tab">
-            <div class="card card-body">
-                <h2 class="mt-3 mb-3">Solicitudes de Voluntariado</h2>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle">
+            <!-- ─────────── VOLUNTARIADO ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'voluntariado' }}"
+                      id="tab-voluntariado" role="tabpanel" aria-labelledby="nav-voluntariado">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Comunidad</span>
+                        <h2>Solicitudes de voluntariado</h2>
+                    </div>
+                </header>
+
+                <div class="ops-table-wrap">
+                    <table class="ops-table">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Días</th>
-                                <th>Horario</th>
+                                <th>Contacto</th>
+                                <th>Disponibilidad</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for voluntariado in solicitudes_voluntariado %}
+                            {% for v in solicitudes_voluntariado %}
                             <tr>
-                                <td>{{ voluntariado.id }}</td>
-                                <td>{{ voluntariado.nombre_completo }}</td>
-                                <td>{{ voluntariado.correo }}</td>
-                                <td>{{ voluntariado.telefono }}</td>
-                                <td>{{ voluntariado.franja_dias }}</td>
-                                <td>{{ voluntariado.franja_horaria }}</td>
-                                <td>{{ voluntariado.fecha_solicitud.strftime('%Y-%m-%d') }}</td>
+                                <td><strong>{{ v.nombre_completo }}</strong></td>
                                 <td>
-                                    <span class="badge {{ 'bg-success' if voluntariado.estado|lower == 'aprobada' else 'bg-warning text-dark' if voluntariado.estado|lower == 'pendiente' else 'bg-danger' }}">
-                                        {{ voluntariado.estado|capitalize }}
-                                    </span>
+                                    <div class="ops-cell-contact">
+                                        <span>{{ v.correo }}</span>
+                                        <span>{{ v.telefono }}</span>
+                                    </div>
                                 </td>
-                                <td>
-                                    {% if voluntariado.estado|lower == 'pendiente' %}
-                                        <span class="text-muted">Pendiente de revisión</span>
-                                    {% else %}
-                                        <span class="text-success">{{ voluntariado.estado|capitalize }}</span>
-                                    {% endif %}
-                                </td>
+                                <td>{{ v.franja_dias }} &middot; {{ v.franja_horaria }}</td>
+                                <td class="ops-cell-mono">{{ v.fecha_solicitud.strftime('%d.%m.%Y') }}</td>
+                                <td>{{ stamp(v.estado) }}</td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="9" class="text-center p-4">
-                                    No hay solicitudes de voluntariado.
-                                </td>
+                                <td colspan="5" class="ops-empty-row">No hay solicitudes de voluntariado.</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- TAB REPORTES PDF -->
-        <div class="tab-pane fade" id="reportespdf" role="tabpanel" aria-labelledby="reportespdf-tab">
-            <div class="card card-body">
-                <h2 class="mt-3 mb-1"><i class="bi bi-file-earmark-bar-graph me-1"></i>Generar Reportes en PDF</h2>
-                <p class="text-muted mb-4">
-                    Descarga reportes detallados del sistema en formato PDF.
+            <!-- ─────────── REPORTES PDF ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'reportes-pdf' }}"
+                      id="tab-reportes-pdf" role="tabpanel" aria-labelledby="nav-reportes-pdf">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Archivo</span>
+                        <h2>Reportes en PDF</h2>
+                    </div>
+                </header>
+                <p class="ops-section-sub">Descarga el estado del sistema en PDF para compartir o archivar.</p>
+
+                <div class="ops-action-grid">
+                    <a href="{{ url_for('reporte_usuarios') }}" class="ops-action-card">
+                        <div class="ops-action-card__icon"><i class="bi bi-people-fill"></i></div>
+                        <div>
+                            <strong>Usuarios</strong>
+                            <span>Lista completa de personas registradas.</span>
+                        </div>
+                        <i class="bi bi-download ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ url_for('reporte_mascotas') }}" class="ops-action-card">
+                        <div class="ops-action-card__icon"><i class="bi bi-collection"></i></div>
+                        <div>
+                            <strong>Mascotas</strong>
+                            <span>Todas las mascotas del sistema.</span>
+                        </div>
+                        <i class="bi bi-download ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ url_for('reporte_donaciones') }}" class="ops-action-card">
+                        <div class="ops-action-card__icon"><i class="bi bi-cash-coin"></i></div>
+                        <div>
+                            <strong>Donaciones</strong>
+                            <span>Historial completo de donaciones.</span>
+                        </div>
+                        <i class="bi bi-download ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ url_for('reporte_maltrato') }}" class="ops-action-card">
+                        <div class="ops-action-card__icon ops-action-card__icon--warn"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                        <div>
+                            <strong>Reportes de maltrato</strong>
+                            <span>Casos de maltrato animal.</span>
+                        </div>
+                        <i class="bi bi-download ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ─────────── AUDITORÍA ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'auditoria' }}"
+                      id="tab-auditoria" role="tabpanel" aria-labelledby="nav-auditoria">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Trazabilidad</span>
+                        <h2>Auditoría</h2>
+                    </div>
+                </header>
+                <p class="ops-section-sub">
+                    Cada cambio en solicitudes, mascotas, reportes y voluntariados queda registrado
+                    con usuario, IP, fecha y el detalle de lo modificado.
                 </p>
 
-                <div class="row g-3">
-                    <!-- Usuarios -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-people-fill" style="font-size: 3rem; color: var(--primary-color);"></i></div>
-                                <h5 class="card-title">Usuarios</h5>
-                                <p class="card-text text-muted small">
-                                    Lista completa de usuarios.
-                                </p>
-                                <a href="{{ url_for('reporte_usuarios') }}" class="btn btn-primary-custom btn-sm">
-                                    <i class="bi bi-download me-1"></i>Descargar PDF
-                                </a>
-                            </div>
+                <div class="ops-action-grid">
+                    <a href="/admin/auditoria/logs" class="ops-action-card">
+                        <div class="ops-action-card__icon"><i class="bi bi-search"></i></div>
+                        <div>
+                            <strong>Ver registros</strong>
+                            <span>Filtra y busca en el historial completo.</span>
                         </div>
-                    </div>
-
-                    <!-- Mascotas -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-collection" style="font-size: 3rem; color: var(--primary-color);"></i></div>
-                                <h5 class="card-title">Mascotas</h5>
-                                <p class="card-text text-muted small">
-                                    Todas las mascotas en el sistema.
-                                </p>
-                                <a href="{{ url_for('reporte_mascotas') }}" class="btn btn-primary-custom btn-sm">
-                                    <i class="bi bi-download me-1"></i>Descargar PDF
-                                </a>
-                            </div>
+                        <i class="bi bi-chevron-right ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                    <a href="/admin/auditoria/anomalias" class="ops-action-card">
+                        <div class="ops-action-card__icon ops-action-card__icon--warn"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                        <div>
+                            <strong>Detectar anomalías</strong>
+                            <span>Identifica patrones de actividad inusuales.</span>
                         </div>
-                    </div>
-
-                    <!-- Donaciones -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-cash-coin" style="font-size: 3rem; color: var(--secondary-color);"></i></div>
-                                <h5 class="card-title">Donaciones</h5>
-                                <p class="card-text text-muted small">
-                                    Historial completo de donaciones.
-                                </p>
-                                <a href="{{ url_for('reporte_donaciones') }}" class="btn btn-primary-custom btn-sm">
-                                    <i class="bi bi-download me-1"></i>Descargar PDF
-                                </a>
-                            </div>
+                        <i class="bi bi-chevron-right ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                    <a href="/admin/auditoria/exportar" class="ops-action-card">
+                        <div class="ops-action-card__icon"><i class="bi bi-download"></i></div>
+                        <div>
+                            <strong>Exportar CSV</strong>
+                            <span>Descarga el historial para análisis externo.</span>
                         </div>
-                    </div>
+                        <i class="bi bi-chevron-right ops-action-card__cta" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </section>
 
-                    <!-- Maltrato -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-exclamation-triangle-fill" style="font-size: 3rem; color: var(--secondary-color);"></i></div>
-                                <h5 class="card-title">Reportes Maltrato</h5>
-                                <p class="card-text text-muted small">
-                                    Casos de maltrato animal.
-                                </p>
-                                <a href="{{ url_for('reporte_maltrato') }}" class="btn btn-primary-custom btn-sm">
-                                    <i class="bi bi-download me-1"></i>Descargar PDF
-                                </a>
-                            </div>
+            <!-- ─────────── ESTADÍSTICAS ─────────── -->
+            <section class="tab-pane fade {{ 'show active' if tab_activo == 'estadisticas' }}"
+                      id="tab-estadisticas" role="tabpanel" aria-labelledby="nav-estadisticas">
+                <header class="ops-section-header">
+                    <div>
+                        <span class="ops-eyebrow">Números</span>
+                        <h2>Estadísticas</h2>
+                    </div>
+                    {% if mostrar_link_notebook %}
+                        <a href="http://localhost:8888" target="_blank" rel="noopener" class="btn btn-outline-custom btn-sm">
+                            <i class="bi bi-journal-code me-1"></i>Abrir notebook
+                        </a>
+                    {% endif %}
+                </header>
+                <p class="ops-section-sub">Datos en vivo desde la API (<code>/api/v1/...</code>).</p>
+
+                <div class="ops-kpis ops-kpis--stats">
+                    <div class="ops-kpi ops-kpi--static"><strong id="kpiDonado">&mdash;</strong><span>Donado (total)</span></div>
+                    <div class="ops-kpi ops-kpi--static"><strong id="kpiSolicitudes">&mdash;</strong><span>Solicitudes de adopción</span></div>
+                    <div class="ops-kpi ops-kpi--static"><strong id="kpiMascotas">&mdash;</strong><span>Mascotas registradas</span></div>
+                    <div class="ops-kpi ops-kpi--static"><strong id="kpiReportes">&mdash;</strong><span>Reportes de maltrato</span></div>
+                </div>
+
+                <div class="ops-chart-card">
+                    <h3><i class="bi bi-cash-coin me-1"></i>Donaciones por mes</h3>
+                    <canvas id="chartDonaciones" height="90"></canvas>
+                </div>
+
+                <div class="ops-chart-card">
+                    <h3><i class="bi bi-heart me-1"></i>Solicitudes de adopción por mes</h3>
+                    <canvas id="chartAdopciones" height="90"></canvas>
+                </div>
+
+                <div class="ops-chart-card">
+                    <h3><i class="bi bi-clipboard-data me-1"></i>Mascotas</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <p class="ops-chart-caption">Por especie</p>
+                            <canvas id="chartMascotasEspecie" height="200"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="ops-chart-caption">Por estado</p>
+                            <canvas id="chartMascotasEstado" height="200"></canvas>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
         </div>
-
-        <!-- TAB AUDITORÍA -->
-        <div class="tab-pane fade" id="auditoria" role="tabpanel" aria-labelledby="auditoria-tab">
-            <div class="card card-body">
-                <h2 class="mt-3"><i class="bi bi-clipboard-check me-1"></i>Logs de Auditoría</h2>
-                <p class="text-muted">Acceso completo al sistema de auditoría con filtros, búsqueda y detección de anomalías.</p>
-                
-                <div class="row mt-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-search" style="font-size: 2.5rem; color: var(--primary-color);"></i></div>
-                                <h5 class="card-title">Ver Logs</h5>
-                                <p class="card-text text-muted small">
-                                    Visualiza todos los cambios registrados con filtros avanzados.
-                                </p>
-                                <a href="/admin/auditoria/logs" class="btn btn-primary-custom btn-sm">
-                                    <i class="bi bi-search me-1"></i>Ir a Logs
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-exclamation-triangle-fill" style="font-size: 2.5rem; color: var(--secondary-color);"></i></div>
-                                <h5 class="card-title">Detectar Anomalías</h5>
-                                <p class="card-text text-muted small">
-                                    Identifica actividades sospechosas y patrones anómalos.
-                                </p>
-                                <a href="/admin/auditoria/anomalias" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-exclamation-triangle me-1"></i>Analizar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card text-center h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="mb-3"><i class="bi bi-download" style="font-size: 2.5rem; color: var(--primary-color);"></i></div>
-                                <h5 class="card-title">Exportar Logs</h5>
-                                <p class="card-text text-muted small">
-                                    Descarga los logs en formato CSV para análisis.
-                                </p>
-                                <a href="/admin/auditoria/exportar" class="btn btn-success btn-sm">
-                                    <i class="bi bi-download me-1"></i>Exportar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-info mt-4">
-                    <strong><i class="bi bi-info-circle-fill me-1"></i>Información:</strong> El sistema registra automáticamente todos los cambios en solicitudes, mascotas, reportes y voluntariados.
-                    Los logs incluyen usuario, IP, timestamp, tipo de acción y datos modificados.
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB ESTADÍSTICAS -->
-        <div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
-            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
-                <div>
-                    <h2 class="mb-1"><i class="bi bi-graph-up-arrow me-1"></i> Estadísticas</h2>
-                    <p class="text-muted mb-0">Datos alimentados por la API JSON (<code>/api/v1/...</code>).</p>
-                </div>
-                {% if mostrar_link_notebook %}
-                <a href="http://localhost:8888" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-journal-code me-1"></i>Abrir notebook de análisis
-                </a>
-                {% endif %}
-            </div>
-
-            <!-- KPIs -->
-            <div class="row g-3 mb-4">
-                <div class="col-6 col-lg-3">
-                    <div class="card text-center h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="text-muted small text-uppercase">Donado (total)</div>
-                            <div class="fs-4 fw-bold" id="kpiDonado">—</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card text-center h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="text-muted small text-uppercase">Solicitudes de adopción</div>
-                            <div class="fs-4 fw-bold" id="kpiSolicitudes">—</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card text-center h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="text-muted small text-uppercase">Mascotas registradas</div>
-                            <div class="fs-4 fw-bold" id="kpiMascotas">—</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card text-center h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="text-muted small text-uppercase">Reportes de maltrato</div>
-                            <div class="fs-4 fw-bold" id="kpiReportes">—</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Donaciones -->
-            <div class="card card-body mb-4">
-                <h5 class="mb-3"><i class="bi bi-cash-coin me-1"></i>Donaciones por mes</h5>
-                <canvas id="chartDonaciones" height="90"></canvas>
-            </div>
-
-            <!-- Adopciones -->
-            <div class="card card-body mb-4">
-                <h5 class="mb-3"><i class="bi bi-heart me-1"></i>Solicitudes de adopción por mes</h5>
-                <canvas id="chartAdopciones" height="90"></canvas>
-            </div>
-
-            <!-- Mascotas -->
-            <div class="card card-body mb-4">
-                <h5 class="mb-3"><i class="bi bi-clipboard-data me-1"></i>Mascotas</h5>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-2">Por especie</p>
-                        <canvas id="chartMascotasEspecie" height="200"></canvas>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-2">Por estado</p>
-                        <canvas id="chartMascotasEstado" height="200"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 {% endblock %}

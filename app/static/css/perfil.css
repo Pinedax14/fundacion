@@ -1,67 +1,628 @@
-/* Perfil — Bosque Cálido: tema claro */
-.profile-page-container {
-    max-width: 1200px;
-    margin: 1.6rem auto;
+/* ===========================================
+   PERFIL — "Ficha de Socio"
+   Bosque Cálido: pasaporte/carné del refugio con
+   solicitudes selladas como fichas de adopción.
+=========================================== */
+
+.profile-passport {
+    max-width: 1180px;
+    margin: 0 auto;
     font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-.profile-sidebar .card,
-.user-info-card,
-.profile-page-container .card {
-    background: #ffffff;
-    border: 1px solid #E3DAD2;
-    border-radius: 1.25rem;
-    box-shadow: 0 4px 20px rgba(30, 20, 10, 0.07);
+/* ── Cabecera ───────────────────────────── */
+.passport-header {
+    margin-bottom: 2.25rem;
 }
 
-.user-info-card h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    color: #1E1A14;
-    font-weight: 600;
-}
-
-.profile-content h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    color: #1E1A14;
-    font-weight: 600;
-}
-
-.solicitud-card {
-    display: flex;
+.passport-eyebrow {
+    display: inline-flex;
     align-items: center;
-    gap: 1rem;
-    background: #FAFAF6;
-    padding: 1rem;
-    border-radius: 1rem;
-    border: 1px solid #E3DAD2;
-    box-shadow: 0 2px 8px rgba(30, 20, 10, 0.05);
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    margin-bottom: 0.6rem;
 }
 
-.solicitud-card img {
-    width: 84px;
-    height: 84px;
-    object-fit: cover;
-    border-radius: 12px;
+.passport-eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: var(--secondary-color);
+    opacity: 0.6;
 }
 
-.solicitud-info {
-    flex-grow: 1;
-    color: #786E65;
+.passport-header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 1.5vw + 1.5rem, 2.6rem);
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
 }
 
-.profile-avatar {
-    width: 120px;
-    height: 120px;
+.passport-header p {
+    color: var(--text-muted);
+    max-width: 52ch;
+    margin: 0;
+}
+
+/* ── Layout ─────────────────────────────── */
+.passport-grid {
+    align-items: flex-start;
+}
+
+/* ===========================================
+   TARJETA DE SOCIO (sidebar)
+=========================================== */
+.id-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+    padding: 2rem 1.75rem;
+    position: sticky;
+    top: 92px;
+}
+
+.id-card__avatar-wrap {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 1.1rem;
+}
+
+.profile-avatar,
+.id-card__avatar-placeholder {
+    width: 112px;
+    height: 112px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #E3DAD2;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px var(--border-strong), var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-bg);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
 }
 
-.profile-sidebar .btn-primary-custom {
+.id-card__seal {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    border: 3px solid #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+.id-card__body {
+    text-align: center;
+}
+
+.id-card__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+}
+
+.id-card__email {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    word-break: break-word;
+}
+
+.id-card__perforation {
+    border: none;
+    border-top: 1.5px dashed var(--border-strong);
+    margin: 1.4rem 0;
+}
+
+.id-card__ledger {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+}
+
+.id-card__ledger strong {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.id-card__stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.1rem;
+}
+
+.id-card__stat {
+    flex: 1;
+    background: var(--primary-bg);
+    border-radius: 0.9rem;
+    padding: 0.65rem 0.4rem;
+    text-align: center;
+}
+
+.id-card__stat strong {
+    display: block;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+
+.id-card__stat span {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.id-card .btn-primary-custom {
     width: 100%;
+    margin-top: 1.4rem;
 }
 
+.id-card__danger {
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.id-card__danger p {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.id-card__danger-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--error-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.id-card__danger-link:hover {
+    color: #8B2E2E;
+}
+
+/* ===========================================
+   SOLICITUDES
+=========================================== */
+.requests-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.requests-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.requests-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.requests-header__count {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.requests-group__label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.9rem;
+}
+
+.requests-group__label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.requests-group__label--pendiente { color: #B8862E; }
+.requests-group__label--aprobada { color: var(--primary-dark); }
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ── Ficha de solicitud ─────────────────── */
+.ficha {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    background: #FAFAF6;
+    border: 1px solid var(--border);
+    border-radius: 1.1rem;
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.ficha:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.ficha__photo {
+    width: 76px;
+    height: 76px;
+    border-radius: 0.85rem;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.ficha__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.ficha__pet-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    display: block;
+}
+
+.ficha__date {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.ficha__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.55rem;
+    flex-shrink: 0;
+}
+
+/* ── Sello de estado (elemento distintivo) ── */
+.stamp {
+    --stamp-rot: -6deg;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.36rem 0.75rem 0.36rem 0.65rem;
+    border: 2px solid var(--stamp-color);
+    border-radius: 8px;
+    color: var(--stamp-color);
+    background: var(--stamp-tint);
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.66rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transform: rotate(var(--stamp-rot));
+    white-space: nowrap;
+}
+
+.stamp::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px dashed currentColor;
+    opacity: 0.5;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.stamp i {
+    font-size: 0.82rem;
+}
+
+.ficha:nth-child(even) .stamp { --stamp-rot: 4deg; }
+
+.stamp-pendiente { --stamp-color: #B8862E; --stamp-tint: rgba(184, 134, 46, 0.08); }
+.stamp-aprobada  { --stamp-color: var(--primary-dark); --stamp-tint: rgba(62, 90, 68, 0.08); }
+.stamp-rechazada { --stamp-color: var(--error-color); --stamp-tint: rgba(185, 64, 64, 0.08); }
+
+.ficha__action {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+}
+
+/* ── Rechazadas (colapsable) ─────────────── */
+.rechazadas-toggle {
+    border-top: 1px dashed var(--border-strong);
+    padding-top: 1.25rem;
+}
+
+.rechazadas-toggle summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.rechazadas-toggle summary::-webkit-details-marker { display: none; }
+
+.rechazadas-toggle summary:hover { color: var(--error-color); }
+
+.rechazadas-toggle summary .bi-chevron-right {
+    transition: transform 0.2s ease;
+    font-size: 0.7rem;
+}
+
+.rechazadas-toggle[open] summary .bi-chevron-right {
+    transform: rotate(90deg);
+}
+
+.rechazadas-panel {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.rechazadas-panel .ficha {
+    background: #F5F2ED;
+    opacity: 0.85;
+}
+
+.rechazadas-panel .ficha__photo {
+    filter: grayscale(35%);
+}
+
+/* ── Estado vacío ───────────────────────── */
+.empty-state-card {
+    background: #FAFAF6;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 1.25rem;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.empty-state-card i {
+    font-size: 2.4rem;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.empty-state-card h5 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--text-primary);
+}
+
+.empty-state-card p {
+    color: var(--text-muted);
+    margin-bottom: 1.1rem;
+}
+
+/* ===========================================
+   MODALES DE CONFIRMACIÓN
+   Misma ficha/sello que las solicitudes, sin la
+   franja de color genérica de Bootstrap.
+=========================================== */
+.modal-content.confirm-modal {
+    border: none;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.confirm-modal .modal-header {
+    border-bottom: none;
+    justify-content: flex-end;
+    padding: 1rem 1.25rem 0;
+}
+
+.confirm-modal .modal-body {
+    padding: 0.25rem 1.85rem 0.25rem;
+}
+
+.confirm-modal .modal-footer {
+    border-top: none;
+    padding: 0 1.85rem 1.75rem;
+    gap: 0.6rem;
+}
+
+.confirm-modal .modal-footer .btn {
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+}
+
+.confirm-modal__icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 1.1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    border: 2px solid var(--confirm-color);
+    color: var(--confirm-color);
+    background: var(--confirm-tint);
+}
+
+.confirm-modal__record {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: var(--primary-bg);
+    border-radius: 1rem;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 1.35rem;
+}
+
+.confirm-modal__record img {
+    width: 54px;
+    height: 54px;
+    border-radius: 0.7rem;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.confirm-modal__record-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.confirm-modal__record-info strong {
+    display: block;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.02rem;
+    color: var(--text-primary);
+}
+
+.confirm-modal__record-info span {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+}
+
+.confirm-modal__record .stamp {
+    flex-shrink: 0;
+}
+
+.confirm-modal__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.28rem;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 0.55rem;
+}
+
+.confirm-modal__body {
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 1.3rem;
+}
+
+.confirm-modal__divider {
+    border: none;
+    border-top: 1px dashed var(--border-strong);
+    margin: 0 -1.85rem 0;
+}
+
+.confirm-modal--danger { --confirm-color: var(--error-color); --confirm-tint: rgba(185, 64, 64, 0.08); }
+.confirm-modal--warning { --confirm-color: #B8862E; --confirm-tint: rgba(184, 134, 46, 0.08); }
+
+@media (max-width: 420px) {
+    .confirm-modal__record { flex-wrap: wrap; }
+    .confirm-modal__record .stamp { margin-left: auto; }
+}
+
+/* ===========================================
+   ANIMACIÓN DE ENTRADA
+=========================================== */
+.reveal {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .js-anim .reveal:not(.revealed) {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    .js-anim .reveal {
+        transition: opacity 0.5s ease var(--reveal-delay, 0ms), transform 0.5s ease var(--reveal-delay, 0ms);
+    }
+
+    .js-anim .reveal.revealed .stamp {
+        animation: stampPress 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        animation-delay: calc(var(--reveal-delay, 0ms) + 160ms);
+    }
+}
+
+@keyframes stampPress {
+    0%   { opacity: 0; transform: rotate(calc(var(--stamp-rot) * 3)) scale(1.9); }
+    60%  { opacity: 1; transform: rotate(var(--stamp-rot)) scale(0.92); }
+    100% { opacity: 1; transform: rotate(var(--stamp-rot)) scale(1); }
+}
+
+/* ===========================================
+   RESPONSIVE
+=========================================== */
 @media (max-width: 991.98px) {
-    .profile-page-container { padding: 1rem; }
-    .solicitud-card { flex-direction: row; }
+    .id-card { position: static; margin-bottom: 0; }
+}
+
+@media (max-width: 575.98px) {
+    .ficha {
+        flex-wrap: wrap;
+    }
+
+    .ficha__aside {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px dashed var(--border);
+    }
+
+    .stamp { transform: rotate(-2deg); }
+    .ficha:nth-child(even) .stamp { transform: rotate(2deg); }
 }

@@ -55,31 +55,81 @@ class RutasAdmin:
             """
             try:
                 # Cargar datos en estructuras de nodos
-                solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_en_linkedlist() 
+                solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_en_linkedlist()
                 reportes_queue = self.admin_data_service.cargar_reportes_en_queue()
                 voluntariados_linkedlist = self.admin_data_service.cargar_voluntariados_en_linkedlist()
-                
-                # Filtrar solicitudes en memoria si se solicita un estado
-                estado_filtro = request.args.get('estado')
-                if estado_filtro:
-                    solicitudes = self.admin_data_service.filtrar_solicitudes_por_estado(solicitudes_linkedlist, estado_filtro)
-                else:
-                    solicitudes = solicitudes_linkedlist.to_list()
+
+                todas_solicitudes = solicitudes_linkedlist.to_list()
 
                 reportes = []
                 while len(reportes_queue) > 0:
                     reportes.append(reportes_queue.dequeue())
                 solicitudes_voluntariado = voluntariados_linkedlist.to_list()
-                
+
+                # ── KPIs y "lo más urgente" para la vista Hoy (independientes del
+                # filtro de la tabla de solicitudes, siempre reflejan el total real) ──
+                pendientes_solicitudes = [s for s in todas_solicitudes if s.get('estado_solicitud') == 'pendiente']
+                solicitud_urgente = min(pendientes_solicitudes, key=lambda s: s['fecha_solicitud']) if pendientes_solicitudes else None
+
+                # `reportes` ya viene ordenado ascendente por fecha (FIFO de la Queue),
+                # así que el primero sin resolver es el más antiguo.
+                reportes_sin_resolver = [r for r in reportes if r.get('estado_reporte') != 'resuelto']
+                reporte_urgente = reportes_sin_resolver[0] if reportes_sin_resolver else None
+
+                voluntariado_pendiente_count = sum(
+                    1 for v in solicitudes_voluntariado if str(v.get('estado', '')).lower() == 'pendiente'
+                )
+
+                # Filtrar solicitudes en memoria si se solicita un estado
+                estado_filtro = request.args.get('estado')
+                if estado_filtro:
+                    solicitudes = self.admin_data_service.filtrar_solicitudes_por_estado(solicitudes_linkedlist, estado_filtro)
+                else:
+                    # Vista por defecto: solo pendientes y aprobadas (las rechazadas
+                    # quedan ocultas, se consultan aparte con ?estado=rechazada).
+                    # Pendientes primero, luego aprobadas; dentro de cada grupo se
+                    # conserva el orden por fecha (más reciente primero) ya traído de la BD.
+                    orden_estado = {'pendiente': 0, 'aprobada': 1}
+                    solicitudes = sorted(
+                        (s for s in todas_solicitudes if s.get('estado_solicitud') != 'rechazada'),
+                        key=lambda s: orden_estado.get(s.get('estado_solicitud'), 2)
+                    )
+
+                # Tab activo: si viene explícito en la URL se respeta (así las
+                # acciones que redirigen de vuelta al panel te dejan donde estabas);
+                # si hay un filtro de estado, tiene sentido caer en "Solicitudes";
+                # si no, la vista de inicio es "Hoy".
+                tab_activo = request.args.get('tab') or ('solicitudes' if estado_filtro else 'hoy')
+
                 print(f"DEBUG: Cargadas {len(solicitudes)} solicitudes en LinkedList")
                 print(f"DEBUG: Cargados {len(reportes)} reportes en Queue")
                 print(f"DEBUG: Cargadas {len(solicitudes_voluntariado)} solicitudes de voluntariado en LinkedList")
-                
-                return render_template('admin/admin_panel.html', solicitudes=solicitudes, reportes=reportes, solicitudes_voluntariado=solicitudes_voluntariado, mostrar_link_notebook=self.app.debug)
+
+                return render_template(
+                    'admin/admin_panel.html',
+                    solicitudes=solicitudes,
+                    reportes=reportes,
+                    solicitudes_voluntariado=solicitudes_voluntariado,
+                    mostrar_link_notebook=self.app.debug,
+                    estado_filtro=estado_filtro,
+                    tab_activo=tab_activo,
+                    pendientes_count=len(pendientes_solicitudes),
+                    solicitud_urgente=solicitud_urgente,
+                    reportes_sin_resolver_count=len(reportes_sin_resolver),
+                    reporte_urgente=reporte_urgente,
+                    voluntariado_pendiente_count=voluntariado_pendiente_count
+                )
             except Exception as e:
                 print(f"ERROR en admin_panel: {e}")  # Debug
                 flash(f'Error al cargar panel: {e}', 'danger')
-                return render_template('admin/admin_panel.html', solicitudes=[], reportes=[], solicitudes_voluntariado=[], mostrar_link_notebook=self.app.debug)
+                return render_template(
+                    'admin/admin_panel.html',
+                    solicitudes=[], reportes=[], solicitudes_voluntariado=[],
+                    mostrar_link_notebook=self.app.debug, estado_filtro=None, tab_activo='hoy',
+                    pendientes_count=0, solicitud_urgente=None,
+                    reportes_sin_resolver_count=0, reporte_urgente=None,
+                    voluntariado_pendiente_count=0
+                )
 
         @self.app.route('/admin/detalle_solicitud/<int:solicitud_id>')
         @self.admin_required
@@ -109,11 +159,11 @@ class RutasAdmin:
                     return render_template('admin/detalle_solicitud.html', solicitud=solicitud)
 
                 flash('Solicitud no encontrada.', 'danger')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='solicitudes'))
             except Exception as e:
                 self.conexion.rollback()
                 flash(f'Error al cargar solicitud: {e}', 'danger')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='solicitudes'))
 
         @self.app.route('/admin/respuesta_solicitud/<int:solicitud_id>', methods=['POST'])
         @self.admin_required
@@ -130,7 +180,7 @@ class RutasAdmin:
             # Validar que la respuesta sea válida
             if respuesta not in ['aprobada', 'rechazada']:
                 flash('Respuesta inválida. Se recibió un valor incorrecto desde el formulario.', 'danger')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='solicitudes'))
 
             try:
                 cursor = self.conexion.get_cursor()
@@ -163,12 +213,12 @@ class RutasAdmin:
                 )
                 
                 flash(f'La solicitud ha sido marcada como \"{respuesta}\".', 'success')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='solicitudes'))
 
             except Exception as e:
                 self.conexion.rollback()
                 flash(f'Ocurrió un error de base de datos: {e}', 'danger')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='solicitudes'))
 
         @self.app.route('/admin/reporte/<int:reporte_id>')
         @self.admin_required
@@ -187,13 +237,13 @@ class RutasAdmin:
 
                 if not reporte:
                     flash('El reporte no fue encontrado.', 'warning')
-                    return redirect(url_for('admin_panel'))
+                    return redirect(url_for('admin_panel', tab='reportes'))
 
                 return render_template('admin/detalle_reporte.html', reporte=reporte)
             except Exception as e:
                 self.conexion.rollback()
                 flash(f'Error al cargar reporte: {e}', 'danger')
-                return redirect(url_for('admin_panel'))
+                return redirect(url_for('admin_panel', tab='reportes'))
 
         @self.app.route('/reporte/resolver/<int:reporte_id>', methods=['POST'])
         @self.admin_required
@@ -223,7 +273,7 @@ class RutasAdmin:
             except Exception as e:
                 self.conexion.rollback()
                 flash(f'Error al actualizar el reporte: {e}', 'danger')
-            return redirect(url_for('admin_panel'))
+            return redirect(url_for('admin_panel', tab='reportes'))
 
         @self.app.route('/reporte/eliminar/<int:reporte_id>', methods=['POST'])
         @self.admin_required
@@ -267,7 +317,7 @@ class RutasAdmin:
             except Exception as e:
                 self.conexion.rollback()
                 flash(f'Error al eliminar el reporte: {e}', 'danger')
-            return redirect(url_for('admin_panel'))
+            return redirect(url_for('admin_panel', tab='reportes'))
 
         @self.app.route('/admin/ingresar_mascota', methods=['GET', 'POST'])
         @self.admin_required

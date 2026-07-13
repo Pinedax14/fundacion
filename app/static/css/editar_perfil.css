@@ -1,78 +1,40 @@
-/* Editar Perfil — Bosque Cálido: tema claro */
-.profile-page-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-}
+/* Editar Perfil — hoja de ficha a juego con el carné de perfil.css */
 
-.profile-sidebar .card,
-.user-info-card,
-.profile-page-container .card {
+.record-sheet {
     background: #ffffff;
-    border: 1px solid #E3DAD2;
-    border-radius: 1.75rem;
-    box-shadow: 0 4px 20px rgba(30, 20, 10, 0.07);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+    padding: 2.25rem 2rem;
 }
 
-.user-info-card h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    color: #1E1A14;
-    font-weight: 600;
+.record-sheet__hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: -0.4rem;
+    margin-bottom: 1rem;
 }
 
-.profile-content h2,
-.profile-content h4 {
-    font-family: 'Playfair Display', Georgia, serif;
-    color: #1E1A14;
-    font-weight: 600;
-}
-
-.solicitud-card {
+.record-sheet__actions {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: #FAFAF6;
-    padding: 1rem;
-    border-radius: 1rem;
-    border: 1px solid #E3DAD2;
-    box-shadow: 0 2px 8px rgba(30, 20, 10, 0.05);
-}
-
-.solicitud-card img {
-    width: 84px;
-    height: 84px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-.solicitud-info {
-    flex-grow: 1;
-    color: #786E65;
-}
-
-.profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #E3DAD2;
-}
-
-.profile-sidebar .btn-primary-custom {
-    width: 100%;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+    border-top: 1px dashed var(--border-strong);
 }
 
 input[type="file"].form-control {
     padding: 0.45rem 0.85rem;
     cursor: pointer;
     border-radius: 1rem;
-    border: 1px solid #E3DAD2;
+    border: 1px solid var(--border);
     background: #fafaf8;
-    color: #1E1A14;
+    color: var(--text-primary);
 }
 
 input[type="file"].form-control::file-selector-button {
-    background: linear-gradient(135deg, #3E5A44 0%, #5C7A62 100%);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
     border: none;
     color: #ffffff;
     padding: 0.45rem 0.9rem;
@@ -86,4 +48,8 @@ input[type="file"].form-control::file-selector-button {
 input[type="file"].form-control::file-selector-button:hover {
     filter: brightness(1.05);
     box-shadow: 0 4px 12px rgba(92, 122, 98, 0.22);
+}
+
+@media (max-width: 767.98px) {
+    .record-sheet { padding: 1.5rem 1.25rem; }
 }

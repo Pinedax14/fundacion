@@ -278,14 +278,29 @@ class RutasAuth:
             solicitudes_linkedlist = self.admin_data_service.cargar_solicitudes_usuario_en_linkedlist(user_id)
             solicitudes_formatted = solicitudes_linkedlist.to_list()
 
+            # Agrupar por estado para la ficha de socio (pendientes/aprobadas visibles,
+            # rechazadas aparte para no ensuciar el listado principal)
+            solicitudes_pendientes = [s for s in solicitudes_formatted if s.get('estado_solicitud', '').lower() == 'pendiente']
+            solicitudes_aprobadas = [s for s in solicitudes_formatted if s.get('estado_solicitud', '').lower() == 'aprobada']
+            solicitudes_rechazadas = [s for s in solicitudes_formatted if s.get('estado_solicitud', '').lower() == 'rechazada']
+
             # Convert usuario a dict para el template
             usuario_dict = {
+                'id': usuario.id,
                 'nombre': usuario.nombre,
                 'email': usuario.email,
-                'fecha_registro': usuario.fecha_registro
+                'fecha_registro': usuario.fecha_registro,
+                'foto_perfil': usuario.foto_perfil
             }
 
-            return render_template('usuario/perfil.html', usuario=usuario_dict, solicitudes=solicitudes_formatted)
+            return render_template(
+                'usuario/perfil.html',
+                usuario=usuario_dict,
+                solicitudes=solicitudes_formatted,
+                solicitudes_pendientes=solicitudes_pendientes,
+                solicitudes_aprobadas=solicitudes_aprobadas,
+                solicitudes_rechazadas=solicitudes_rechazadas
+            )
 
         @self.app.route('/editar_perfil', methods=['GET', 'POST'])
         def editar_perfil():
@@ -310,7 +325,8 @@ class RutasAuth:
                 'nombre': usuario_orm.nombre,
                 'email': usuario_orm.email,
                 'password': usuario_orm.password,
-                'foto_perfil': getattr(usuario_orm, 'foto_perfil', None)
+                'foto_perfil': getattr(usuario_orm, 'foto_perfil', None),
+                'fecha_registro': usuario_orm.fecha_registro
             }
 
             if request.method == 'POST':

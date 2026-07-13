@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6,
     padding: 2rem 0 4rem;
 }
 
-.content-shell > * {
+.content-shell > *:not(.modal) {
     position: relative;
     z-index: 1;
 }
@@ -410,9 +410,6 @@ footer p {
 .page-panel,
 .content-shell .card,
 .content-shell .pet-card,
-.content-shell .profile-sidebar,
-.content-shell .profile-content,
-.content-shell .solicitud-card,
 .content-shell .filtro-mascotas-card,
 .content-shell .form-container,
 .content-shell .pet-gallery {
@@ -596,34 +593,6 @@ footer p {
 .content-shell .btn-primary,
 .content-shell .btn-secondary {
     box-shadow: var(--shadow-sm);
-}
-
-/* ===========================================
-   NAV PILLS (panel admin)
-=========================================== */
-.nav-pills .nav-link {
-    color: var(--primary-color);
-    background-color: var(--primary-bg);
-    border: 1px solid var(--border);
-    margin-right: 6px;
-    border-radius: 999px;
-    padding: 0.45rem 1.1rem;
-    font-weight: 500;
-    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.15s ease;
-}
-
-.nav-pills .nav-link:hover {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(92, 122, 98, 0.22);
-}
-
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-    background-color: var(--primary-color) !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    box-shadow: 0 4px 14px rgba(92, 122, 98, 0.28);
 }
 
 /* ===========================================
